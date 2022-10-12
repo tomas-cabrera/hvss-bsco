@@ -4,6 +4,8 @@
 
 import numpy as np
 import pandas as pd
+from astropy.coordinates import SkyCoord, ICRS, Galactic, Galactocentric
+from astropy import units as u
 import multiprocessing as mp
 import parmap
 from tqdm import tqdm
@@ -59,7 +61,7 @@ FILE_EJECTIONS = (SUFFIX_EJECTIONS + ".").join(FILE_REALZ.rsplit(".", 1))
 # Table of CMC catalog models, received from Kyle Kremer via. e-mail 07/27/2021 and supplemented with cmc_core_collapsed.py and gcs_mw-cmc.ipynb
 # Also obtainable from Table A1 in Kremer et al. 2020 (catalog paper)
 DF_MODELS = pd.read_csv(
-    paths.data_cmc / "Catalog_models_ccw.dat",
+    paths.data / "Catalog_models_ccw.dat",
 )
 # Old version, reads directly from Kyle's Catalog_models.dat
 # DF_MODELS = pd.read_table(
@@ -240,6 +242,7 @@ HEADERS_TO_LABELS = {
     "dist": r"$d [{\rm kpc}]$",
     "vesc/rho_0": r"$v_{\rm esc}/\rho_0 [{\rm km~s^{-1}/something}]$",
     "v_radial": r"$v_r [{\rm km~s}^{-1}]$",
+    "vlos": r"$v_{\rm los} [{\rm km~s}^{-1}]$",
     "mx": r"$m_{\rm max} (M_\odot)$",
     "M": r"$M~[M_\odot]$",
     "rc_spitzer/r_h": r"$r_{\rm core} / r_{h,m}$",
@@ -303,6 +306,7 @@ AXES_LIMS = {
     "mf": [5e-2, 55],
     "dist": [1e-3, 1e5],
     "v_radial": [-1e3, 1e3],
+    "vlos": [-1e3, 1e3],
 }
 
 
@@ -313,6 +317,7 @@ HIST_LIMS = {
     "Nej": [0, 14],
     "dist": [5e-4, 1e3],
     "v_radial": [5e-4, 1e3],
+    "vlos": [5e-4, 1e3],
 }
 
 
@@ -324,6 +329,7 @@ BINS = {
     "dist": np.logspace(*np.log10(AXES_LIMS["dist"]), 60),
     # "v_radial": np.linspace(*AXES_LIMS["v_radial"], 120),
     "v_radial": np.arange(*AXES_LIMS["v_radial"], 10),
+    "vlos": np.arange(*AXES_LIMS["v_radial"], 10),
 }
 
 # Dictionary of standard bins for CDF
@@ -334,6 +340,7 @@ BINS_CDF = {
     "dist": np.logspace(*np.log10(AXES_LIMS["dist"]), 60),
     # "v_radial": np.linspace(*AXES_LIMS["v_radial"], 120),
     "v_radial": np.linspace(275,2600,30),
+    "vlos": np.linspace(275,2600,30),
 }
 
 # Dictionary of limits for CC plots
@@ -649,7 +656,7 @@ class HistogramGenerator:
         self.cc = cc
         self.t_term = t_term
 
-    def generate_histogram(self, mi, model, path_to_data=paths.data):
+    def generate_histogram(self, mi, model, path_to_data=paths.data_cmc):
         """! Generates the histogram for the specified model.
 
         @param mi       Index of model
@@ -662,7 +669,7 @@ class HistogramGenerator:
         # Load ejections data, while only loading the column that matters
         # Column loading is problematic with unit conversions
         # Special cases for columns that are functions of the ejections columns
-        path = "/".join((path_to_data, "cmc", model["fname"], FILE_EJECTIONS))
+        path = path_to_data / model["fname"] / FILE_EJECTIONS
         # Specify columns to load, and add "kf" if kgroup filtering is enabled
         if self.column == "vout":
             usecols = ["vfin", "vesc", "v_crit"]
@@ -670,6 +677,8 @@ class HistogramGenerator:
             usecols = ["vfin", "vesc", "v_crit", "time"]
         elif self.column == "v_radial":
             usecols = ["vfin", "vesc", "v_crit"]
+        elif self.column == "vlos":
+            usecols = ["X", "Y", "Z", "U", "V", "W"]
         else:
             usecols = [self.column]
         if type(self.kgroup) != type(None):
@@ -700,6 +709,19 @@ class HistogramGenerator:
             # Calculate random v_radials (+- rv of cluster, e.g. -147.20 for M3)
             ejdf.df["v_radial"] = ejdf.df["vout"] * ejdf.df["proj"]
             print("%24s %g" % (model["fname"], ejdf.df["v_radial"].max()))
+        elif self.column == "vlos":
+            # Create coordinate object; convert to ICRS
+            sc_ejs = {
+                "x": ejdf.df.X.to_numpy() * u.kpc,
+                "y": ejdf.df.Y.to_numpy() * u.kpc,
+                "z": ejdf.df.Z.to_numpy() * u.kpc,
+                "v_x": ejdf.df.U.to_numpy() * u.km / u.s,
+                "v_y": ejdf.df.V.to_numpy() * u.km / u.s,
+                "v_z": ejdf.df.W.to_numpy() * u.km / u.s,
+            }
+            sc_ejs = SkyCoord(frame=Galactocentric, **sc_ejs)
+            sc_ejs = sc_ejs.transform_to(Galactic) # TODO: verify that this is the right frame
+            ejdf.df["vlos"] = sc_ejs.radial_velocity.value
 
         # If kgroup is given, filter
         if type(self.kgroup) != type(None):
@@ -773,7 +795,7 @@ class StackedBarGenerator:
         # Load ejections data, while only loading the column that matters
         # Column loading is problematic with unit conversions
         # Special cases for columns that are functions of the ejections columns
-        path = "/".join((paths.data, "cmc", model["fname"], FILE_REALZ))
+        path = "/".join((paths.data_cmc, model["fname"], FILE_REALZ))
         if self.discrim_ejections:
             usecols = [
                 "type_i",

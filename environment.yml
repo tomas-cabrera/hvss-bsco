@@ -5,5 +5,6 @@ dependencies:
   - python=3.9
   - tqdm=4.59.0
   - pip:
-      - matplotlib==3.4.3
+      - astropy==5.0.4
+      - matplotlib==3.5.0
       - parmap==1.6.0
