@@ -13,6 +13,12 @@ src = root / "src"
 # Absolute path to the `src/data` folder (contains datasets)
 data = src / "data"
 
+# Absolute path to the `src/data/cmc` folder (CMC model data)
+data_cmc = data / "cmc"
+
+# Absolute path to the `src/data/mwgcs` folder (MW GC data (observational catalogs))
+data_mwgcs = data / "mwgcs"
+
 # Absolute path to the `src/static` folder (contains static images)
 static = src / "static"
 
