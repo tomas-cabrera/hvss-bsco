@@ -10,9 +10,6 @@ import paths
 
 ################################################################################
 
-# TODO: add functionality to calculate vlos for object
-#       Currently fails at creating SkyCoord object in rustics.py
-
 ################################################################################
 
 #plt.style.use(rustics.PATH_TO_MPLRC)
