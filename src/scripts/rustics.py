@@ -308,7 +308,7 @@ AXES_LIMS = {
     "mf": [5e-2, 55],
     "dist": [1e-3, 1e5],
     "v_radial": [-1e3, 1e3],
-    "vlos": [-1e3, 1e3],
+    "vlos": [275, 2e3],
 }
 
 
@@ -331,7 +331,7 @@ BINS = {
     "dist": np.logspace(*np.log10(AXES_LIMS["dist"]), 60),
     # "v_radial": np.linspace(*AXES_LIMS["v_radial"], 120),
     "v_radial": np.arange(*AXES_LIMS["v_radial"], 10),
-    "vlos": np.arange(*AXES_LIMS["v_radial"], 10),
+    "vlos": np.logspace(*np.log10(AXES_LIMS["vlos"]), 20),
 }
 
 # Dictionary of standard bins for CDF
@@ -342,7 +342,7 @@ BINS_CDF = {
     "dist": np.logspace(*np.log10(AXES_LIMS["dist"]), 60),
     # "v_radial": np.linspace(*AXES_LIMS["v_radial"], 120),
     "v_radial": np.linspace(275,2600,30),
-    "vlos": np.linspace(275,2600,30),
+    "vlos": np.linspace(275,1200,30),
 }
 
 # Dictionary of limits for CC plots
@@ -712,6 +712,11 @@ class HistogramGenerator:
             ejdf.df["v_radial"] = ejdf.df["vout"] * ejdf.df["proj"]
             print("%24s %g" % (model["fname"], ejdf.df["v_radial"].max()))
         elif self.column == "vlos":
+            # Throw out -1's
+            ejdf.df = ejdf.df[
+                (ejdf.df.X != -1)
+                & (ejdf.df.Y != -1)
+            ]
             # Create coordinate object; convert to ICRS
             sc_ejs = {
                 "x": ejdf.df.X.to_numpy() * u.kpc,

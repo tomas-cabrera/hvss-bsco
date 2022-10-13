@@ -1,3 +1,7 @@
 version: 0.3.1
 
+dependencies:
+    src/scripts/*:
+        - src/scripts/rustics.py
+
 
