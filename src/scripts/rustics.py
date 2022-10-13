@@ -16,11 +16,13 @@ import paths
 
 
 # Physical constants
+Usun_gc = np.array([11.1, 247.24, 7.25]) # From Brown+18
 
 
 # Unit conversions
 YR_TO_S = 365.2425 * 24 * 3600
 PC_TO_M = 3.0857e16
+
 
 # Number of realizations per CMC encounter
 N_REALZ = 10
@@ -720,8 +722,11 @@ class HistogramGenerator:
                 "v_z": ejdf.df.W.to_numpy() * u.km / u.s,
             }
             sc_ejs = SkyCoord(frame=Galactocentric, **sc_ejs)
-            sc_ejs = sc_ejs.transform_to(Galactic) # TODO: verify that this is the right frame
-            ejdf.df["vlos"] = sc_ejs.radial_velocity.value
+            sc_ejs = sc_ejs.transform_to(Galactic)
+            ls = sc_ejs.l.value
+            bs = sc_ejs.b.value
+            rvs = sc_ejs.radial_velocity.value
+            ejdf.df["vlos"] = rvs + Usun_gc[0] * np.cos(ls) * np.cos(bs) + Usun_gc[1] *  np.sin(ls) * np.cos(bs) + Usun_gc[2] * np.sin(bs)
 
         # If kgroup is given, filter
         if type(self.kgroup) != type(None):

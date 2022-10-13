@@ -10,6 +10,23 @@ import paths
 
 ################################################################################
 
+# Notes on velocity definitions
+# Galactic: position from earth, velocity from galactic center
+# Galactocentric: position+velocity from galactic center
+# Brown+18:
+#   Brown+14 gives SDSS Catalog identifiers for stars
+#   v_\odot (v_helio in eq. 1?): heliocentric radial velocity
+#   v_rf: "Heliocentric radial velocity transformed to the Galactic frame"
+# Hattori+18:
+#   Gives Gaia source_ids for stars
+#   v_los: Gaia radial_velocity = "Spectroscopic radial velocity in Solar system barycentric rest frame"
+#       Reminder: "barycentric" is about CoM of system (i.e. ~CoM of Sun+earth), so ICRS is the relevant frame
+#   v_tan: Tangetial motion measured from Earth in Galactic rest frame (see eq. 1) 
+#   v_r: Galactocentric radial velocity (radial velocity from galactic center)
+#   v_total: Presumably (v_tan**2 + v_rf(v_los)**2)**0.5, where v_rf is the radial velocity transformed to the Galactic rest frame
+# This work:
+#   compare Brown v_rf with Hattori v_rf(l, b, v_los) (after Brown+18 eq.1, with additional things for barycentrism) and radial_velocity in Galactic frame in this work
+
 ################################################################################
 
 #plt.style.use(rustics.PATH_TO_MPLRC)
@@ -86,18 +103,6 @@ for ci, c in enumerate(columns):
         )
     if (c == "vout") or (c == "v_radial") or (c == "vlos"):
 
-        # Crude figure-measurement
-        ebins = np.arange(275,2000,53)
-        eweights = [0] * (len(ebins)-1)
-        eweights[0] = 10
-        eweights[1] = 4
-        eweights[2] = 6
-        eweights[3] = 2
-        eweights[4] = 3
-        eweights[5] = 1
-        eweights[6] = 0
-        eweights[7] = 2
-
         # Actually using radial velocities from Brown+18
         ebins=bins
         eweights, _ = np.histogram(
@@ -119,14 +124,105 @@ for ci, c in enumerate(columns):
 
         # And the velocities from Hattori+18
         ebins=bins
-        np.random.RandomState(123456)
-        # v_r
-        vels = [337.0, 539.3, 552.6, 568.9, 456.3, 524.7, 572.7, 553.7, 323.6, 78.9, 403.2, 32.1, 490.3, 506.3, 479.8, 513.5, 516.6, 236.2, 376.3, 150.9, 142.0, 138.8, 276.2, 501.1, 206.9, 362.5, 430.3, 291.8, 526.8, 464.1,]
-        # v_total
-        vels = [598.3, 577.1, 581.1, 583.0, 574.7, 566.7, 578.1, 582.9, 541.6, 539.2, 523.4, 547.0, 530.4, 536.3, 502.9, 536.9, 528.9, 502.6, 523.6, 504.4, 537.3, 496.5, 508.9, 511.5, 501.9, 494.5, 505.3, 500.9, 527.0, 481.4,]
+        ls = np.array([
+            193.87,
+            278.09,
+            61.28,
+            332.40,
+            287.70,
+            302.68,
+            321.80,
+            289.93,
+            87.67,
+            88.96,
+            153.60,
+            319.08,
+            102.44,
+            295.99,
+            269.29,
+            301.17,
+            299.83,
+            255.66,
+            67.47,
+            137.29,
+            307.46,
+            75.16,
+            267.94,
+            289.09,
+            152.87,
+            100.58,
+            72.19,
+            108.61,
+            316.14,
+            229.68,
+        ])
+        bs = np.array([
+            -36.61,
+            -6.83,
+            -46.88,
+            -53.84,
+            -25.27,
+            67.81,
+            -42.67,
+            -28.26,
+            49.03,
+            13.49,
+            36.20,
+            -44.99,
+            67.05,
+            -23.96,
+            -28.85,
+            -22.50,
+            -21.25,
+            16.50,
+            -31.88,
+            -24.37,
+            1.96,
+            52.41,
+            -54.95,
+            11.25,
+            -45.72,
+            29.08,
+            37.90,
+            -36.13,
+            -23.51,
+            -52.12,
+        ])
+        vloss = np.array([
+            1.7,
+            160.2,
+            -219.7,
+            -38.2,
+            159.9,
+            88.7,
+            -8.2,
+            298.2,
+            -168.7,
+            -343.9,
+            73.9,
+            -11.5,
+            -83.6,
+            191.8,
+            434.1,
+            171.1,
+            319.1,
+            252.5,
+            -271.8,
+            -120.6,
+            380.5,
+            48.2,
+            25.3,
+            333.8,
+            -166.1,
+            14.6,
+            -34.2,
+            -303.5,
+            27.8,
+            -174.3,
+        ])
+        Usun = rustics.Usun_gc
         eweights, _ = np.histogram(
-            #vels,
-            vels * np.sin(np.pi * np.random.rand(len(vels))),
+            vloss + Usun[0] * np.cos(ls) * np.cos(bs) + Usun[1] *  np.sin(ls) * np.cos(bs) + Usun[2] * np.sin(bs),
             bins=ebins,
         )
 
