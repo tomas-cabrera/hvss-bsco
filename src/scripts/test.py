@@ -26,7 +26,10 @@ sc_ejs = {
 }
 print(sc_ejs)
 sc_ejs = SkyCoord(frame=Galactocentric, **sc_ejs)
+print("Galactocentric:\n", sc_ejs)
+sc_ejs = sc_ejs.transform_to(ICRS)
+print("ICRS:\n", sc_ejs)
 sc_ejs = sc_ejs.transform_to(Galactic)
-print(sc_ejs)
+print("Galactic:\n", sc_ejs)
 ejdf.df["vlos"] = sc_ejs.radial_velocity.value
 print(ejdf.df)

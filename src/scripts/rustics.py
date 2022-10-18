@@ -1,7 +1,6 @@
 # RUnaway STars In Cluster Simulations
 ###############################################################################
 
-
 import numpy as np
 import pandas as pd
 from astropy.coordinates import SkyCoord, ICRS, Galactic, Galactocentric
@@ -252,6 +251,7 @@ HEADERS_TO_LABELS = {
     "M_norm": r"$\big[\log_{10} M\big]_{\rm norm}$",
     "rc_spitzer/r_h_norm": r"$\big[r_{\rm core} / r_{h,m}\big]_{\rm norm}$",
     "[Fe/H]_norm": r"$\big[[{\rm Fe/H}]\big]_{\rm norm}$",
+    "rgc": r"$r_{\rm GC}~[{\rm kpc}]$",
 }
 
 
@@ -681,6 +681,8 @@ class HistogramGenerator:
             usecols = ["vfin", "vesc", "v_crit"]
         elif self.column == "vlos":
             usecols = ["X", "Y", "Z", "U", "V", "W"]
+        elif self.columns == "rgc":
+            usecols = ["X", "Y"]
         else:
             usecols = [self.column]
         if type(self.kgroup) != type(None):
@@ -690,6 +692,12 @@ class HistogramGenerator:
         # Load, and convert units
         ejdf = EjectionDf(path, usecols=usecols)
         ejdf.convert_from_fewbody()
+        if ("X" in ejdf.df.columns) & ("Y" in ejdf.df.columns):
+            # Throw out -1's
+            ejdf.df = ejdf.df[
+                (ejdf.df.X != -1)
+                & (ejdf.df.Y != -1)
+            ]
         # Calculate additional things if needed
         if self.column == "vout":
             ejdf.df["vout"] = ejdf.calc_vout()
@@ -712,11 +720,6 @@ class HistogramGenerator:
             ejdf.df["v_radial"] = ejdf.df["vout"] * ejdf.df["proj"]
             print("%24s %g" % (model["fname"], ejdf.df["v_radial"].max()))
         elif self.column == "vlos":
-            # Throw out -1's
-            ejdf.df = ejdf.df[
-                (ejdf.df.X != -1)
-                & (ejdf.df.Y != -1)
-            ]
             # Create coordinate object; convert to ICRS
             sc_ejs = {
                 "x": ejdf.df.X.to_numpy() * u.kpc,
@@ -732,6 +735,9 @@ class HistogramGenerator:
             bs = sc_ejs.b.value
             rvs = sc_ejs.radial_velocity.value
             ejdf.df["vlos"] = rvs + Usun_gc[0] * np.cos(ls) * np.cos(bs) + Usun_gc[1] *  np.sin(ls) * np.cos(bs) + Usun_gc[2] * np.sin(bs)
+        elif self.column == "rgc":
+            ejdf.df["rgc"] = (ejdf.df.X**2 + ejdf.df.Y**2)**0.5
+            
 
         # If kgroup is given, filter
         if type(self.kgroup) != type(None):
