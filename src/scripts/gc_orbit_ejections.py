@@ -12,8 +12,6 @@ from astropy import units as u
 
 import rustics
 import paths
-import mywheels.cmcutils.readoutput as ro
-import mywheels.gccatalogs.aggregate as ag
 
 ###############################################################################
 
@@ -23,19 +21,26 @@ helio_baumgardt = {
     "z_sun": 0.0 * u.pc,
 }
 
-plt.style.use("./matplotlibrc")
+#plt.style.use("./matplotlibrc")
 
 ###############################################################################
 
 def integrate_cmc_ejections(
     cmc_fname,
     mwgc_catalog,
-    cmc_path=paths.data_cmc,
+    cmc_path=str(paths.data_cmc),
     ejections_fname="output_N-10_ejections.txt",
 ):
     """! A function to parallelize the integration of encounters, s.t. the CMC data only have to be loaded once."""
 
-    print(cmc_fname)
+    #print(cmc_fname)
+    keep_going = 0
+    for cluster in mwgc_catalog.df[mwgc_catalog.df.fname == cmc_fname].index:
+        if cluster in rustics.SAMPLE_GCS:
+            keep_going = 1
+    if not keep_going:
+        return 1 
+        
 
     ##############################
     ###   Load CMC ejections   ###
@@ -77,7 +82,7 @@ def integrate_cmc_ejections(
 
     # Loop.  galpy has native parallelization (i.e. can integrate many GC orbits at once), but there aren't too many GCs/model, so the parallelization is only used when integrating the ejection orbits
     for cluster, gc in mwgc_catalog.df[mwgc_catalog.df.fname == cmc_fname].iterrows():
-        if cluster not in ["NGC_104"]:
+        if cluster not in rustics.SAMPLE_GCS:
             continue
 
         # Extract the orbital parameters, adding units
@@ -161,10 +166,11 @@ def integrate_cmc_ejections(
             lw=0.25,
         )
         # Ejection points
-        ax.scatter(
+        scats=ax.scatter(
             o_gc.x(t_ejs),
             o_gc.y(t_ejs),
-            c="k",
+            #c="k",
+            c=t_ejs,
             s=1.,
             lw=0,
             rasterized=True,
@@ -173,8 +179,9 @@ def integrate_cmc_ejections(
         ax.set_xlabel(r"$x\ [{\rm kpc}]$")
         ax.set_ylabel(r"$y\ [{\rm kpc}]$")
         ax.set_aspect("equal")
+        ax.legend(title=cluster)
         plt.tight_layout()
-        plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py",".pdf"))
+        plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py","_%s.pdf" % cluster))
         plt.close()
 
         ### This section contains the code for integrating ejection orbits 
@@ -262,15 +269,16 @@ def integrate_cmc_ejections(
 ###############################################################################
 
 # Load matched MW GCs
-cat = ag.GCCatalog(
-    paths.data_cmc / "gcs-cmc.dat",
+cat = rustics.GCCatalog(
+    str(paths.data / "mwgcs-cmc.dat"),
     pd_kwargs={"index_col": "Cluster"},
 )
+print(cat)
 cat.df.fname = [n.replace("_v2", "").replace(".tar.gz", "") for n in cat.df.fname]
 
 # Load orbital parameters
-cat_orbit = ag.GCCatalog(
-    paths.data_cmc / "baumgardt_orbits_table_clean.txt",
+cat_orbit = rustics.GCCatalog(
+    str(paths.data / "baumgardt_orbits_table_clean.txt"),
     pd_kwargs={
         "index_col": "Cluster",
         "delim_whitespace": True,
@@ -298,7 +306,7 @@ cat_orbit = ag.GCCatalog(
 cat.df = cat.df.join(cat_orbit.df)
 
 # Iterate over CMC models
-nprocs = 1
+nprocs = 4 
 if nprocs == 1:
     parmap.map(
         integrate_cmc_ejections,

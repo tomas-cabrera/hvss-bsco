@@ -597,7 +597,7 @@ figure.constrained_layout.w_pad:  0.01167  # inches. Default is 3/72 inches (3 p
 ## ***************************************************************************
 image.aspect: equal                # {equal, auto} or a number
 #image.interpolation:  antialiased  # see help(imshow) for options
-#image.cmap:   viridis              # A colormap name, gray etc...
+image.cmap:   inferno              # A colormap name, gray etc...
 #image.lut:    256                  # the size of the colormap lookup table
 #image.origin: upper                # {lower, upper}
 #image.resample:  True
