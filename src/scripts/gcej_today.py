@@ -15,13 +15,32 @@ import paths
 ###############################################################################
 
 # Load GC data
-path = paths.data / "baumgardt_orbits_table_clean.txt"
-gcdf = pd.read_csv(
-    path,
-    usecols=["Cluster", "X", "Y", "Z", "U", "V", "W"],
-    index_col="Cluster",
-    delim_whitespace=True,
+cat = rustics.GCCatalog(
+    str(paths.data / "mwgcs-cmc.dat"),
+    pd_kwargs={"index_col": "Cluster"},
 )
+cat.df.fname = [n.replace("_v2", "").replace(".tar.gz", "") for n in cat.df.fname]
+
+# Load orbital parameters
+cat_orbit = rustics.GCCatalog(
+    str(paths.data / "baumgardt_orbits_table_clean.txt"),
+    pd_kwargs={
+        "index_col": "Cluster",
+        "delim_whitespace": True,
+        "usecols": [
+            "Cluster",
+            "X",
+            "Y",
+            "Z",
+            "U",
+            "V",
+            "W",
+        ],
+    },
+)
+
+# Join the two dfs
+gcdf = cat.df.join(cat_orbit.df)
 
 # Iterate over sample GCs
 for gc in rustics.SAMPLE_GCS:
@@ -52,6 +71,8 @@ for gc in rustics.SAMPLE_GCS:
         (ejdf.df.X != -1)
         & (ejdf.df.Y != -1)
     ]
+    # Downsample by 1/10
+    ejdf.df = ejdf.df.sample(frac=0.1, random_state=int(gcrow.X * 1e3))
 
     # Convert units
     scej = SkyCoord(
@@ -68,43 +89,59 @@ for gc in rustics.SAMPLE_GCS:
     # Set up figure
     nrows = 2
     ncols = 1
-    fig = plt.figure(figsize=(3.286 * ncols, 2 * nrows))
+    fig = plt.figure(figsize=(2.5*1.618 * ncols, 2.5*1 * nrows))
     axx = fig.add_subplot(*(nrows,ncols,1), projection="aitoff")
     axx.grid(True, c="gray", alpha=0.5, zorder=0, lw=0.5)
     axv = fig.add_subplot(*(nrows,ncols,2))
+    # Color scale
+    cs = (ejdf.df.time + 14000. - gcrow.t) / 14000.
+    # kwargs for ejecta scatterpoints
+    kw_ej = {
+        "c": (ejdf.df.time + 14000. - gcrow.t) / 14000.,
+        "cmap": "inferno",
+        "marker": ".",
+        "s": 4,
+        "lw": 0,
+        "rasterized": True,
+    }
+    # kwargs for GC point
+    kw_gc = {
+        "c": "xkcd:azure",
+        "ec": "k",
+        "s": 20,
+        "lw": 0.5,
+        "marker": "X",
+    }
+    # kwargs for GC orbit
+    kw_o = {
+        "c": "gray",
+        "alpha": 0.5,
+        "lw": 0.25,
+        "zorder": 0,
+    }
 
     # Plot locations (matplotlib aitoff wants coordinates in radians)
-    scats=axx.scatter(
+    sm=axx.scatter(
         scej.l.wrap_at("180d").radian,
         scej.b.radian,
-        c=ejdf.df.time,
-        cmap="inferno",
-        marker=".",
-        s=1,
-        lw=0,
-        rasterized=True,
+        **kw_ej,
     )
     axx.scatter(
         scgc.l.wrap_at("180d").radian,
         scgc.b.radian,
-        c="k",
-        marker="x",
+        **kw_gc,
     )
     # Add colorbar; 221019: the colorbar spans the time of the ejections, which revealed that I was determining pre- and post- present-day ejections incorrectly.  Rerunning
     ## TODO: These two lines were copied from StackOverflow; implement later with right limits
     ##       Note that the scale will have to be applied to the scatter function as well
-    #sm = plt.cm.ScalarMappable(cmap=my_cmap, norm=plt.Normalize(vmin=0, vmax=1))
-    #plt.colorbar(sm)
-    axxcb = plt.colorbar(mappable=scats, ax=axx)
-    axxcb.set_label(r"$t~[{\rm Myr}]$")
+    sm = plt.cm.ScalarMappable(norm=plt.Normalize(vmin=-14, vmax=0))
+    axxcb = plt.colorbar(mappable=sm, ax=axx, orientation="horizontal")
+    axxcb.set_label(r"$t_{\rm ej}~[{\rm Gyr}]$")
     # Plot GC orbit
     axx.plot(
         scgc_orbit.l.wrap_at("180d").radian,
         scgc_orbit.b.radian,
-        c="gray",
-        alpha=0.5,
-        lw=0.25,
-        zorder=0,
+        **kw_o,
     )
 
     ## Plot mu_ra_cosdec-mu_dec
@@ -146,28 +183,19 @@ for gc in rustics.SAMPLE_GCS:
     axv.scatter(
         scej.pm_l_cosb,
         scej.pm_b,
-        c=ejdf.df.time,
-        cmap="inferno",
-        marker=".",
-        s=1,
-        lw=0,
-        rasterized=True,
+        **kw_ej,
     )
     # GC
     axv.scatter(
         scgc.pm_l_cosb,
         scgc.pm_b,
-        c="k",
-        marker="x",
+        **kw_gc,
     )
     # GC orbit
     axv.plot(
         scgc_orbit.pm_l_cosb,
         scgc_orbit.pm_b,
-        c="gray",
-        alpha=0.5,
-        lw=0.25,
-        zorder=0,
+        **kw_o,
     )
     # Extra things
     axv.set_xlabel(r"$\mu_{l \cos b}~[{\rm mas/yr}]$")
