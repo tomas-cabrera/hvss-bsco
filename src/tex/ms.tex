@@ -103,17 +103,28 @@ By this metric, 69 of the 148 \CMCcat\ models achieve core collapse by the end o
 
 % Plot idea: the log(M) vs. rr vs. r_hm diagnostic plots in gcs_mw-cmc.ipynb, with top/bottom//left/right axes showing the physical and normalized values of each variable
 
-In the interest of predicting realistic statistics and rates for a MW-like GC population, we assign representative \CMC\ models to each of the GCs in an aggregate observational catalog.
-The 148 models in the \CMCcat\ are specified by cluster initial size $N$ (number of stellar objects), initial virial radius $r_{\rm vir}$ (parsecs), distance from the galactic center $r_{\rm gc}$ (kiloparsecs, used in \CMC\ to calculate tidal effects from the galactic potential), and metallicity $Z$ (used to prescribe star evolution), with values chosen to span much of the MW GC parameter space; see \citet{2020IAUS..351..357K} for more details.
-After the same paper we use cluster mass $M$ and core radius to half-mass radius ratio $r_{\rm core} / r_{h,m}$ to relate \CMC\ models to MW GCs, and in this study we also include metallicity $Z$ to help distinguish otherwise similar systems.
+In the interest of predicting realistic statistics and rates for a MW-like GC population, we seek to assemble a synthetic MW-like population of GCs out of the \CMCcat.
+These 148 models are designated by cluster initial size $N$ (number of stellar objects), initial virial radius $r_{\rm vir}$ (parsecs), distance from the galactic center $r_{\rm gc}$ (kiloparsecs, used in \CMC\ to calculate tidal effects from the galactic potential), and metallicity $Z$ (used to prescribe star evolution), with values chosen to span much of the MW GC parameter space; see \citet{2020IAUS..351..357K} for more details.
+
+We predominantly use the observational catalog of \citet{2018MNRAS.478.1520B} to obtain parameters for MW GCs, though this source lacks metallicity measurements for the objects.
+Therefore we supplement this catalog with that of \citet{2010arXiv1012.3224H}, which has this information for all but 12 of the GCs in the former work; this leaves us with the 149 GCs we use in this analysis.
+
+We choose a representative \CMC\ model for each MW GC in the following manner.
+For each GC, after \citet{2021ApJ...912..102R} we first find the values of $r_{\rm gc}$ and $Z$ in the \CMCcat\ model grid closest to the measurements of these parameters for the GC (in linear and log space, respectively) and select the models with the respective values as candidate representatives.
+We choose 11 times linearly spaced between 10 and 13.5 Gyr (c.f. \citet{2013ApJ...775..134V}), and find the \CMC\ timesteps closest to the chosen times for the candidate models.
+
+The representative model is chosen by finding the model timestep closest to the GC in normalized $\log M$-$r_{\rm core} / r_{h,m}$ space by Euclidean distance.
 We use the definition of core radius from \citet{1987degc.book.....S}:
 \begin{equation}
     r_{\rm core} = \sqrt{\frac{3 \sigma_c^2}{4 \pi \rho_c}},
 \end{equation}
 where $\sigma_c$ is the central velocity dispersion and $\rho_c$ is the central density for the cluster.
+We normalize the two dimensions in the \CMC\ space, i.e. the parameters actually used to compute the distance are
+\begin{equation}
+    x_{\rm norm} = \frac{x - \bar{x}_{\rm \CMC}}{\sigma_{\rm x, \CMC}},
+\end{equation}
+where $\bar{x}_{\rm CMC}$ and $\sigma_{\rm x,CMC}$ are respectively the mean and standard deviation of the parameter $x$ over the set of \CMC\ models.
 
-To assemble a set of MW GCs we combine the catalogs of \citet{2010arXiv1012.3224H} and \citet{2018MNRAS.478.1520B}, as the latter provides $M$ and $r_{\rm core} / r_{h,m}$ measurements and the former $Z$ measurements for the observed systems.
-We use 149 GCs from the conjunction of the two catalogs, after vetting the 15 GCs that lack a measurement for any of the three parameters of interest.
 These MW GCs and the \CMC\ models are shown in Figure \ref{fig:mw-cmc}.
 The quantities for the \CMC\ models are computed from the final timesteps.
 
@@ -365,6 +376,94 @@ In the intermediate steps of this work, an encounter similar to this one produce
         \label{fig:rgc-z_quants}
     \end{centering}
 \end{figure}
+
+\begin{figure*}
+    \script{gc_orbit_ejections.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/gc_orbit_ejections_NGC_104.pdf}
+        \caption{
+            Plot showing GC orbits.
+        }
+        \label{fig:gc_orbit_ejections_NGC_104}
+    \end{centering}
+\end{figure*}
+
+\begin{figure*}
+    \script{gc_orbit_ejections.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/gc_orbit_ejections_NGC_5139.pdf}
+        \caption{
+            Plot showing GC orbits.
+        }
+        \label{fig:gc_orbit_ejections_NGC_5139}
+    \end{centering}
+\end{figure*}
+
+\begin{figure*}
+    \script{gc_orbit_ejections.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/gc_orbit_ejections_NGC_6205.pdf}
+        \caption{
+            Plot showing GC orbits.
+        }
+        \label{fig:gc_orbit_ejections_NGC_6205}
+    \end{centering}
+\end{figure*}
+
+\begin{figure*}
+    \script{gc_orbit_ejections.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/gc_orbit_ejections_NGC_7089.pdf}
+        \caption{
+            Plot showing GC orbits.
+        }
+        \label{fig:gc_orbit_ejections_NGC_7089}
+    \end{centering}
+\end{figure*}
+
+\begin{figure*}
+    \script{gcej_today.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/gcej_today_NGC_104.pdf}
+        \caption{
+            Plot showing present-day coords.
+        }
+        \label{fig:gcej_today_NGC_104}
+    \end{centering}
+\end{figure*}
+
+\begin{figure*}
+    \script{gcej_today.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/gcej_today_NGC_5139.pdf}
+        \caption{
+            Plot showing present-day coords.
+        }
+        \label{fig:gcej_today_NGC_5139}
+    \end{centering}
+\end{figure*}
+
+\begin{figure*}
+    \script{gcej_today.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/gcej_today_NGC_6205.pdf}
+        \caption{
+            Plot showing present-day coords.
+        }
+        \label{fig:gcej_today_NGC_6205}
+    \end{centering}
+\end{figure*}
+
+\begin{figure*}
+    \script{gcej_today.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/gcej_today_NGC_7089.pdf}
+        \caption{
+            Plot showing present-day coords.
+        }
+        \label{fig:gcej_today_NGC_7089}
+    \end{centering}
+\end{figure*}
 
 \bibliography{bib}
 
