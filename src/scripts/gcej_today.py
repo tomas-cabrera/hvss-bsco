@@ -94,7 +94,6 @@ for gc in rustics.SAMPLE_GCS:
     axx.grid(True, c="gray", alpha=0.5, zorder=0, lw=0.5)
     axv = fig.add_subplot(*(nrows,ncols,2))
     # Color scale
-    cs = (ejdf.df.time + 14000. - gcrow.t) / 14000.
     # kwargs for ejecta scatterpoints
     kw_ej = {
         "c": (ejdf.df.time + 14000. - gcrow.t) / 14000.,
