@@ -101,22 +101,26 @@ By this metric, 69 of the 148 \CMCcat\ models achieve core collapse by the end o
 
 \subsection{Estimating a MW-like population} \label{subsec:est_MW-like}
 
+In the interest of predicting realistic statistics and rates for a MW-like GC population, we seek to assemble a synthetic MW-like population of GC-runaways from BSCO encounters.
+The two steps involved here are 1) selecting representative \CMC\ models for galactic GCs, and 2) integrating the post-ejection orbits to the present day.
+
+\subsubsection{Pairing \CMC\ models to MW GCs} \label{subsubsec:pairing}
 % Plot idea: the log(M) vs. rr vs. r_hm diagnostic plots in gcs_mw-cmc.ipynb, with top/bottom//left/right axes showing the physical and normalized values of each variable
 
-In the interest of predicting realistic statistics and rates for a MW-like GC population, we seek to assemble a synthetic MW-like population of GCs out of the \CMCcat.
-These 148 models are designated by cluster initial size $N$ (number of stellar objects), initial virial radius $r_{\rm vir}$ (parsecs), distance from the galactic center $r_{\rm gc}$ (kiloparsecs, used in \CMC\ to calculate tidal effects from the galactic potential), and metallicity $Z$ (used to prescribe star evolution), with values chosen to span much of the MW GC parameter space; see \citet{2020IAUS..351..357K} for more details.
+The 148 \CMC\ models are designated by cluster initial size $N$ (number of stellar objects), initial virial radius $r_{\rm vir}$ (parsecs), distance from the galactic center $r_{\rm gc}$ (kiloparsecs, used in \CMC\ to calculate tidal effects from the galactic potential), and metallicity $Z$ (used to prescribe star evolution), with values chosen to span much of the MW GC parameter space; see \citet{2020IAUS..351..357K} for more details.
 
 We predominantly use the observational catalog of \citet{2018MNRAS.478.1520B} to obtain parameters for MW GCs, though this source lacks metallicity measurements for the objects.
 Therefore we supplement this catalog with that of \citet{2010arXiv1012.3224H}, which has this information for all but 12 of the GCs in the former work; this leaves us with the 149 GCs we use in this analysis.
 
 We choose a representative \CMC\ model for each MW GC in the following manner.
 For each GC, after \citet{2021ApJ...912..102R} we first find the values of $r_{\rm gc}$ and $Z$ in the \CMCcat\ model grid closest to the measurements of these parameters for the GC (in linear and log space, respectively) and select the models with the respective values as candidate representatives.
-We choose 11 times linearly spaced between 10 and 13.5 Gyr (c.f. \citet{2013ApJ...775..134V}), and find the \CMC\ timesteps closest to the chosen times for the candidate models.
+We choose 11 linearly spaced times between 10 and 13.5 Gyr (c.f. \citet{2013ApJ...775..134V}), and find the \CMC\ timesteps closest to the chosen times for the candidate models.
+The MW GCs and the \CMC\ models are shown in Figure \ref{fig:cmcs-mwgcs_scatter}.
 
-The representative model is chosen by finding the model timestep closest to the GC in normalized $\log M$-$r_{\rm core} / r_{h,m}$ space by Euclidean distance.
-We use the definition of core radius from \citet{1987degc.book.....S}:
+The representative model is chosen by finding the model timestep closest to the GC in normalized $\log M$-$r_c / r_h$ space by Euclidean distance.
+We use the 3D half-mass radius for $r_h$, and the definition of core radius from \citet{1987degc.book.....S}:
 \begin{equation}
-    r_{\rm core} = \sqrt{\frac{3 \sigma_c^2}{4 \pi \rho_c}},
+    r_c = \sqrt{\frac{3 \sigma_c^2}{4 \pi \rho_c}},
 \end{equation}
 where $\sigma_c$ is the central velocity dispersion and $\rho_c$ is the central density for the cluster.
 We normalize the two dimensions in the \CMC\ space, i.e. the parameters actually used to compute the distance are
@@ -125,36 +129,31 @@ We normalize the two dimensions in the \CMC\ space, i.e. the parameters actually
 \end{equation}
 where $\bar{x}_{\rm CMC}$ and $\sigma_{\rm x,CMC}$ are respectively the mean and standard deviation of the parameter $x$ over the set of \CMC\ models.
 
-These MW GCs and the \CMC\ models are shown in Figure \ref{fig:cmcs-mwgcs_scatter}.
-The quantities for the \CMC\ models are computed from the final timesteps.
-
 \begin{figure}
     \script{cmcs-mwgcs_scatter.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/cmcs-mwgcs_scatter.pdf}
         \caption{
         The clusters and models used in this work.
-        Galactic GCs are represented by black dots, and CMC models by red dots.
-        The sample \CMC\ models used in \S\ref{subsec:single_clusters} are shown as blue stars.
-        M3 and its \CMC\ counterpart relevant to \S\ref{} are shown as purple triangles.
+        Galactic GCs are represented by black triangles, and CMC models by blue dots.
+        %The sample \CMC\ models used in \S\ref{subsec:single_clusters} are shown as blue stars.
+        %M3 and its \CMC\ counterpart relevant to \S\ref{} are shown as purple triangles.
         Cluster mass $M_{\rm cluster}$ is shown on the $y$-axis, and the core radius/half-mass radius ratio $r_c/r_h$ (metallicity $[{\rm Fe/H}]$) on the left (right) $x$-axis.
-        The opposing axes along the top and right of the figure display the normalized parameters $[x]_{\rm norm}$, as defined in \S\ref{subsec:est_MW-like}.
         }
         \label{fig:cmcs-mwgcs_scatter}
     \end{centering}
 \end{figure}
 
-We use a simple nearest neighbor algorithm to assign a representative \CMC\ model to each of the MW GCs, where the \CMC\ model with the shortest Euclidean distance to the MW GC is taken as its representative.
-Each of the three parameters $\log_{10}(M)$, $r_{\rm core} / r_{h,m}$, and $[{\rm Fe/H}]$ are more equally weighted by computing the distance in the respective standard normalized space, where each parameter is normalized by taking its $Z$-score in the context of the \CMC\ clusters:
-\begin{equation}
-    [x]_{\rm norm} = \frac{x - \bar{x}_{\rm \CMC}}{\sigma_{\rm x, \CMC}},
-\end{equation}
-where $\bar{x}_{\rm CMC}$ and $\sigma_{\rm x,CMC}$ are respectively the mean and standard deviation of the parameter $x$ over the set of \CMC\ models.
+While the \CMCcat\ has fairly representative models for most of the MW GCs, there are a number of larger-cored GCs (right side of the left pane of Figure \ref{fig:cmcs-mwgcs_scatter}) that are relatively distant from the nearest \CMC\ model; in practice, this means that a single \CMC\ model can be chosen to represent a disproportionate number of MW GCs.
+Our pairing algorithm ends up using 57 of the 148 \CMC\ models to build the sythetic population, and the most utilized model is matched to 14 MWGCs, or $\lesssim10\%$ of the population.
+Furthermore, the most used models are typical in terms of number of ejections and cluster evolution, and so the more extreme models are not expected to have an excessive effect on the sythetic population we compose.
 
-While the \CMCcat\ has fairly representative models for most of the MW GCs, there are a number of larger-cored GCs (right side of the left pane of Figure \ref{fig:cmcs-mwgcs_scatter}) that are relatively distant from the nearest \CMC\ model.
-In our nearest-neighbors pairing, this means that a single \CMC\ model can be chosen to represent a disproportionate number of MW GCs.
-In the pairing we define, 61 \CMC\ models end up being used to characterize the MW GCs, with the most used model paired to 21 GCs.
-With these disclosures, we consider our representation of the galactic population of GCs to be adequate for this analysis.
+\subsubsection{Integrating runaways to the present day} \label{subsubsec:galpy}
+
+We now produce a present-day picture of these runaways by evolving their trajectories to the present day, using \texttt{galpy}\footnote{http://github.com/jobovy/galpy} \citep{2015ApJS..216...29B} to perform the necessary integrations.
+For each MW GC, we consider the matched \CMC\ model timestep as the present-day representation of the system, and pair it with the present-day orbital position and velocity from \citet{2018MNRAS.478.1520B}.
+We integrate the orbit backwards through time, and place the ejected objects at the appropriate points in the trajectory.
+The ejection velocity $v_{\rm out}$ from the model is assigned a random direction\footnote{The generator is seeded with an integer expression of the ejection velocity for reproducability.} and boosted to the galactic rest frame, and this trajectory is evolved to the present day.
 
 \section{Results} \label{sec:results}
 
@@ -289,6 +288,50 @@ In the absence of any other forces, these velocities translate to potential wand
 As the galactic escape speed is on the order of hundreds of kilometers per second [CITATION], we estimate that the destiny of most stars ejected from GCs by BSCO encounters is one of being scattering throughout the galaxy, to distances far enough away from the generating GC to appear unrelated.
 % GC formation ages?
 
+Figure \ref{fig:gc_orbit_ejections} shows the integrated orbits for a selection of GCs, and the points at which objects are ejected from the cluster.
+As was seen earlier, ejections occur much more frequently in the early stages of the cluster, and here the slower velocities at larger distances from the galactic center leads to a higher percentage of objects being ejected far away from this focus.
+
+\begin{figure*}
+    \script{gc_orbit_ejections.py}
+    \gridline{
+        \fig{figures/gc_orbit_ejections_NGC_104.pdf}{0.49\textwidth}{}
+        \fig{figures/gc_orbit_ejections_NGC_5139.pdf}{0.49\textwidth}{}
+    }
+    \gridline{
+        \fig{figures/gc_orbit_ejections_NGC_6205.pdf}{0.49\textwidth}{}
+        \fig{figures/gc_orbit_ejections_NGC_7089.pdf}{0.49\textwidth}{}
+    }
+    \caption{
+        Plots showing the back-integrated orbits for some MW GCs, and the points in the orbit where an object is ejected from the GC.
+        The color scale of the points indicates the time of ejection, measured backward from the present day; from the partial monochromism of the data and the density of points for portions of the orbit it can be seen how the ejections are more concentrated earlier in the cluster's evolution and farther away from the galactic center.
+    }
+    \label{fig:gc_orbit_ejections}
+\end{figure*}
+
+The present-day sythetic populations of runaways for the same sample CMC/GC pairings are shown in Figure \ref{fig:gcej_today}.
+While it is clear how the GC orbits influence the distribution of ejected objects, the ejecta wander to a broad enough spread that any one object loses most of the information of its cluster of origin by the present day.
+The proper motion distribution is less affected in this way (especially for more circular GC orbits), which is coherent with previous work in using these velocities to study the origins of such objects.
+What is important to note here is that the current proper motion of the cluster is not necessarily the best locus to use when comparing stellar proper motions: a well-informed back-integration of the orbit can reveal that the cluster might have spent its time in a region with a center distinct from the present-day propor motion.
+
+\begin{figure*}
+    \script{gcej_today.py}
+    \gridline{
+        \fig{figures/gcej_today_NGC_104.pdf}{0.49\textwidth}{}
+        \fig{figures/gcej_today_NGC_5139.pdf}{0.49\textwidth}{}
+    }
+    \gridline{
+        \fig{figures/gcej_today_NGC_6205.pdf}{0.49\textwidth}{}
+        \fig{figures/gcej_today_NGC_7089.pdf}{0.49\textwidth}{}
+    }
+    \caption{
+        Present-day positions (galactic longitude/latitude) and velocities (projected onto the galactic longitude/latitude directions) for the runaway objects from the sample GCs.
+        The color scale again denotes the time of ejection.
+        The back-integrated orbits are shown as the light gray trajectories, and the blue "x" is the position/velocity of the GC as measured by \citet{2018MNRAS.478.1520B}.
+    }
+    \label{fig:gcej_today}
+\end{figure*}
+
+
 % \begin{equation}
 %     R_{GC,ej}
 %     \sim \frac{\sum_i N_{MW,i} \frac{N_{ej,i}}{10}}{13.8~{\rm Gyr}}
@@ -376,94 +419,6 @@ In the intermediate steps of this work, an encounter similar to this one produce
         \label{fig:rgc-z_quants}
     \end{centering}
 \end{figure}
-
-\begin{figure*}
-    \script{gc_orbit_ejections.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/gc_orbit_ejections_NGC_104.pdf}
-        \caption{
-            Plot showing GC orbits.
-        }
-        \label{fig:gc_orbit_ejections_NGC_104}
-    \end{centering}
-\end{figure*}
-
-\begin{figure*}
-    \script{gc_orbit_ejections.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/gc_orbit_ejections_NGC_5139.pdf}
-        \caption{
-            Plot showing GC orbits.
-        }
-        \label{fig:gc_orbit_ejections_NGC_5139}
-    \end{centering}
-\end{figure*}
-
-\begin{figure*}
-    \script{gc_orbit_ejections.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/gc_orbit_ejections_NGC_6205.pdf}
-        \caption{
-            Plot showing GC orbits.
-        }
-        \label{fig:gc_orbit_ejections_NGC_6205}
-    \end{centering}
-\end{figure*}
-
-\begin{figure*}
-    \script{gc_orbit_ejections.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/gc_orbit_ejections_NGC_7089.pdf}
-        \caption{
-            Plot showing GC orbits.
-        }
-        \label{fig:gc_orbit_ejections_NGC_7089}
-    \end{centering}
-\end{figure*}
-
-\begin{figure*}
-    \script{gcej_today.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/gcej_today_NGC_104.pdf}
-        \caption{
-            Plot showing present-day coords.
-        }
-        \label{fig:gcej_today_NGC_104}
-    \end{centering}
-\end{figure*}
-
-\begin{figure*}
-    \script{gcej_today.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/gcej_today_NGC_5139.pdf}
-        \caption{
-            Plot showing present-day coords.
-        }
-        \label{fig:gcej_today_NGC_5139}
-    \end{centering}
-\end{figure*}
-
-\begin{figure*}
-    \script{gcej_today.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/gcej_today_NGC_6205.pdf}
-        \caption{
-            Plot showing present-day coords.
-        }
-        \label{fig:gcej_today_NGC_6205}
-    \end{centering}
-\end{figure*}
-
-\begin{figure*}
-    \script{gcej_today.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/gcej_today_NGC_7089.pdf}
-        \caption{
-            Plot showing present-day coords.
-        }
-        \label{fig:gcej_today_NGC_7089}
-    \end{centering}
-\end{figure*}
 
 \bibliography{bib}
 
