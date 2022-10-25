@@ -125,23 +125,24 @@ We normalize the two dimensions in the \CMC\ space, i.e. the parameters actually
 \end{equation}
 where $\bar{x}_{\rm CMC}$ and $\sigma_{\rm x,CMC}$ are respectively the mean and standard deviation of the parameter $x$ over the set of \CMC\ models.
 
-These MW GCs and the \CMC\ models are shown in Figure \ref{fig:mw-cmc}.
+These MW GCs and the \CMC\ models are shown in Figure \ref{fig:cmcs-mwgcs_scatter}.
 The quantities for the \CMC\ models are computed from the final timesteps.
 
-%\begin{figure*}
-%    \script{mw-cmc.py}
-%    \centering
-%    \includegraphics[width=\textwidth]{figures/mw-cmc.pdf}
-%    \caption{
-%        The clusters and models used in this work.
-%        Galactic GCs are represented by black dots, and CMC models by red dots.
-%        The sample \CMC\ models used in \S\ref{subsec:single_clusters} are shown as blue stars.
-%        M3 and its \CMC\ counterpart relevant to \S\ref{} are shown as purple triangles.
-%        Cluster mass $M_{\rm cluster}$ is shown on the $y$-axis, and the core radius/half-mass radius ratio $r_{\rm core}/r_{h,m}$ (metallicity $[{\rm Fe/H}]$) on the left (right) $x$-axis.
-%        The opposing axes along the top and right of the figure display the normalized parameters $[x]_{\rm norm}$, as defined in \S\ref{subsec:est_MW-like}.
-%    }
-%    \label{fig:mw-cmc}
-%\end{figure*}
+\begin{figure}
+    \script{cmcs-mwgcs_scatter.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/cmcs-mwgcs_scatter.pdf}
+        \caption{
+        The clusters and models used in this work.
+        Galactic GCs are represented by black dots, and CMC models by red dots.
+        The sample \CMC\ models used in \S\ref{subsec:single_clusters} are shown as blue stars.
+        M3 and its \CMC\ counterpart relevant to \S\ref{} are shown as purple triangles.
+        Cluster mass $M_{\rm cluster}$ is shown on the $y$-axis, and the core radius/half-mass radius ratio $r_c/r_h$ (metallicity $[{\rm Fe/H}]$) on the left (right) $x$-axis.
+        The opposing axes along the top and right of the figure display the normalized parameters $[x]_{\rm norm}$, as defined in \S\ref{subsec:est_MW-like}.
+        }
+        \label{fig:cmcs-mwgcs_scatter}
+    \end{centering}
+\end{figure}
 
 We use a simple nearest neighbor algorithm to assign a representative \CMC\ model to each of the MW GCs, where the \CMC\ model with the shortest Euclidean distance to the MW GC is taken as its representative.
 Each of the three parameters $\log_{10}(M)$, $r_{\rm core} / r_{h,m}$, and $[{\rm Fe/H}]$ are more equally weighted by computing the distance in the respective standard normalized space, where each parameter is normalized by taking its $Z$-score in the context of the \CMC\ clusters:
@@ -150,7 +151,7 @@ Each of the three parameters $\log_{10}(M)$, $r_{\rm core} / r_{h,m}$, and $[{\r
 \end{equation}
 where $\bar{x}_{\rm CMC}$ and $\sigma_{\rm x,CMC}$ are respectively the mean and standard deviation of the parameter $x$ over the set of \CMC\ models.
 
-While the \CMCcat\ has fairly representative models for most of the MW GCs, there are a number of larger-cored GCs (right side of the left pane of Figure \ref{fig:mw-cmc}) that are relatively distant from the nearest \CMC\ model.
+While the \CMCcat\ has fairly representative models for most of the MW GCs, there are a number of larger-cored GCs (right side of the left pane of Figure \ref{fig:cmcs-mwgcs_scatter}) that are relatively distant from the nearest \CMC\ model.
 In our nearest-neighbors pairing, this means that a single \CMC\ model can be chosen to represent a disproportionate number of MW GCs.
 In the pairing we define, 61 \CMC\ models end up being used to characterize the MW GCs, with the most used model paired to 21 GCs.
 With these disclosures, we consider our representation of the galactic population of GCs to be adequate for this analysis.
@@ -160,7 +161,7 @@ With these disclosures, we consider our representation of the galactic populatio
 \subsection{Ejections from single clusters} \label{subsec:single_clusters}
 
 Here we study the BSCO ejections produced by individual \CMC\ cluster models.
-\CMC\ model N8e5\_rv0.5\_rg8\_Z0.0002 is taken as a sample as it represents a typical MW GC, and models N4e5\_rv0.5\_rg8\_Z0.0002, N8e5\_rv0.5\_rg8\_Z0.0002, and N8e5\_rv2\_rg8\_Z0.02 are included to examine the effects parameter variation has on the population of ejected objects (all four of these models are represented by blue stars in Figure \ref{fig:mw-cmc}).
+\CMC\ model N8e5\_rv0.5\_rg8\_Z0.0002 is taken as a sample as it represents a typical MW GC, and models N4e5\_rv0.5\_rg8\_Z0.0002, N8e5\_rv0.5\_rg8\_Z0.0002, and N8e5\_rv2\_rg8\_Z0.02 are included to examine the effects parameter variation has on the population of ejected objects (all four of these models are represented by blue stars in Figure \ref{fig:cmcs-mwgcs_scatter}).
 For simpler reference, we name the first sample model the ``base" model, and the remaining three the ``low-mass", ``bigger", and ``high-metallicity" models, respectively.
 
 It is relevant to note a strong correlation between BSCO encounters and the evolution of the cluster core.
@@ -342,7 +343,6 @@ In the intermediate steps of this work, an encounter similar to this one produce
         \label{fig:cmc_orbits_pdf}
     \end{centering}
 \end{figure}
-
 
 \begin{figure}
     \script{cmc_orbits_cdf.py}
