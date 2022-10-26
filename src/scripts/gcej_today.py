@@ -142,6 +142,9 @@ for gc in rustics.SAMPLE_GCS:
         scgc_orbit.b.radian,
         **kw_o,
     )
+    # Remove axes labels
+    axx.set_xticklabels([])
+    axx.set_yticklabels([])
 
     ## Plot mu_ra_cosdec-mu_dec
     #scej = scej.transform_to(ICRS)
