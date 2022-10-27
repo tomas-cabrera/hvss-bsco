@@ -3,7 +3,7 @@
 \usepackage{showyourwork}
 
 % My commands
-\newcommand{\kms}{${\rm km \times s^{-1}}$}
+\newcommand{\kms}{${\rm km~s^{-1}}$}
 \newcommand{\Msun}{$M_\sun$}
 \newcommand{\CMC}{\texttt{CMC}}
 \newcommand{\CMCcat}{\texttt{CMC Cluster Catalog}}
@@ -259,7 +259,7 @@ The low-metallicity model is able to produce many ejections because 1) its core 
 
 \subsection{Galactic population} \label{subsec:res_MW-like}
 
-We now consider the MW-like population of BSCO encounters, assembled from the \CMCcat\ models as described in section \S\ref{subsec:est_MW-like}.
+We now consider the MW-like population of BSCO runaways, assembled from the \CMCcat\ models as described in section \S\ref{subsec:est_MW-like}.
 
 Figure \ref{fig:encio_stackedbar} shows the encounter types and results for BSCO encounters from a MW-like population of GCs, with the top plot including all encounters and the bottom including only those that result in an ejection.
 The majority of BSCO encounters are between a mixed binary and a star, and the bulk of the remaining encounters involve two COs.
@@ -282,6 +282,9 @@ Most star-ejecting encounters are between a single star and a binary.
 In comparison, when a CO interacts with a binary containing at least one star, generally the star remains in the binary, and when the star is ejected from the binary it is more likely for all three objects to depart as singles with smaller velocities than for a single star to carry away enough of the encounter's energy to overcome the local escape velocity (c.f. \citet{1983ApJ...268..319H}).
 We conclude that the most characteristic star-ejecting BSCO encounters in the galaxy (in terms of maximum velocities and abundance) occur shortly after the formations of COs and multiple-CO systems, the latter of which we have demonstrated is strongly linked to the core collapse timescale of galactic GCs.
 
+% Either use showyourwork \variable here,
+%   or make a new plot showing the rate as a function of time
+%   Could plot two rates on the same axes (if the scale works): one for the runaway rate, and one for the hypervelocity rate
 Using our synthetic MW-like BSCO encounter population, we estimate the galactic rate of stellar ejections from GCs to be $\sim2 \times 10^4~{\rm Gyr}^{-1}$, averaged over the age of the universe.
 Most stars are ejected with velocities in the tens of kilometers per second.
 In the absence of any other forces, these velocities translate to potential wanderings of tens of kiloparsecs over 1-10 Gyr time frames.
@@ -311,7 +314,7 @@ As was seen earlier, ejections occur much more frequently in the early stages of
 The present-day sythetic populations of runaways for the same sample CMC/GC pairings are shown in Figure \ref{fig:gcej_today}.
 While it is clear how the GC orbits influence the distribution of ejected objects, the ejecta wander to a broad enough spread that any one object loses most of the information of its cluster of origin by the present day.
 The proper motion distribution is less affected in this way (especially for more circular GC orbits), which is coherent with previous work in using these velocities to study the origins of such objects.
-What is important to note here is that the current proper motion of the cluster is not necessarily the best locus to use when comparing stellar proper motions: a well-informed back-integration of the orbit can reveal that the cluster might have spent its time in a region with a center distinct from the present-day propor motion.
+What is important to note here is that the current proper motion of the cluster is not necessarily the best locus to use when comparing stellar proper motions: a well-informed back-integration of the orbit can reveal the average proper motion of the cluster, which may be distiguishable from its present-day proper motion.
 
 \begin{figure*}
     \script{gcej_today.py}
@@ -327,10 +330,60 @@ What is important to note here is that the current proper motion of the cluster 
         Present-day positions (galactic longitude/latitude) and velocities (projected onto the galactic longitude/latitude directions) for the runaway objects from the sample GCs.
         The color scale again denotes the time of ejection.
         The back-integrated orbits are shown as the light gray trajectories, and the blue "x" is the position/velocity of the GC as measured by \citet{2018MNRAS.478.1520B}.
+        The set of sythetic ejecta shown here is the result of downsampling the total set by a factor of ten, to account for the repeated-realizations method described in \S\ref{subsec:binsingle_pop}
     }
     \label{fig:gcej_today}
 \end{figure*}
 
+From a galactocentric perspective, the population of runaways is fairly isotropic in position, as can be seen in Figures \ref{fig:rgc-z_hists} and  \ref{fig:rgc-z_quants}.
+The distributions of distance from the galactic origin, and the local distributions of galactocentric velocity are similar when distributing over radius $r_{\rm gc}$ versus distance from the galactic plane $Z_{\rm gc}$.
+Most runaways end up at a distance on the order of 10 pc from the galactic center, and with a velocity on the order of 100-300~\kms.
+Few runaways make it past the $\sim$100 pc mark, but those that do naturally retain the highest velocities, reaching upwards of 1000~\kms.
+% So this indicates that hypervelocity stars are likely to come from other sources, since the fastest BSCO runaways will have had plenty of time to leave the galaxy?
+
+% Combine these plots into 2x2 grid (hists. on top, either column: r or Z)
+% Make the same plots for all ejecta w/ v_rf > 275?
+% Change the plots to be based on v_rf instead of v_esc?
+\begin{figure}
+    \script{rgc-z_hists.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/rgc-z_hists.pdf}
+        \caption{
+            Plot showing $r_{\rm GC},\ Z$ (distance from galactic center, distance from galactic plane) histograms for galactic population.
+        }
+        \label{fig:rgc-z_hists}
+    \end{centering}
+\end{figure}
+
+\begin{figure}
+    \script{rgc-z_quants.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/rgc-z_quants.pdf}
+        \caption{
+            Plot showing $r_{\rm GC},\ Z$ quantiles for galactic population.
+        }
+        \label{fig:rgc-z_quants}
+    \end{centering}
+\end{figure}
+
+One final result of note is that of the heliocentric radial velocity $v_{\rm rf}$ distribution of the synthetic population.
+\citet{2021arXiv211213864G} in part studied the galactic center origin of HVSs, and found that there is an apparent tension between the observed and predicted runaway populations; specifically, the predicted number of stars with velocities $\gtrsim 700~{\rm km~s^{-1}}$ was much higher than the observed rate from the HVS sample of \citet{2018ApJ...866...39B}.
+The same work found that a decreasing star formation rate over last millions of years would reduce the recent (and thus more likely to be observed) HVS production rate enough to overcome the discrepency.
+As noted in \S\ref{subsec:single_clusters}, the BSCO runaways studied here are produced at much higher rates when the models are young, and few HVSs are produced in the later stages of the cluster.
+The resulting $v_{\rm rf}$ distribution is much closer to the observed distribution than that for the galactic center origin case, albeit skewed towards slightly smaller velocities (Figure \ref{fig:cmc_orbits_cdf}).
+This latter difference grows when comparing to the HVS sample of \citet{2018ApJ...866..121H}, who focused on metal-poor stars, which are more akin to the objects that populate GCs.
+
+\begin{figure}
+    \script{cmc_orbits_cdf.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/cmc_orbits_cdf_S.pdf}
+        \caption{
+            Velocity distributions for our sythetic and some previous observational HVS catalogs.
+            $v_{\rm rf}$ is the heliocentric radial velocity of the star as measured in the galactic rest frame.
+        }
+        \label{fig:cmc_orbits_cdf}
+    \end{centering}
+\end{figure}
 
 % \begin{equation}
 %     R_{GC,ej}
@@ -388,35 +441,13 @@ In the intermediate steps of this work, an encounter similar to this one produce
 \end{figure}
 
 \begin{figure}
-    \script{cmc_orbits_cdf.py}
+    \script{mwej_rates.py}
     \begin{centering}
-        \includegraphics[width=\linewidth]{figures/cmc_orbits_cdf_S.pdf}
+        \includegraphics[width=\linewidth]{figures/mwej_rates.pdf}
         \caption{
-            Plot showing orbit cdf.
+            Plot showing ejection rates through time.
         }
-        \label{fig:cmc_orbits_cdf}
-    \end{centering}
-\end{figure}
-
-\begin{figure}
-    \script{rgc-z_hists.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/rgc-z_hists.pdf}
-        \caption{
-            Plot showing $r_{\rm GC},\ Z$ (distance from galactic center, distance from galactic plane) histograms for galactic population.
-        }
-        \label{fig:rgc-z_hists}
-    \end{centering}
-\end{figure}
-
-\begin{figure}
-    \script{rgc-z_quants.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/rgc-z_quants.pdf}
-        \caption{
-            Plot showing $r_{\rm GC},\ Z$ quantiles for galactic population.
-        }
-        \label{fig:rgc-z_quants}
+        \label{fig:mwej_rates}
     \end{centering}
 \end{figure}
 
