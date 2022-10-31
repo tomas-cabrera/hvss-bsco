@@ -144,5 +144,5 @@ ax.legend()
 
 # Make neat and save
 plt.tight_layout()
-plt.savefig(paths.figures / __file__.replace(".py", ".pdf"))
+plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", ".pdf"))
 plt.close()
