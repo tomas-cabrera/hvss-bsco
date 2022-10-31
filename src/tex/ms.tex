@@ -43,34 +43,37 @@
 \label{sec:intro}
 
 Hypervelocity stars (HVSs) are stars that have been accelerated beyond the local galactic escape speed, that is, to the point of becoming unbound from the galactic potential.
-Theorized by \citealt{1988Natur.331..687H}, the classical origin of HVSs is the dynamical disruption of a stellar binary by a super massive black hole (SMBH); this ``Hills mechanism" is believed to be capable of accelerating stars to speeds up to 4000 km s$^{-1}$.
+Theorized by \citealt{1988Natur.331..687H}, the classical origin of HVSs is the dynamical disruption of a stellar binary by a super massive black hole (SMBH); this ``Hills mechanism" is believed to be capable of accelerating stars to speeds up to 4000 km s$^{-1}$, and naturally makes HVSs potential probes of the galactic center.
 Since the first HVS discovery \citep{2005ApJ...622L..33B}, a handful of candidate objects have been identified in the Milky Way (MW) (e.g. \citealt{2014ApJ...787...89B}), including the object S5-HVS1, with a measured speed of $\sim$1700 km s$^{-1}$ \citep{2020MNRAS.491.2465K}.
-While S5-HVS1 is believed to have originated from the galactic center, for which there is overwhelming evidence for an SMBH (\citealt{1998ApJ...509..678G}, \citealt{2018A&A...615L..15G}, \citealt{2022ApJ...930L..12E}), data from Gaia DR2 have been used to eliminate the galactic center origin case for most former HVS candidates \citep{2018MNRAS.479.2789B}.
-Stars may also be accelerated if their binary companion goes supernova, but HVSs produced through this mechanism are generally ejected with relatively modest speeds of a few hundred km s$^{-1}$ \citep{2019A&A...624A..66R}, with exceptionally light companions potentially receiving velocities around 1000 km s$^{-1}$ \citep{2015MNRAS.448L...6T}.
+While S5-HVS1, along with several others, is well-explained by accepting an origin from the galactic center, for which there is overwhelming evidence for an SMBH (\citealt{1998ApJ...509..678G}, \citealt{2018A&A...615L..15G}, \citealt{2022ApJ...930L..12E}), recent studies have found examples of high-velocity stars that are not so easily read \citep[e.g.][]{2018MNRAS.479.2789B, 2019MNRAS.483.2007E, 2021A&A...646L...4I}.
+Two consistent results from these lines of work are that many stars previously classified as HV are nonetheless bound to the galactic potential, and many of these ``runaways" are more likely to have been ejected from the disk or a satellite as opposed to the galactic center.
+Altogether, the identification of systems of origin for HV and runaway stars is a necessary threshold problem to unlocking the full potential of observations of these objects.
 
-Another process that produces HVSs is dynamical interaction among stellar-mass objects.
-The long-term stability of binaries opens the door to 3- and 4-body encounters, which have a greater ability to accelerate stars than 2-body interactions.
-\citet{1991AJ....101..562L} studied these encounters with numerical methods, and found that the upper speed limit for products of these encounters was approximately the escape speed from the surface of the most massive star; for a sun-like star, this escape speed is $\sim$620 km s$^{-1}$, while for a 60 $M_\odot$ late main-sequence star it is $\sim$1400 km s$^{-1}$.
-However, such a velocity limit has not been examined for encounters involving compact objects such as white dwarfs (WDs), neutron stars (NSs), and black holes (BHs) whose small physical radius permits stronger encounters without collisions among objects.
+Alternate acceleration mechanisms capable of producing high-velocity stars include the binary supernova and dynamical ejection scenarios (BSS \citep{1967BOTT....4...86P} and DES \citep{1961BAN....15..265B}, respectively).
+The BSS has been predicted to accelerate stars to speeds of a few hundred \kms \citep{2019A&A...624A..66R}, with exceptionally light companions potentially receiving velocities in excess of 1000 \kms \citep{2015MNRAS.448L...6T}.
+The DES has been associated with higher speed limits: \citet{1991AJ....101..562L} studied these encounters with numerical methods, and found that the upper limit for products of these encounters was approximately the escape speed from the surface of the most massive star involved; for a sun-like star, this escape speed is $\sim$620 \kms, while for a 60 $M_\odot$ late main-sequence star it is $\sim$1400 \kms.
 
-Dynamical encounters among stellar-mass objects occur frequently in globular clusters (GCs), due to the high densities therein.
-Furthermore, the efficient formation of binary black holes (BBHs) in the cores of evolved GCs \citep{2005MNRAS.358..572I} encourages multi-body encounters among these compact objects and stars in the enclosing shell as the BBHs are themselves ejected from the core due to strong dynamical encounters.
-With around 150 GCs identified in the MW today (e.g. \citealt{2018MNRAS.478.1520B}), it is possible that the dynamics of these systems account for some of the HVSs that are inconsistent with the galactic center origin model.
+Globular clusters (GCs) are obvious candidate matrices for both of these events due to their high stellar densities, but the DES might be exceptionally amplified due to the combined effects of mass segregation and stellar evolution.
+This process is characterized as the migration of the most massive objects to the center of a self-gravitating system due to dynamical friction \citep{2008gady.book.....B}, which in turn leads to efficient formation of binaries in the core \citep{2005MNRAS.358..572I}.
+This central population of binaries is highly influential on the evolution of the cluster, primarily serving as a heat source as binaries form and shrink through dynamical encounters, undergoing one kind of ``core collapse" in the process \citep[e.g.][]{2007ApJ...658.1047F, 2013MNRAS.429.2881C}.
+In a realistic cluster, these dynamical phases occur after stars have started collapsing into black holes (BHs), and such objects dominate the core population \citep{2020IAUS..351..357K}.
+The resulting abundance of black hole binaries (BBHs) characterizes GCs as one of the favorable progenitors of gravitional wave sources \citep{2000ApJ...528L..17P, 2015PhRvL.115e1101R}, and in the context of this paper motivates the investigation of whether the population of GCs in the Milky Way (MW) can be considered a significant source of high-velocity stars.
 
-This work investigates the capacity of GCs to produce HVSs through dynamical encounters between binaries and single objects through numerical modeling of realistic encounter populations, building upon the existing knowledge base by performing the first direct $N$-body analysis of binary-single encounters composed of a mixture of stars and compact objects.
-The the inclusion of compact objects is expected to yield an upper speed limit distinct from that presented by \citealt{1991AJ....101..562L}.
-A realistic population of binary-single encounters from star clusters is then assembled by extracting the appropriate events from the catalog of cluster models provided by the {\tt\string Cluster Monte Carlo} (\CMC) group \citep{2020ApJS..247...48K}.
-Each encounter is multiplied over randomized spatial configurations and integrated to estimate the properties of the HVS star population generated by three-body encounters in GCs.
+This work investigates the capacity of GCs to produce HVSs through the DES, particularly in encounters between binaries and single objects, which may include compact objects (COs, a category that includes BHs, white dwarfs (WDs), and neutron stars (NSs)).
+We compose a realistic set of these binary-single compact object (BSCO) encounters by pulling initial conditions from the \CMCcat\ of MW-like GC models \citep{2020ApJS..247...48K}.
+\CMC\ is a H\'enon-style Monte Carlo code for $N$-body simulations of star clusters, and has the relevant features of stellar evolution implementation and direct integration of strong encounters between stars and stellar multiples; the referenced catalog consists of 148 models which span much of the parameter space of MW GCs.
 This analysis concludes that GCs are possible generators of HVSs in all velocity regimes thus observed, beyond the previously established limit for star-only encounters, albeit the rate at which these objects are produced from GCs is significantly lower than that for the galactic center.
 
 \section{Methods} \label{sec:methods}
 
 \subsection{Binary-single encounter population} \label{subsec:binsingle_pop}
 
-To establish realistic binary-single encounter populations for clusters of various parameters, we take the 148 cluster models from the \CMCcat\ and extract the initial conditions of all of the binary-single encounters that involve at least one luminous object (star, WD, or NS) and one compact object.
-On average, the number of encounters satisfying these criteria per cluster model is in the mid ten thousands.
+\CMC\ records all strong encounters that required direct integration during a cluster model run.
+To establish realistic binary-single encounter populations for clusters of various parameters, we take the 148 models from the \CMCcat\ and extract the initial conditions of all strong binary-single encounters that involve at least one luminous object (star, WD, or NS) and one compact object.
+These criteria on the constituents are applied in order to ensure that each encounter has a change of producing an observable object, and to focus on the effects COs have on this population.
+Over the entire catalog, our encounter sample makes up about half of all strong encounters that occur in the models, with each model contributing a few ten thousand BSCO encounters on average.
 We then realize each encounter in isolation with the small-$N$-body code \fewbody\ \citep{2004MNRAS.352....1F}.
-We compute 10 realizations of each encounter - varying the random seed used to specify the geometry of the encounter - to obtain a better statistical representation of the binary-single encounter population.
+We compute 10 realizations of each encounter, varying the encounter angles for each realization, to obtain a better statistical representation of the binary-single encounter population.
 
 The resulting objects that leave the cluster to become runaway or HVSs are identified as follows.
 \fewbody\ terminates integration before the resulting objects are far from each other's gravitational influence; therefore, the final velocity of an object after an encounter $v_{\rm fin}$ is calculated as the hyperbolic excess velocity
@@ -78,17 +81,16 @@ The resulting objects that leave the cluster to become runaway or HVSs are ident
     v_{\rm fin} = v \sqrt{\frac{U + K}{K}},
 \end{equation}
 where $v$ is the velocity of the object, and $U$ and $K$ are the Keplerian potential and kinetic energies of the top-level binary-single system (all of these quantities are evaluated at the termination of integration).
-The local escape velocity of the star cluster $v_{\rm esc}$ is provided by \CMC\ with the other encounter parameters; any object with $v_{\rm fin} \ge v_{\rm esc}$ is considered to escape the cluster.
+The local escape velocity of the star cluster $v_{\rm esc}$ is provided by \CMC\ with the other encounter parameters; any object with $v_{\rm fin} \ge v_{\rm esc}$ is considered to escape the cluster, suspending the possibility of subsequent encounters.
 The velocity of an ejected object once it has left the cluster is therefore
 \begin{equation}
     v_{\rm out} = \sqrt{v_{\rm fin}^2 - v_{\rm esc}^2}.
 \end{equation}
 
 It is worth noting that the encounter initial conditions recorded in the \CMCcat\ contain velocities calculated in the center-of-mass frame of the encounter.
-A more rigorous calculation of $v_{\rm out}$ would therefore utilize the velocity dispersion $\sigma$ to determine how $v_{\rm fin}$ translates to a velocity in the reference frame of the star cluster model.
+A more rigorous calculation of $v_{\rm out}$ would utilizes the velocity dispersion $\sigma$ to determine how $v_{\rm fin}$ translates to a velocity in the reference frame of the star cluster model.
 Assuming that the distribution of the 3D object velocity $\vec{v}_{\rm fin}$ is independent of the center-of-mass velocity $\vec{v}_{\rm cm}$ of the encounter it originated from, we find that the average ratio of speed after to speed before the transformation to the cluster reference frame $v'_{\rm fin} / v_{\rm fin}$ is a maximum of $\sim$1.3 in the case $v_{\rm fin} \approx \sigma$, and a minimum of 1 in the case $v_{\rm fin} \gg \sigma$.
-As $v_{\rm cm} \sim \sigma$, and $\sigma \lesssim v_{\rm esc}$ [CITATIONS?], we estimate that neglecting a transformation to the cluster reference frame after center-of-mass encounter integration slightly reduces the resulting ejection population in a manner that does not significantly affect the following analysis.
-% Stackedbar plot of resulting encounters?
+As $v_{\rm cm} \sim \sigma$ and $\sigma \lesssim v_{\rm esc}$ [CITATIONS?], we estimate that neglecting a transformation to the cluster reference frame after center-of-mass encounter integration shrinks the resulting ejection populationoverall, but not in a manner that significantly affects the following analysis.
 
 \subsection{Core collapse and ejecta} \label{subsec:cc}
 
@@ -96,21 +98,22 @@ The core collapses of star clusters due to dynamical heat flow from the center t
 One kind of core collapse occurs when the population of BHs in cluster (localized to the center via. mass segregation) is depleted through fewbody encounters in this region; the dynamically less energetic core is no longer able to fuel the dynamics of the rest of the cluster, and the cluster contracts.
 Many of these core encounters are between a binary and a single, contain compact objects, and can impart large accelerations on the participants, and accordingly are of particular interest here.
 
-In this analysis, we label a cluster as core collapsed when its population of BHs has been reduced to less than 10 members.
-By this metric, 69 of the 148 \CMCcat\ models achieve core collapse by the end of the 14 Gyr integration time, and small cluster mass and spatial size are good indicators of systems that evolve to this point the fastest.
+In this analysis, we label a cluster as core collapsed when its population of BHs has been reduced to less than 10 members \citep{2020IAUS..351..357K}.
+By this metric, 69 of the 148 \CMCcat\ models achieve core collapse by the end of the 14 Gyr integration time, and small cluster mass and size are good predictors of systems that evolve to this point the fastest.
 
 \subsection{Estimating a MW-like population} \label{subsec:est_MW-like}
 
 In the interest of predicting realistic statistics and rates for a MW-like GC population, we seek to assemble a synthetic MW-like population of GC-runaways from BSCO encounters.
-The two steps involved here are 1) selecting representative \CMC\ models for galactic GCs, and 2) integrating the post-ejection orbits to the present day.
+The two steps involved here are 1) selecting representative \CMC\ models for galactic GCs, and 2) integrating the post-ejection orbits to the present day in the context of the MW.
 
 \subsubsection{Pairing \CMC\ models to MW GCs} \label{subsubsec:pairing}
 % Plot idea: the log(M) vs. rr vs. r_hm diagnostic plots in gcs_mw-cmc.ipynb, with top/bottom//left/right axes showing the physical and normalized values of each variable
 
 The 148 \CMC\ models are designated by cluster initial size $N$ (number of stellar objects), initial virial radius $r_{\rm vir}$ (parsecs), distance from the galactic center $r_{\rm gc}$ (kiloparsecs, used in \CMC\ to calculate tidal effects from the galactic potential), and metallicity $Z$ (used to prescribe star evolution), with values chosen to span much of the MW GC parameter space; see \citet{2020IAUS..351..357K} for more details.
 
-We predominantly use the observational catalog of \citet{2018MNRAS.478.1520B} to obtain parameters for MW GCs, though this source lacks metallicity measurements for the objects.
-Therefore we supplement this catalog with that of \citet{2010arXiv1012.3224H}, which has this information for all but 12 of the GCs in the former work; this leaves us with the 149 GCs we use in this analysis.
+We predominantly use the observational catalog of \citet{2018MNRAS.478.1520B} to obtain parameters for MW GCs.
+This catalog lacks metallicity measurements for the objects; therefore we supplement with that of \citet{2010arXiv1012.3224H}.
+12 of the GCs in the former catalog do not have metallicity measurements in the latter, leaving us with the 149 Mw GCs we use in this analysis.
 
 We choose a representative \CMC\ model for each MW GC in the following manner.
 For each GC, after \citet{2021ApJ...912..102R} we first find the values of $r_{\rm gc}$ and $Z$ in the \CMCcat\ model grid closest to the measurements of these parameters for the GC (in linear and log space, respectively) and select the models with the respective values as candidate representatives.
@@ -118,6 +121,7 @@ We choose 11 linearly spaced times between 10 and 13.5 Gyr (c.f. \citet{2013ApJ.
 The MW GCs and the \CMC\ models are shown in Figure \ref{fig:cmcs-mwgcs_scatter}.
 
 The representative model is chosen by finding the model timestep closest to the GC in normalized $\log M$-$r_c / r_h$ space by Euclidean distance.
+We choose these parameters as in this context of GC population synthesis they are reasonable proxies for respectively the scale and evolutionary state of the cluster.
 We use the 3D half-mass radius for $r_h$, and the definition of core radius from \citet{1987degc.book.....S}:
 \begin{equation}
     r_c = \sqrt{\frac{3 \sigma_c^2}{4 \pi \rho_c}},
@@ -127,7 +131,7 @@ We normalize the two dimensions in the \CMC\ space, i.e. the parameters actually
 \begin{equation}
     x_{\rm norm} = \frac{x - \bar{x}_{\rm \CMC}}{\sigma_{\rm x, \CMC}},
 \end{equation}
-where $\bar{x}_{\rm CMC}$ and $\sigma_{\rm x,CMC}$ are respectively the mean and standard deviation of the parameter $x$ over the set of \CMC\ models.
+where $\bar{x}_{\rm CMC}$ and $\sigma_{\rm x,CMC}$ are respectively the mean and standard deviation of the parameter $x$ over the total set of \CMC\ models.
 
 \begin{figure}
     \script{cmcs-mwgcs_scatter.py}
@@ -146,27 +150,27 @@ where $\bar{x}_{\rm CMC}$ and $\sigma_{\rm x,CMC}$ are respectively the mean and
 
 While the \CMCcat\ has fairly representative models for most of the MW GCs, there are a number of larger-cored GCs (right side of the left pane of Figure \ref{fig:cmcs-mwgcs_scatter}) that are relatively distant from the nearest \CMC\ model; in practice, this means that a single \CMC\ model can be chosen to represent a disproportionate number of MW GCs.
 Our pairing algorithm ends up using 57 of the 148 \CMC\ models to build the sythetic population, and the most utilized model is matched to 14 MWGCs, or $\lesssim10\%$ of the population.
-Furthermore, the most used models are typical in terms of number of ejections and cluster evolution, and so the more extreme models are not expected to have an excessive effect on the sythetic population we compose.
+The most used models are typical in terms of number of ejections and cluster evolution, and so while the more extreme GCs might be misrepresented, they are being represented by average models nonetheless.
 
 \subsubsection{Integrating runaways to the present day} \label{subsubsec:galpy}
 
 We now produce a present-day picture of these runaways by evolving their trajectories to the present day, using \texttt{galpy}\footnote{http://github.com/jobovy/galpy} \citep{2015ApJS..216...29B} to perform the necessary integrations.
 For each MW GC, we consider the matched \CMC\ model timestep as the present-day representation of the system, and pair it with the present-day orbital position and velocity from \citet{2018MNRAS.478.1520B}.
-We integrate the orbit backwards through time, and place the ejected objects at the appropriate points in the trajectory.
-The ejection velocity $v_{\rm out}$ from the model is assigned a random direction\footnote{The generator is seeded with an integer expression of the ejection velocity for reproducability.} and boosted to the galactic rest frame, and this trajectory is evolved to the present day.
+We integrate the orbit backwards through time, and place the ejected objects at the appropriate times in the trajectory.
+The ejection velocity $v_{\rm out}$ from the model is assigned a random direction and boosted to the galactic rest frame, and this trajectory is evolved to the present day.
 
 \section{Results} \label{sec:results}
 
 \subsection{Ejections from single clusters} \label{subsec:single_clusters}
 
 Here we study the BSCO ejections produced by individual \CMC\ cluster models.
-\CMC\ model N8e5\_rv0.5\_rg8\_Z0.0002 is taken as a sample as it represents a typical MW GC, and models N4e5\_rv0.5\_rg8\_Z0.0002, N8e5\_rv0.5\_rg8\_Z0.0002, and N8e5\_rv2\_rg8\_Z0.02 are included to examine the effects parameter variation has on the population of ejected objects (all four of these models are represented by blue stars in Figure \ref{fig:cmcs-mwgcs_scatter}).
+\CMC\ model N8e5\_rv0.5\_rg8\_Z0.0002 is taken as a sample as it represents a typical MW GC, and models N4e5\_rv0.5\_rg8\_Z0.0002, N8e5\_rv0.5\_rg8\_Z0.0002, and N8e5\_rv2\_rg8\_Z0.02 are included to examine the effects parameter variation has on the population of ejected objects.
 For simpler reference, we name the first sample model the ``base" model, and the remaining three the ``low-mass", ``bigger", and ``high-metallicity" models, respectively.
 
 It is relevant to note a strong correlation between BSCO encounters and the evolution of the cluster core.
-Figure \ref{fig:cmc_single_clusters_vesc} plots the local escape velocities $v_{\rm esc}$ for all BSCO encounters from the sample models, along with the central density $\rho_c$ \citep{1985ApJ...298...80C}, scaled to the initial density of the model $\rho_{c,0}$.
+Figure \ref{fig:cmc_single_clusters_vesc} plots the local escape velocities $v_{\rm esc}$\footnote{$v_{\rm esc}$ here is to be considered as a proxy for the distance from the center of the cluster.} for all BSCO encounters from the sample models, along with the central density $\rho_c$ \citep{1985ApJ...298...80C}, scaled to the initial density of the model $\rho_{c,0}$.
 Within any small interval of time, the respective BSCO encounters are well-localized around a particular escape velocity, indicating that throughout the evolution of the cluster contemporary encounters are similarly localized to the same cluster radii.
-Furthermore, the variation of this ``particular escape velocity" is quite parallel to the variation of the core density of the cluster.
+Furthermore, the variation of this ``particular escape velocity" mimics the variation of the core density of the cluster.
 Naturally one would expect the densest part of a system to facilitate the highest rates of few-body encounters; in this case the dominance is extreme enough to characterize the encounter statistics as a whole.
 
 \begin{figure}
@@ -175,14 +179,13 @@ Naturally one would expect the densest part of a system to facilitate the highes
     \includegraphics[width=0.49\textwidth]{figures/cmc_single_clusters_vesc.pdf}
     \caption{
         The local escape velocities $v_{\rm esc}$ of all BSCO encounters generated from the four sample \CMC\ models (colored points), plotted alongside the central density $\rho_c$ of the model (maroon), that latter of which is divided by the initial central density of the model.
-        See Figure \ref{fig:cmc_single_clusters_vesc} for an explanation of the color scheme.
+        See Figure \ref{fig:cmc_single_clusters} for an explanation of the color scheme.
     }
     \label{fig:cmc_single_clusters_vesc}
 \end{figure}
 
 Figure \ref{fig:cmc_single_clusters} shows the ejection velocity $v_{\rm out}$ for every MS star ejected via. a BSCO encounter in these clusters, plotted at the time of encounter since the cluster's formation $t$.
-By comparing the scatter plot to the evolution of the $N$-body core radius $r_{c, NB}$ \citep{1985ApJ...298...80C}, it is clear how the BSCO encounters and ejections are linked to the dynamical evolution of the cluster.
-Whenever a cluster undergoes a core collapse, the heightened densities lead to predictably high encounter rates.
+By comparing the scatter plot to the evolution of the $N$-body core radius $r_{c, NB}$ \citep{1985ApJ...298...80C}, it is clear how the BSCO encounters and ejections are linked to the dynamical evolution of the cluste: whenever a cluster undergoes a core collapse, the heightened densities lead to predictably high encounter rates.
 
 \begin{figure*}
     \script{cmc_single_clusters.py}
@@ -207,27 +210,27 @@ Whenever a cluster undergoes a core collapse, the heightened densities lead to p
 An interplay between stellar evolution and cluster dynamics is revealed in the kinds of BSCO encounters that occur at certain times.
 The most massive stars in a cluster are both the first to form binaries and the first to evolve into COs; hence, in general encounters between a mixed binary (composed of a MS star and a CO) and a single MS star dominate the first generations of BSCO encounters.
 This dominance usually continues until the first core collapse after CO formation, where the heightened densities facilitate a rise in encounters involving 2 COs.
-There is a stark difference in the ejection velocities produced by these encounters in comparison to the previous mixed binary-single MS star encounters, and the fastest ejections over the cluster's lifetime are produced in the first tens of Myr after the respective core collapse.
+There is a stark difference in the ejection velocities produced by these encounters in comparison to the previous mixed binary-single MS star encounters, and the fastest ejections over the cluster's lifetime are produced in the first tens of Myr after the associated core collapse.
 This regime lasts for a few to tens of Gyr, during which the COs in the core (predominantly BHs) preferentially form CO-CO binaries, as evidenced in the drop of mixed binary-single CO encounters during this phase.
 
-For cluster models that evolve to a BH-ejection core collapse, the corresponding increase in BSCO encounters is dominated by stellar binary-single CO encounters.
+For cluster models that evolve to a BH-ejection core collapse (in our sample, all but the large model), the corresponding increase in BSCO encounters is dominated by stellar binary-single CO encounters.
 The coupling between core evolution and BSCO encounter localization appears to weaken in this phase, as the rapid increase(decrease) in core density(radius) does not translate to a similarly strong increase in escape velocity, though an increase still occurs (cf. Fig. \ref{fig:cmc_single_clusters_vesc}).
-We also find that the majority of these encounters do not involve BHs, but rather a WD (or in some cases a NS).
+We also find that the majority of these encounters do not involve BHs, but rather WDs (or in some cases a NSs).
 These behaviors are consistent with the picture of the remaining COs migrating inwards to the core after the ejection of nearly all BHs.
 
 This general evolution varies with model parameters, as can be observed by comparing different panels of Fig. \ref{fig:cmc_single_clusters}.
-The low-mass model lacks an energetic core to sustain a larger spatial profile, and the resulting strong contraction of the core leads to an ejection of 5\% of the cluster mass via BSCO encounters in the first 100 Myr.
-This model does reach a BH-ejection core collapse by the end of the integration time, but this collapse is much less sudden that that for the base model.
+The low-mass model lacks a core energetic enough to sustain a larger spatial profile, and the resulting strong contraction of the core leads to an ejection of 5\% of the cluster mass via BSCO encounters in the first 100 Myr.
+This model does reach a BH-ejection core collapse by the end of the integration time, but this collapse is slower than that for the base model.
 
 The bigger model evolves slower, and so it does not reach the same core collapse phase as the previous two.
 The lower densities prevent the initial dominance of mixed binary-single star encounters, as the frequency of BSCO encounters is relatively low until the initial core collapse.
 On the other hand, this first core collapse is not associated with an abundance of BSCO encounters in the high-metallicity model, which sees a roughly monotonic rise in BSCO encounters throughout its evolution.
 % Talk to Carl about interpretation of high metallicity model
 
-Figure \ref{fig:cmc_catalog} shows average histograms for cluster ejection velocities $v_{\rm out}$, present-day straight-line travel distances $d$, and masses $m$ of all stars ejected by BSCO encounters in all \CMCcat\ models, binned by model parameters $N$, $r_{\rm vir}$, and $Z$.
-The number of \CMC\ models corresponding to each parameter value varies, and so each histogram is an averaged over the respective models.
+Figure \ref{fig:cmc_catalog} shows histograms for cluster ejection velocities $v_{\rm out}$ and masses $m$ of all stars ejected by BSCO encounters in all \CMCcat\ models, binned by model parameters $N$, $r_{\rm vir}$, and $Z$.
+The number of \CMC\ models corresponding to each parameter value varies, and so each histogram is averaged over the respective models, in addition to being divided by the factor of 10 in encounter multiplication.
 The travel distances $d$ are the distances an object would move in a straight line between ejection and the present day, that is, the product of the ejection velocity and the time interval between the time of ejection and 14 Gyr.
-It is worth noting the prominence of the $N = 4\times10^5$, $r_{\rm vir} = 0.5$ pc, $Z = 0.0002$ models in these averaged histograms: they are the cause of the peaks above the other distributions, as the three (one for each value of $r_{\rm gc} \in \{2, 8, 20\}$ kpc) produce significantly more ejections than the other models ($\sim$2.9, 2.0, and $1.4 \times 10^4$, respectively, versus the average rate of $1-2 \times 10^3$ for the catalog).
+It is worth noting the prominence of the $N = 4\times10^5$, $r_{\rm vir} = 0.5$ pc, $Z = 0.0002$ models in these averaged histograms: they are the cause of the peaks above the other distributions, as the three (one for each value of $r_{\rm gc} \in \{2, 8, 20\}$ kpc) produce significantly more ejections than the other models ($\sim$2.9, 2.0, and $1.4 \times 10^4$, respectively, versus the average number of $1-2 \times 10^3$ for the catalog).
 
 % Play with this figure placement after text is done:
 %   figure* will let it span over both columns
@@ -252,10 +255,12 @@ However, while the smallest clusters produce the most ejections, the most massiv
 The $N = 4 \times 10^5$ models consistently produce the most ejections in comparison with otherwise identical models of different population sizes, suggesting that at this mass there are not enough massive objects to prevent a severe initial core collapse through binary burning, but there are enough to facilitate a high number of BSCO encounters (the number of few-body encounters in general is also maximized in the $N = 4 \times 10^5$ models).
 
 The most noticeable distinction among models of different metallicities is the number of ejections, which decreases with increasing metallicity.
-This is understandable, as higher metallicities lead to lower-mass objects, which in turn leads to weaker few-body encounters.
-This does not have a strong effect on the mass spectrum of ejected objects above 1 $M_\odot$, but below this cutoff mass the different metallicity-binned models diverge significantly, and only in the ejections that occur before the BH-ejection core collapse of the model.
+This is understandable, as higher metallicities lead to lower-mass objects, which in turn lead to weaker few-body encounters.
+This has a slight effect on the mass spectrum of ejected objects above 1 $M_\odot$, but a much stronger one for the objects below this cutoff mass.
+Tthe different metallicity-binned models diverge significantly, and only in the ejections that occur before the BH-ejection core collapse of the model.
 This same phenomenon is visible in Fig. \ref{fig:cmc_single_clusters}, wherein it was previously noted that the high-metallicity model did not produce many ejections during its initial core collapse.
-The low-metallicity model is able to produce many ejections because 1) its core collapse is deeper, and 2) there are roughly $1.2 \times$ as many BHs present at core collapse, and 3) the BHs in the low-metallicity model are up to $2 \times$ as massive as those in the high-metallicity model.
+The low-metallicity model is able to produce many ejections primarily because of the higher stellar masses, which lead to a greater population of black holes in number and average mass, enabling stronger dynamics.
+%because 1) its core collapse is deeper, and 2) there are roughly $1.2 \times$ as many BHs present at core collapse, and 3) the BHs in the low-metallicity model are up to $2 \times$ as massive as those in the high-metallicity model.
 
 \subsection{Galactic population} \label{subsec:res_MW-like}
 
@@ -277,19 +282,10 @@ Interactions between COs and stellar binaries are relatively rare, and mostly oc
 %    \label{fig:encio_stackedbar}
 %\end{figure}
 
-Of all BSCO encounters, $\sim3\%$ eject at least one of the interacting bodies out of the host cluster.
+Of all BSCO encounters in our synthetic MW population, $\sim3\%$ eject at least one of the interacting bodies out of the host cluster.
 Most star-ejecting encounters are between a single star and a binary.
 In comparison, when a CO interacts with a binary containing at least one star, generally the star remains in the binary, and when the star is ejected from the binary it is more likely for all three objects to depart as singles with smaller velocities than for a single star to carry away enough of the encounter's energy to overcome the local escape velocity (c.f. \citet{1983ApJ...268..319H}).
 We conclude that the most characteristic star-ejecting BSCO encounters in the galaxy (in terms of maximum velocities and abundance) occur shortly after the formations of COs and multiple-CO systems, the latter of which we have demonstrated is strongly linked to the core collapse timescale of galactic GCs.
-
-% Either use showyourwork \variable here,
-%   or make a new plot showing the rate as a function of time
-%   Could plot two rates on the same axes (if the scale works): one for the runaway rate, and one for the hypervelocity rate
-Using our synthetic MW-like BSCO encounter population, we estimate the galactic rate of stellar ejections from GCs to be $\sim2 \times 10^4~{\rm Gyr}^{-1}$, averaged over the age of the universe.
-Most stars are ejected with velocities in the tens of kilometers per second.
-In the absence of any other forces, these velocities translate to potential wanderings of tens of kiloparsecs over 1-10 Gyr time frames.
-As the galactic escape speed is on the order of hundreds of kilometers per second [CITATION], we estimate that the destiny of most stars ejected from GCs by BSCO encounters is one of being scattering throughout the galaxy, to distances far enough away from the generating GC to appear unrelated.
-% GC formation ages?
 
 Figure \ref{fig:gc_orbit_ejections} shows the integrated orbits for a selection of GCs, and the points at which objects are ejected from the cluster.
 As was seen earlier, ejections occur much more frequently in the early stages of the cluster, and here the slower velocities at larger distances from the galactic center leads to a higher percentage of objects being ejected far away from this focus.
@@ -312,8 +308,8 @@ As was seen earlier, ejections occur much more frequently in the early stages of
 \end{figure*}
 
 The present-day sythetic populations of runaways for the same sample CMC/GC pairings are shown in Figure \ref{fig:gcej_today}.
-While it is clear how the GC orbits influence the distribution of ejected objects, the ejecta wander to a broad enough spread that any one object loses most of the information of its cluster of origin by the present day.
-The proper motion distribution is less affected in this way (especially for more circular GC orbits), which is coherent with previous work in using these velocities to study the origins of such objects.
+While it is clear how the GC orbits influence the distribution of ejected objects, the ejecta wander to a broad enough spread that any one object loses some of the information of its cluster of origin by the present day.
+The proper motion distribution is less affected in this way (especially for more circular GC orbits), which is coherent with previous works that use these velocities to study the origins of such objects.
 What is important to note here is that the current proper motion of the cluster is not necessarily the best locus to use when comparing stellar proper motions: a well-informed back-integration of the orbit can reveal the average proper motion of the cluster, which may be distiguishable from its present-day proper motion.
 
 \begin{figure*}
@@ -369,7 +365,7 @@ Few runaways make it past the $\sim$100 pc mark, but those that do naturally ret
 One final result of note is that of the heliocentric radial velocity $v_{\rm rf}$ distribution of the synthetic population.
 \citet{2021arXiv211213864G} in part studied the galactic center origin of HVSs, and found that there is an apparent tension between the observed and predicted runaway populations; specifically, the predicted number of stars with velocities $\gtrsim 700~{\rm km~s^{-1}}$ was much higher than the observed rate from the HVS sample of \citet{2018ApJ...866...39B}.
 The same work found that a decreasing star formation rate over last millions of years would reduce the recent (and thus more likely to be observed) HVS production rate enough to overcome the discrepency.
-As noted in \S\ref{subsec:single_clusters}, the BSCO runaways studied here are produced at much higher rates when the models are young, and few HVSs are produced in the later stages of the cluster.
+GCs natural follow this pattern (c.f. S\ref{subsec:single_clusters}), as the BSCO runaways studied here are produced at much higher rates when the models are young, and few HVSs are produced in the later stages of the cluster.
 The resulting $v_{\rm rf}$ distribution is much closer to the observed distribution than that for the galactic center origin case, albeit skewed towards slightly smaller velocities (Figure \ref{fig:cmc_orbits_cdf}).
 This latter difference grows when comparing to the HVS sample of \citet{2018ApJ...866..121H}, who focused on metal-poor stars, which are more akin to the objects that populate GCs.
 
@@ -382,6 +378,23 @@ This latter difference grows when comparing to the HVS sample of \citet{2018ApJ.
             $v_{\rm rf}$ is the heliocentric radial velocity of the star as measured in the galactic rest frame.
         }
         \label{fig:cmc_orbits_cdf}
+    \end{centering}
+\end{figure}
+
+Figure \ref{fig:mwej_rates} shows the rate of HVS/runaway production for our sythetic population, along with some base values from the literature.
+In both cases, the GC ejection rate is smaller than the observed rate, especially at the present day.
+However, runaways from GCs could make up an appreciable fraction of runaways in the early universe.
+It is also of note that GCs are able to produce any HVSs at all, at velocities previously associated entirely with the galactic center.
+
+\begin{figure}
+    \script{mwej_rates.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/mwej_rates.pdf}
+        \caption{
+            The ejection rate for the synthetic MW GC population.
+            The red dashed line represents the HVS rate for the galactic center, and the blue dashed line the runaway rate for the disk proposed by \citep{2015ARA&A..53...15B}.
+        }
+        \label{fig:mwej_rates}
     \end{centering}
 \end{figure}
 
@@ -428,28 +441,17 @@ In the intermediate steps of this work, an encounter similar to this one produce
 
 % Multiple stellar populations --> multiple BH/CO formation epochs?
 
-\begin{figure}
-    \script{cmc_orbits_pdf.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/cmc_orbits_pdf_S.pdf}
-        \caption{
-            Plot showing orbit pdf.
-            $v_{\rm los}$ is the radial velocity measured on earth transformed to the galactic rest frame.
-        }
-        \label{fig:cmc_orbits_pdf}
-    \end{centering}
-\end{figure}
-
-\begin{figure}
-    \script{mwej_rates.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/mwej_rates.pdf}
-        \caption{
-            Plot showing ejection rates through time.
-        }
-        \label{fig:mwej_rates}
-    \end{centering}
-\end{figure}
+%\begin{figure}
+%    \script{cmc_orbits_pdf.py}
+%    \begin{centering}
+%        \includegraphics[width=\linewidth]{figures/cmc_orbits_pdf_S.pdf}
+%        \caption{
+%            Plot showing orbit pdf.
+%            $v_{\rm los}$ is the radial velocity measured on earth transformed to the galactic rest frame.
+%        }
+%        \label{fig:cmc_orbits_pdf}
+%    \end{centering}
+%\end{figure}
 
 \bibliography{bib}
 
