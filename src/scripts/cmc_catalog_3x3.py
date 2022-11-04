@@ -1,3 +1,5 @@
+# Backup of old cmc_catalog, where the three parameters were v_out, d, and m (new 2x3 throws out d)
+###############################################################################
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -15,25 +17,26 @@ import paths
 df_models = rustics.DF_MODELS
 
 # Iterables
-columns = ["vout", "mf"]
+columns = ["vout", "dist", "mf"]
 params = ["N", "rv", "Z"]
 
 # Specify kgroup
 kgroup = None
-kgroup = rustics.INFO_BSE_K_GROUPS.iloc[0]
+kgroup = rustics.INFO_BSE_K_GROUPS.iloc[1]
 
 # Toggle weighting by MW GCs
 weight_mw = False
 
 # Make subplot mosiac
 plot_size = 2.3
-mosaic = [["_".join((p, c)) for p in params] for c in columns]
+mosaic = [["_".join((p, c)) for c in columns] for p in params]
 fig, axd = plt.subplot_mosaic(
     mosaic,
     sharey=True,
-    figsize=(plot_size * len(params), plot_size * len(columns)),
+    figsize=(plot_size * len(columns), plot_size * len(params)),
     gridspec_kw={
         "wspace": 0,
+        "hspace": 0,
     },
 )
 
@@ -115,18 +118,22 @@ for ci, c in enumerate(columns):
         ax.xaxis.set_minor_formatter(mplticker.NullFormatter())
 
         # Adjust x-axis labels and ticks; add legend to top row
-        ax.set_xlabel(rustics.HEADERS_TO_LABELS[c])
+        if p == params[0]:
+            ax.tick_params(labeltop=True)
+        elif p == params[-1]:
+            ax.set_xlabel(rustics.HEADERS_TO_LABELS[c])
+        else:
+            ax.set_xticklabels([])
+
+        # Adjust y-axis labels and ticks
         if c == columns[0]:
+            ax.set_ylabel(r"Counts/$N_{\rm models}$")
             ax.legend(
                 title=rustics.HEADERS_TO_LABELS[p],
                 loc=rustics.LOC_LEGEND[c],
                 frameon=False,
             )
-
-        # Adjust y-axis labels and ticks
-        if p == params[0]:
-            ax.set_ylabel(r"Counts/$N_{\rm models}$")
-        elif p == params[-1]:
+        elif c == columns[-1]:
             ax.tick_params(labelright=True)
         else:
             ax.set_yticklabels([])

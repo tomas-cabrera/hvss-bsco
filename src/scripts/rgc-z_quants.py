@@ -23,8 +23,7 @@ def fetch_vtodays_rgc(
     gc_fname,
     path=paths.data_mwgcs,
     ej_fname="output_N-10_ejections.txt",
-    #kgroup=None,
-    kgroup=rustics.INFO_BSE_K_GROUPS.loc[0],
+    kgroup=None,
 ):
     """ Function to make a single rgc histogram, for parallelization. """
     # Define path, load ejections with relevant columns
@@ -49,8 +48,7 @@ def fetch_vtodays_Z(
     gc_fname,
     path=paths.data_mwgcs,
     ej_fname="output_N-10_ejections.txt",
-    #kgroup=None,
-    kgroup=rustics.INFO_BSE_K_GROUPS.loc[0],
+    kgroup=None,
 ):
     """ Function to make a single rgc histogram, for parallelization. """
     # Define path, load ejections with relevant columns
@@ -100,6 +98,9 @@ icolors = dict(zip(intervals, ["xkcd:azure", "xkcd:azure"]))
 quantiles = [0.5]
 for i in intervals:
     quantiles += [(1-i)/2, (1+i)/2]
+kw_function = {
+    "kgroup": rustics.INFO_BSE_K_GROUPS.loc[1],
+}
 
 # Setup figure
 fig, axd = plt.subplot_mosaic(
@@ -119,13 +120,13 @@ ax = axd["rgc"]
 if nprocs == 1:
     # Don't run in parallel
     data = parmap.map(
-        fetch_vtodays_rgc, model_fnames, pm_parallel=False, pm_pbar=True,
+        fetch_vtodays_rgc, model_fnames, **kw_function, pm_parallel=False, pm_pbar=True,
     )
 else:
     # Run in parallel
     pool = mp.Pool(nprocs)
     data = parmap.map(
-        fetch_vtodays_rgc, model_fnames, pm_parallel=True, pm_pbar=True,
+        fetch_vtodays_rgc, model_fnames, **kw_function, pm_parallel=True, pm_pbar=True,
     )
 data = pd.concat(data, ignore_index=True)
 
@@ -216,13 +217,13 @@ ax = axd["Z"]
 if nprocs == 1:
     # Don't run in parallel
     data = parmap.map(
-        fetch_vtodays_Z, model_fnames, pm_parallel=False, pm_pbar=True,
+        fetch_vtodays_Z, model_fnames, **kw_function, pm_parallel=False, pm_pbar=True,
     )
 else:
     # Run in parallel
     pool = mp.Pool(nprocs)
     data = parmap.map(
-        fetch_vtodays_Z, model_fnames, pm_parallel=True, pm_pbar=True,
+        fetch_vtodays_Z, model_fnames, **kw_function, pm_parallel=True, pm_pbar=True,
     )
 data = pd.concat(data, ignore_index=True)
 
@@ -305,5 +306,5 @@ ax.legend()
 ##############################
 
 plt.tight_layout()
-plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", ".pdf"))
+plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", "_%s.pdf" % kw_function["kgroup"]["initials"]))
 plt.close()

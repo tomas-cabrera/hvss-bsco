@@ -234,7 +234,8 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
     # hvss_utils.grid_selfmade(axd["scatter"])
     Nstr, rvstr, rgstr, Zstr = cmc_cluster.split("_")
     lstr = "-".join((y, Nstr, rvstr, rgstr, Zstr))
-    plt.savefig(paths.figures / lstr.join(("cmc_single_clusters_", ".pdf")))
+    #plt.savefig(paths.figures / lstr.join(("cmc_single_clusters_", ".pdf")))
+    plt.savefig(paths.figures / lstr.join(("cmc_single_clusters_", "_%s.pdf" % kgroup["initials"])))
     #    "/".join(
     #        (
     #            paths.figures,

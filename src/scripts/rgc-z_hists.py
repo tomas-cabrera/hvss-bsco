@@ -24,8 +24,7 @@ def generate_rgc_hist(
     path=paths.data_mwgcs,
     bins=np.linspace(0,1e5,50),
     ej_fname="output_N-10_ejections.txt",
-    #kgroup=None,
-    kgroup=rustics.INFO_BSE_K_GROUPS.loc[0],
+    kgroup=None,
 ):
     """ Function to make a single rgc histogram, for parallelization. """
     # Define path, load ejections with relevant columns
@@ -51,8 +50,7 @@ def generate_Z_hist(
     path=paths.data_mwgcs,
     bins=np.linspace(0,1e5,50),
     ej_fname="output_N-10_ejections.txt",
-    #kgroup=None,
-    kgroup=rustics.INFO_BSE_K_GROUPS.loc[0],
+    kgroup=None,
 ):
     """ Function to make a single rgc histogram, for parallelization. """
     # Define path, load ejections with relevant columns
@@ -111,16 +109,20 @@ bins = np.logspace(-3, 4, 50)
 ax = axd["rgc"]
 
 # Read data + generate histograms
+kw_function = {
+    "bins": bins,
+    "kgroup": rustics.INFO_BSE_K_GROUPS.loc[1],
+}
 if nprocs == 1:
     # Don't run in parallel
     hists = parmap.map(
-        generate_rgc_hist, model_fnames, bins=bins, pm_parallel=False, pm_pbar=True,
+        generate_rgc_hist, model_fnames, **kw_function, m_parallel=False, pm_pbar=True,
     )
 else:
     # Run in parallel
     pool = mp.Pool(nprocs)
     hists = parmap.map(
-        generate_rgc_hist, model_fnames, bins=bins, pm_parallel=True, pm_pbar=True,
+        generate_rgc_hist, model_fnames, **kw_function, pm_parallel=True, pm_pbar=True,
     )
 hists = np.array(hists)
 
@@ -145,21 +147,21 @@ add_minor_labels(ax.xaxis)
 ##############################
 
 # Set bins, axes
-bins = np.logspace(-3, 4, 50)
 bins = np.array([-1 * bins[::-1], bins]).flatten()
 ax = axd["Z"]
 
 # Read data + generate histograms
+kw_function["bins"] = bins
 if nprocs == 1:
     # Don't run in parallel
     hists = parmap.map(
-        generate_Z_hist, model_fnames, bins=bins, pm_parallel=False, pm_pbar=True,
+        generate_Z_hist, model_fnames, **kw_function, pm_parallel=False, pm_pbar=True,
     )
 else:
     # Run in parallel
     pool = mp.Pool(nprocs)
     hists = parmap.map(
-        generate_Z_hist, model_fnames, bins=bins, pm_parallel=True, pm_pbar=True,
+        generate_Z_hist, model_fnames, **kw_function, pm_parallel=True, pm_pbar=True,
     )
 hists = np.array(hists)
 
@@ -184,5 +186,5 @@ add_minor_labels(ax.xaxis)
 ##############################
 
 plt.tight_layout()
-plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", ".pdf"))
+plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", "_%s.pdf" % kw_function["kgroup"]["initials"]))
 plt.close()

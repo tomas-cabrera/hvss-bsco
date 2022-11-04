@@ -190,12 +190,12 @@ By comparing the scatter plot to the evolution of the $N$-body core radius $r_{c
 \begin{figure*}
     \script{cmc_single_clusters.py}
     \gridline{
-        \fig{figures/cmc_single_clusters_vout-N8e5-rv0.5-rg8-Z0.0002.pdf}{0.49\textwidth}{}
-        \fig{figures/cmc_single_clusters_vout-N4e5-rv0.5-rg8-Z0.0002.pdf}{0.49\textwidth}{}
+        \fig{figures/cmc_single_clusters_vout-N8e5-rv0.5-rg8-Z0.0002_S.pdf}{0.49\textwidth}{}
+        \fig{figures/cmc_single_clusters_vout-N4e5-rv0.5-rg8-Z0.0002_S.pdf}{0.49\textwidth}{}
     }
     \gridline{
-        \fig{figures/cmc_single_clusters_vout-N8e5-rv2-rg8-Z0.0002.pdf}{0.49\textwidth}{}
-        \fig{figures/cmc_single_clusters_vout-N8e5-rv0.5-rg8-Z0.02.pdf}{0.49\textwidth}{}
+        \fig{figures/cmc_single_clusters_vout-N8e5-rv2-rg8-Z0.0002_S.pdf}{0.49\textwidth}{}
+        \fig{figures/cmc_single_clusters_vout-N8e5-rv0.5-rg8-Z0.02_S.pdf}{0.49\textwidth}{}
     }
     \caption{
         Scatter plots of the cluster ejection velocity $V_{rm out}$ versus encounter time $t$ for every escaping object from the integrated encounters for the four sample \CMC\ models (see the beginning of \S\ref{subsec:single_clusters} for details).
@@ -331,7 +331,7 @@ What is important to note here is that the current proper motion of the cluster 
     \label{fig:gcej_today}
 \end{figure*}
 
-From a galactocentric perspective, the population of runaways is fairly isotropic in position, as can be seen in Figures \ref{fig:rgc-z_hists} and  \ref{fig:rgc-z_quants}.
+From a galactocentric perspective, the population of runaways is fairly isotropic in position, as can be seen in Figure \ref{fig:rgc-z}.
 The distributions of distance from the galactic origin, and the local distributions of galactocentric velocity are similar when distributing over radius $r_{\rm gc}$ versus distance from the galactic plane $Z_{\rm gc}$.
 Most runaways end up at a distance on the order of 10 pc from the galactic center, and with a velocity on the order of 100-300~\kms.
 Few runaways make it past the $\sim$100 pc mark, but those that do naturally retain the highest velocities, reaching upwards of 1000~\kms.
@@ -340,27 +340,16 @@ Few runaways make it past the $\sim$100 pc mark, but those that do naturally ret
 % Combine these plots into 2x2 grid (hists. on top, either column: r or Z)
 % Make the same plots for all ejecta w/ v_rf > 275?
 % Change the plots to be based on v_rf instead of v_esc?
-\begin{figure}
-    \script{rgc-z_hists.py}
+\begin{figure*}
+    \script{rgc-z.py}
     \begin{centering}
-        \includegraphics[width=\linewidth]{figures/rgc-z_hists.pdf}
+        \includegraphics[width=\linewidth]{figures/rgc-z_S.pdf}
         \caption{
             Plot showing $r_{\rm GC},\ Z$ (distance from galactic center, distance from galactic plane) histograms for galactic population.
         }
         \label{fig:rgc-z_hists}
     \end{centering}
-\end{figure}
-
-\begin{figure}
-    \script{rgc-z_quants.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/rgc-z_quants.pdf}
-        \caption{
-            Plot showing $r_{\rm GC},\ Z$ quantiles for galactic population.
-        }
-        \label{fig:rgc-z_quants}
-    \end{centering}
-\end{figure}
+\end{figure*}
 
 One final result of note is that of the heliocentric radial velocity $v_{\rm rf}$ distribution of the synthetic population.
 \citet{2021arXiv211213864G} in part studied the galactic center origin of HVSs, and found that there is an apparent tension between the observed and predicted runaway populations; specifically, the predicted number of stars with velocities $\gtrsim 700~{\rm km~s^{-1}}$ was much higher than the observed rate from the HVS sample of \citet{2018ApJ...866...39B}.

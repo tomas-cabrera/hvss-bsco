@@ -258,10 +258,12 @@ HEADERS_TO_LABELS = {
     "M_norm": r"$\big[\log_{10} M\big]_{\rm norm}$",
     "rc_spitzer/r_h_norm": r"$\big[r_{\rm core} / r_{h,m}\big]_{\rm norm}$",
     "[Fe/H]_norm": r"$\big[[{\rm Fe/H}]\big]_{\rm norm}$",
-    "rgc": r"$r_{\rm GC}~[{\rm kpc}]$",
-    "R_GC": r"$r_{\rm GC}~[{\rm kpc}]$",
+    "rgc": r"$r_{\rm gc}~[{\rm kpc}]$",
+    "Zgc": r"$Z~[{\rm kpc}]$",
+    "R_GC": r"$r_{\rm gc}~[{\rm kpc}]$",
     "rc/rh": r"$r_c / r_h$",
     "logM": r"$\log(M~[M_\odot])$",
+    "vtoday": r"$v_{\rm today} [{\rm km~s}^{-1}]$",
 }
 
 
