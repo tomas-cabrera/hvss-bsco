@@ -73,7 +73,7 @@ def add_minor_labels(axis):
 nprocs=4
 model_fnames = os.listdir(paths.data_mwgcs)
 # Set bins, Zgc by reflecting rgc across 0
-bins = {"rgc": np.logspace(-3, 4, 50)}
+bins = {"rgc": np.logspace(-3, 4.6, 50)}
 bins["Zgc"] = np.array([-1 * bins["rgc"][::-1], bins["rgc"]]).flatten()
 
 # Load data
@@ -229,6 +229,7 @@ for p in params:
     axh = axd["%s-hist" % p]
     ax.set_xlim(axh.get_xlim())
     if p == "rgc":
+        ax.legend(loc="upper left")
         ax.set_xscale(axh.get_xscale())
         axrgc = ax
     elif p == "Zgc":

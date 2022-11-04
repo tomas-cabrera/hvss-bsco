@@ -345,9 +345,11 @@ Few runaways make it past the $\sim$100 pc mark, but those that do naturally ret
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/rgc-z_S.pdf}
         \caption{
-            Plot showing $r_{\rm GC},\ Z$ (distance from galactic center, distance from galactic plane) histograms for galactic population.
+            Histograms and velocity quantiles for the synthetic ejecta.
+            The left (right) plots show the profile over radial distance from the galactic center $r_{\rm gc}$ (distance from the galactic plane $Z$).
+            The quantiles in the lower plots are calculated from the present-day velocities of our population.
         }
-        \label{fig:rgc-z_hists}
+        \label{fig:rgc-z}
     \end{centering}
 \end{figure*}
 
@@ -402,45 +404,23 @@ It is also of note that GCs are able to produce any HVSs at all, at velocities p
 
 \section{Discussion \& Conclusions} \label{sec:disccon}
 
-%BSCO encs are ~<10% of all 3-/4-body encounters
-In this work we have studied the population of binary-single encounters involving at least one compact object and one luminous object in galactic globular clusters with synthetic methods utilizing the \CMCcat\ of star-by-star models of the same.
-Taking the object parameters and velocities for the literal BSCO encounters, we amplified the group through repeated realizations with the small-$N$-body code \fewbody\ for different encounter geometries.
-We used observational catalogs of galactic GCs to translate the collection of cluster model results into a representative population of BSCO encounters for the Milky Way.
+In this work we have studied fewbody encounters in GCs as means of producing stellar runaways.
+We composed a synthetic MW-like population of ejecta by matching observed GCs to realistic $N$-body models of these systems and embedding the models in the orbits of their real counterparts.
+In particular we considered binary-single encounters involving at least one compact object; this selection retained about half of all fewbody encounters in the catalog of models.
 
 BSCO ejections were found to be closely linked to the dynamics of the cluster core, where the closest encounters among the densest stellar objects occur.
 GCs lose mass, and generally expand as they evolve; accordingly, the majority of and the fastest BSCO ejecta were produced in the early stages of the models.
-High-metallicity models had overall weaker ejection mechanisms, due to smaller stellar masses.
+High-metallicity models had overall weaker ejection mechanisms (in frequency and maximum velocity), due to smaller stellar masses.
+BSCO encounters occurring in realistic GCs are capable of accelerating stars to velocities in excess of 2000 \kms, which means that this source of runaways cannot be entirely ruled out by a simple velocity cut.
+We also note that these velocities appear to pass the speed limit on star-only fewbody encounters set by \citet{1991AJ....101..562L}; further study is needed to confirm if this is cause by the inclusion of compact objects or another factor.
 
-%P on rate comparison to other mechanisms (Brown 2015)
-%P on Leonard comparison
-%P on comparison to Hill's mechanism products
+While ejected objects evolve to be largly indistinguishable from other MW stars in terms of position, they were found capable of retaining some information about the motion of their GC of origin, particularly in the case of GCs with near-circular orbits.
+The overall population of ejecta was usually concentrated around the average proper motion of the GC throughout its orbit.
+It is important to realize that the present-day proper motion of a GC may not reflect this average proper motion, and that in general a better kinematic picture is possible if the orbit is back-integrated.
 
-This work shows that dynamic binary-single interactions among stars and stellar-mass BHs are capable of producing HVSs with speeds comparable to those of HVSs produced by encounters involving SMBHs.
-
-One caveat is the estimated rate at which GCs produce HVSs.
-Among all realizations, 448 stars are ejected with $v_{\rm out}>1000~{\rm km~s}^{-1}$, meaning that a population of clusters identical to the \CMC\ models are expected to produce about 45 HVSs per 12 Gyr, equating to a rate of $\sim 4 \times 10^{-9}~{\rm yr}^{-1}$.
-The MW has 150 observed GCs (e.g. \citealt{2018MNRAS.478.1520B}) compared to the 148 models of the \CMCcat, so this rate is roughly representative of the galactic HVSs production rate via. binary-single encounters in GCs (weighting each cluster model's contribution to the rate by abundance of galactic GCs with similar parameters is one way of improving this estimate).
-Considering the HVS production rate for the galactic center of $\sim 10^{-4}~{\rm yr}^{-1}$ \citep{2015ARA&A..53...15B}, it is apparent that the binary-single process is significantly less fecund.
-This analysis does not investigate HVSs produced via binary-binary encounters, which tend to produce HVSs at higher efficiencies and with greater velocities compared to binary-single encounters \citep{1991AJ....101..562L}; a possible avenue of exploration is how these kinds of encounters contribute to the GC HVS production rate.
-
-While we find that compact objects do allow the velocity limit of \citet{1991AJ....101..562L} to be exceeded, at the moment we do not have a strong suggestion for a new limit.
-If the escape velocity definition remains, one idea is to calculate the quantity at the tidal radius of the star with respect to the most massive compact object in the encounter.
-The escape velocity at this distance is approximately 2400 \kms\ for the $m_{\rm s}\approx0.15~M_\odot$, $m_{\rm BH}\approx69~M_\odot$ pair from the \CMC\ realizations.
-In the intermediate steps of this work, an encounter similar to this one produced a HVS with a velocity of $\sim$6300~\kms; investigation into where this encounter lies with respect to the others is still underway.
-
-% Multiple stellar populations --> multiple BH/CO formation epochs?
-
-%\begin{figure}
-%    \script{cmc_orbits_pdf.py}
-%    \begin{centering}
-%        \includegraphics[width=\linewidth]{figures/cmc_orbits_pdf_S.pdf}
-%        \caption{
-%            Plot showing orbit pdf.
-%            $v_{\rm los}$ is the radial velocity measured on earth transformed to the galactic rest frame.
-%        }
-%        \label{fig:cmc_orbits_pdf}
-%    \end{centering}
-%\end{figure}
+In the galactic context, the velocity distribution of the synthetic ejecta was found to be similar to that of HVS observations at relatively low velocities; specifically, out population was skewed towards these velocities with respect to observations.
+With galactic-center origin studies finding distributions skewed towards higher velocities in the same respect, it is possible that a mixture of the two could be used to more accurately model the real population of these objects.
+Such a calculation must be done in light of the relative rates of the two mechanisms: our study concludes that the GC BSCO runaway rate might have been a few 10\% of the overall rate in the first few Gyr of the universe, but today is no more than 10\%.
 
 \bibliography{bib}
 
