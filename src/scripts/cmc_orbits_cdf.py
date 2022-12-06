@@ -62,9 +62,9 @@ for ci, c in enumerate(columns):
     bins = rustics.BINS_CDF[c]
     if c == "mf":
         # Bin by pre-/post-core collapse for mass histograms
-        hg = rustics.HistogramGenerator(c, bins, nprocs=4, kgroup=kgroup)#, cc=True)
+        hg = rustics.HistogramGenerator(c, bins, nprocs=None, kgroup=kgroup)#, cc=True)
     else:
-        hg = rustics.HistogramGenerator(c, bins, nprocs=4, kgroup=kgroup)
+        hg = rustics.HistogramGenerator(c, bins, nprocs=None, kgroup=kgroup)
 
     # Generate histograms
     df_mwgcs["hists"] = hg.generate_catalog_histograms(df_mwgcs, pm_pbar=True, path_to_data=path_to_data)

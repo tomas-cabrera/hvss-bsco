@@ -73,7 +73,7 @@ def calc_rolling_rate(mwrow, window_centers, window_width=10, vlim=(0.,np.inf)):
 ###############################################################################
 
 # Settings
-nprocs = 4 
+nprocs = None 
 
 # Load MW catalog
 mwdf = pd.read_csv(paths.data / "mwgcs-cmc.dat")

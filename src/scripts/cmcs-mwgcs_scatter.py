@@ -14,12 +14,14 @@ kw_mwgcs = {
     "lw": 0,
     "marker": "^",
     "label": "MW GCs",
+    "rasterized": True,
 }
 kw_cmcs = {
     "c": "xkcd:azure",
     "s": 10,
     "lw": 0,
     "label": r"\texttt{CMC} models",
+    "rasterized": True,
 }
 
 # Load data

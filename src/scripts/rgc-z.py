@@ -70,7 +70,7 @@ def add_minor_labels(axis):
 
 # Settings
 #plt.style.use("./matplotlibrc")
-nprocs=4
+nprocs = None
 model_fnames = os.listdir(paths.data_mwgcs)
 # Set bins, Zgc by reflecting rgc across 0
 bins = {"rgc": np.logspace(-3, 4.6, 50)}
