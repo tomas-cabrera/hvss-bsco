@@ -240,7 +240,7 @@ for p in params:
             label.set_visible(False)
     add_minor_labels(ax.xaxis)
     ax.set_xlabel(rustics.HEADERS_TO_LABELS[p])
-    ax.set_ylabel(rustics.HEADERS_TO_LABELS["vtoday"])
+    ax.set_ylabel(rustics.HEADERS_TO_LABELS["vtoday"].replace("[", r"[\times 10^%d~" % n_power))
 
 ##############################
 ###     Cleanup + save     ###

@@ -52,11 +52,12 @@ def calc_rolling_rate(mwrow, window_centers, window_width=10, vlim=(0.,np.inf)):
     # Load CMC ejections
     gcdf = pd.read_csv(
         paths.data_mwgcs / mwrow.Cluster / "output_N-10_ejections.txt",
-        usecols=["time","U","V","W"],
+        usecols=["time","kf","U","V","W"],
     )
 
     # Filter -1's (post-present-day ejections)
-    mask = (gcdf.U != -1) & (gcdf.V != -1) & (gcdf.W != -1)
+    mask = (gcdf.U != -1) & (gcdf.V != -1) & (gcdf.W != -1) & (gcdf.kf < 10)
+    #mask = (gcdf.U != -1) & (gcdf.V != -1) & (gcdf.W != -1) & (gcdf.kf >= 10) & (gcdf.kf < 13) # white dwarfs
     gcdf = gcdf[mask]
 
     # Calculate galactocentric velocity & apply vlim

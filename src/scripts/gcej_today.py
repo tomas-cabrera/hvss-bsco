@@ -146,62 +146,56 @@ for gc in rustics.SAMPLE_GCS:
     axx.set_xticklabels([])
     axx.set_yticklabels([])
 
-    ## Plot mu_ra_cosdec-mu_dec
-    #scej = scej.transform_to(ICRS)
-    #scgc = scgc.transform_to(ICRS)
-    #scgc_orbit = scgc_orbit.transform_to(ICRS)
-    #print(scgc)
-    ## Ejected objects
-    #axv.scatter(
-    #    scej.pm_ra_cosdec,
-    #    scej.pm_dec,
-    #    c=ejdf.df.time,
-    #    cmap="inferno",
-    #    marker=".",
-    #    s=1,
-    #    lw=0,
-    #    rasterized=True,
-    #)
-    ## GC
-    #axv.scatter(
-    #    scgc.pm_ra_cosdec,
-    #    scgc.pm_dec,
-    #    c="k",
-    #    marker="x",
-    #)
-    ## GC orbit
-    #axv.plot(
-    #    scgc_orbit.pm_ra_cosdec,
-    #    scgc_orbit.pm_dec,
-    #    c="gray",
-    #    alpha=0.5,
-    #    lw=0.25,
-    #    zorder=0,
-    #)
-    ## Extra things
-    #axv.set_xlabel(r"$\mu_{\alpha \cos \delta}~[{\rm mas/yr}]$")
-    #axv.set_ylabel(r"$\mu_{\delta}~[{\rm mas/yr}]$")
-    # Plot mu_l_cosb-mu_b
+    # Plot mu_ra_cosdec-mu_dec
+    scej = scej.transform_to(ICRS)
+    scgc = scgc.transform_to(ICRS)
+    scgc_orbit = scgc_orbit.transform_to(ICRS)
+    print(scgc)
+    # Ejected objects
     axv.scatter(
-        scej.pm_l_cosb,
-        scej.pm_b,
+        scej.pm_ra_cosdec,
+        scej.pm_dec,
         **kw_ej,
     )
     # GC
     axv.scatter(
-        scgc.pm_l_cosb,
-        scgc.pm_b,
+        scgc.pm_ra_cosdec,
+        scgc.pm_dec,
         **kw_gc,
     )
     # GC orbit
     axv.plot(
-        scgc_orbit.pm_l_cosb,
-        scgc_orbit.pm_b,
+        scgc_orbit.pm_ra_cosdec,
+        scgc_orbit.pm_dec,
         **kw_o,
     )
     # Extra things
-    axv.set_xlabel(r"$\mu_{l \cos b}~[{\rm mas/yr}]$")
-    axv.set_ylabel(r"$\mu_b~[{\rm mas/yr}]$")
+    axv.set_xlim((-30,30))
+    axv.set_ylim((-45,15))
+    axv.set_xlabel(r"$\mu_{\alpha \cos \delta}~[{\rm mas/yr}]$")
+    axv.set_ylabel(r"$\mu_{\delta}~[{\rm mas/yr}]$")
+
+    ## Plot mu_l_cosb-mu_b
+    #axv.scatter(
+    #    scej.pm_l_cosb,
+    #    scej.pm_b,
+    #    **kw_ej,
+    #)
+    ## GC
+    #axv.scatter(
+    #    scgc.pm_l_cosb,
+    #    scgc.pm_b,
+    #    **kw_gc,
+    #)
+    ## GC orbit
+    #axv.plot(
+    #    scgc_orbit.pm_l_cosb,
+    #    scgc_orbit.pm_b,
+    #    **kw_o,
+    #)
+    ## Extra things
+    #axv.set_xlabel(r"$\mu_{l \cos b}~[{\rm mas/yr}]$")
+    #axv.set_ylabel(r"$\mu_b~[{\rm mas/yr}]$")
 
     # Clean up and save
     plt.tight_layout()

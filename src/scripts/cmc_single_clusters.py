@@ -179,17 +179,17 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
         legend_artists.append((s, h[0]))
         legend_labels.append(ti_row.label)
 
-    # Add distance cutoffs
-    ejdf.df["vout_1kpc"] = 1. / (ejdf.df.time.max() - ejdf.df.time) / (1e6 * rustics.YR_TO_S) * (rustics.PC_TO_M)
-    for d in [10., 100., 1000.]:
-        axd["scatter"].plot(
-            ejdf.df.time / 1000.,
-            d * ejdf.df.vout_1kpc,
-            c="gray",
-            alpha=0.7,
-            lw=0.75,
-            zorder=0,
-        )
+#    # Add distance cutoffs
+#    ejdf.df["vout_1kpc"] = 1. / (ejdf.df.time.max() - ejdf.df.time) / (1e6 * rustics.YR_TO_S) * (rustics.PC_TO_M)
+#    for d in [10., 100., 1000.]:
+#        axd["scatter"].plot(
+#            ejdf.df.time / 1000.,
+#            d * ejdf.df.vout_1kpc,
+#            c="gray",
+#            alpha=0.7,
+#            lw=0.75,
+#            zorder=0,
+#        )
 
     axd["scatter"].set_xlabel(rustics.HEADERS_TO_LABELS[x])
     axd["scatter"].set_ylabel(rustics.HEADERS_TO_LABELS[y])
