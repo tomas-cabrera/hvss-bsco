@@ -189,6 +189,7 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
 #            alpha=0.7,
 #            lw=0.75,
 #            zorder=0,
+#            rasterized=True,
 #        )
 
     axd["scatter"].set_xlabel(rustics.HEADERS_TO_LABELS[x])

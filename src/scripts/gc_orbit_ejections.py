@@ -164,6 +164,7 @@ def integrate_cmc_ejections(
             c="gray",
             alpha=0.5,
             lw=0.25,
+            rasterized=True,
         )
         # Ejection points
         scats=ax.scatter(
@@ -185,7 +186,8 @@ def integrate_cmc_ejections(
         plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py","_%s.pdf" % cluster))
         plt.close()
 
-        ### This section contains the code for integrating ejection orbits 
+        ### This section contains the code that was used to integrate the ejection orbits;
+        ### no fancy "integrate if GC ejections file does not exist", just plain old commenting to avoid running this everytime the figure is generated
         ############################################################
         ## The first option here is faster by >2x, despite not using galpy parallelization
         ######################################## 

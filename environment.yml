@@ -1,15 +1,15 @@
 channels:
-  - defaults
   - conda-forge
 dependencies:
-  - galpy=1.8.0
+  - matplotlib=3.5.0
   - numba=0.53.1
   - numpy=1.23.1
   - pandas=1.2.4
   - pip=21.0.1
   - python=3.9
   - tqdm=4.59.0
+  - astropy=5.0.4
+  - galpy=1.8.0
+  - healpy=1.16.1
   - pip:
-      - astropy==5.0.4
-      - matplotlib==3.5.0
       - parmap==1.6.0

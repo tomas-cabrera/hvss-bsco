@@ -110,6 +110,7 @@ for gc in rustics.SAMPLE_GCS:
         "s": 20,
         "lw": 0.5,
         "marker": "X",
+        "rasterized": True,
     }
     # kwargs for GC orbit
     kw_o = {
@@ -117,6 +118,7 @@ for gc in rustics.SAMPLE_GCS:
         "alpha": 0.5,
         "lw": 0.25,
         "zorder": 0,
+        "rasterized": True,
     }
 
     # Plot locations (matplotlib aitoff wants coordinates in radians)
