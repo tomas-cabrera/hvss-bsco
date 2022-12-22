@@ -115,9 +115,28 @@ def calc_ej_credible_regions(
 
     """
 
+    # Check if at least 1 fname has been specified,
+    #   and also if desired files exist and should not be overwritten
+    want = False
+    missing = False
+    if hp_fname != None:
+        want = True
+        hp_path = gc_path / hp_fname
+        if not os.path.exists(hp_path):
+            missing = True
+    if pm_fname != None:
+        want = True
+        pm_path = gc_path / pm_fname
+        if not os.path.exists(pm_path):
+            missing = True
+    if not want:
+        print("No fnames specified.")
+        return 1
+    if (not missing) & (not overwrite):
+        print("Files already exist; use 'overwrite=True' to generate anyway.")
+        return 1
+
     # Choose columns to load
-    if (hp_fname == None) & (pm_fname == None):
-        raise Warning("Neither fname set, so no data will be read.")
     usecols = ["X", "Y", "Z"]
     if pm_fname != None:
         usecols += ["U", "V", "W"]
@@ -166,7 +185,7 @@ def calc_ej_credible_regions(
         # Stack data and save to HEALPix fits file
         output = (hp_probs, *credible_indices)
         hp.fitsfunc.write_map(
-            gc_path / hp_fname,
+            hp_path,
             output,
             column_names=["PROB"] + ["CR%d" % (i * 100) for i in intervals],
             dtype=[float] + [bool] * len(intervals),
@@ -230,7 +249,7 @@ def calc_ej_credible_regions(
         probs_hdu = fits.PrimaryHDU(probs, header=probs_header)
         ci_hdus = [fits.ImageHDU(ci) for ci in credible_indices]
         hdul = fits.HDUList([probs_hdu, *ci_hdus])
-        hdul.writeto(gc_path / pm_fname, overwrite=overwrite)
+        hdul.writeto(pm_path, overwrite=overwrite)
 
     return 0
 
@@ -304,39 +323,21 @@ def get_ej_credible_regions(
 ###############################################################################
 
 
-test_path = paths.data_mwgcs / "Liller_1"
-output = get_ej_credible_regions(test_path, hp_fname=None)
-print(output.info())
-
-# Iterate over all GCs
+# Calculate credible regions for all GCs
 mp_input = [paths.data_mwgcs / gc_name for gc_name in os.listdir(paths.data_mwgcs)]
-mp_input = [mp_input[0]]
 nprocs = None
 if nprocs == 1:
     parmap.map(
-        get_ej_credible_regions,
+        calc_ej_credible_regions,
         mp_input,
-        hp_fname=None,
-        generate=True,
         pm_parallel=False,
         pm_pbar=True,
     )
 else:
     pool = mp.Pool(nprocs)
-    output = parmap.map(
-        get_ej_credible_regions,
+    parmap.map(
+        calc_ej_credible_regions,
         mp_input,
-        hp_fname=None,
-        generate=True,
         pm_pool=pool,
         pm_pbar=True,
     )
-output = np.array(output).reshape((len(output), 2))
-print(output)
-
-# Placeholder for showyourwork, atm.
-fig, axd = plt.subplot_mosaic([["0", "1"]])
-axd["0"].hist(output[:, 0])
-axd["1"].hist(output[:, 1])
-plt.tight_layout()
-plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", ".pdf"))
