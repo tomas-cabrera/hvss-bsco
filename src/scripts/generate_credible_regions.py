@@ -1,7 +1,5 @@
 import os
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 import multiprocessing as mp
 import parmap
 from astropy import units as u
@@ -68,9 +66,12 @@ def calc_credible_indices_2d(probs, intervals):
     ss_inds = np.searchsorted(probs_cumsum, intervals, side="right")
 
     # Generate boolean masks for credible regions
-    masks = np.full((len(intervals), *probs.shape), 0)
-    for ii, i in enumerate(ss_inds):
-        masks[ii, (argsort_inds[0][:i], argsort_inds[1][:i])] = 1
+    # TODO: keep working on this
+    masks = []
+    for i in ss_inds:
+        mask = np.zeros(probs.shape)
+        mask[argsort_inds[0][: i + 1], argsort_inds[1][: i + 1]] = 1
+        masks.append(mask)
 
     return masks
 
@@ -83,9 +84,7 @@ def calc_ej_credible_regions(
     hp_fname="hp_probs.fits",
     pm_fname="pm_probs.fits",
     overwrite=True,
-    kw_writemap={
-        "nest": True,
-    },
+    kw_writemap={"nest": True, "coord": "C"},
 ):
     """! Calculate the credible regions for the ejections from one GC.
 
@@ -210,7 +209,7 @@ def calc_ej_credible_regions(
         pmdmax = 15
         pmrcdmin = -30
         pmrcdmax = 30
-        pmnum = 121
+        pmnum = 51
         xbinedges = np.linspace(pmrcdmin, pmrcdmax, pmnum)
         ybinedges = np.linspace(pmdmin, pmdmax, pmnum)
         pm_counts, _, _ = np.histogram2d(
