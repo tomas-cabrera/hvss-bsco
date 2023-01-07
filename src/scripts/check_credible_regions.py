@@ -18,7 +18,7 @@ def hist2d_hpx_to_mollweide(
     xsize=1000,
     longitude_grid_spacing=60,
     latitude_grid_spacing=30,
-    graticule_labels=False,
+    graticule_labels=True,
     kw_rotator={},
     kw_pcolormesh={},
 ):
@@ -90,10 +90,10 @@ def hist2d_hpx_to_mollweide(
 
 # Get ejections data
 gc = "NGC_104"
-# gc = "NGC_5139"
-# gc = "NGC_6205"
+gc = "NGC_5139"
+gc = "NGC_6205"
 gc = "NGC_7089"
-# gc = "Pyxis"
+gc = "Pyxis"
 gc = "E_3"
 gc_path = paths.data_mwgcs / gc
 ejdf = rustics.EjectionDf(
@@ -144,10 +144,11 @@ ml, h = hp.fitsfunc.read_map(gc_path / "hp_probs.fits", h=True, field=None)
 
 # Set up figure
 fig, axd = plt.subplot_mosaic(
-    [["hist"], ["cred"]],
+    [["hist", "cred"]],
     subplot_kw={
         "projection": "mollweide",
     },
+    figsize=(6, 2),
 )
 for ax in axd.values():
     ax.grid(True, c="gray", alpha=0.5, zorder=0, lw=0.5)
@@ -199,10 +200,10 @@ hist2d_hpx_to_mollweide(
 # axcb.set_label(r"$m~(M_\odot)$")
 
 # Clean and show
+fig.suptitle(gc)
 plt.tight_layout()
-plt.show()
-plt.close("all")
-# print(cow)
+plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", "_x.pdf"))
+plt.close()
 
 ##############################
 ###     Proper Motions     ###
@@ -210,12 +211,13 @@ plt.close("all")
 
 # Set up figure
 fig, axd = plt.subplot_mosaic(
-    [["hist"], ["cred"]],
+    [["hist", "cred"]],
     sharex=True,
     sharey=True,
     gridspec_kw={
-        "hspace": 0,
+        "wspace": 0,
     },
+    figsize=(6, 4),
 )
 
 # Transform to mu_ra_cosdec-mu_dec
@@ -240,7 +242,9 @@ ax.hist2d(
     bins=[xbinedges, ybinedges],
     weights=np.log(d.flatten()),
     cmap="inferno_r",
+    rasterized=True,
 )
+ax.set_xlabel(r"$\mu_\alpha \cos \delta~[{\rm mas/yr}]$")
 ax.set_ylabel(r"$\mu_{\delta}~[{\rm mas/yr}]$")
 ax.set_aspect("equal")
 
@@ -249,6 +253,7 @@ ax = axd["cred"]
 kw_hist2d = {
     "cmap": "Blues_r",
     "alpha": 0.8,
+    "rasterized": True,
 }
 d = hdul[1].data
 ax.hist2d(
@@ -276,63 +281,10 @@ ax.hist2d(
 ax.set_xlim((-30, 30))
 ax.set_ylim((-45, 15))
 ax.set_aspect("equal")
-ax.set_xlabel(r"$\mu_{\alpha \cos \delta}~[{\rm mas/yr}]$")
-ax.set_ylabel(r"$\mu_{\delta}~[{\rm mas/yr}]$")
-
-## Ejected object
-# axs["cred"].scatter(
-#    scej.pm_ra_cosdec,
-#    scej.pm_dec,
-#    **kw_ej,
-# )
-## Extra things
-# axs["cred"].set_xlim((-30, 30))
-# axs["cred"].set_ylim((-45, 15))
-# axs["cred"].set_xlabel(r"$\mu_{\alpha \cos \delta}~[{\rm mas/yr}]$")
-# axs["cred"].set_ylabel(r"$\mu_{\delta}~[{\rm mas/yr}]$")
-#
-## Plot cred reg
-# hdul = fits.open(gc_path / "pm_probs.fits")
-# hdu = hdul[0]
-# d = hdu.data
-# h = hdu.header
-# xbinedges = np.linspace(h["PMRCDMIN"], h["PMRCDMAX"], h["PMNUM"])
-# ybinedges = np.linspace(h["PMDMIN"], h["PMDMAX"], h["PMNUM"])
-## Generate meshgrid with binedges
-# y, x = np.meshgrid(ybinedges[:-1], xbinedges[:-1])
-# x = x.flatten()
-# y = y.flatten()
-# axs["hist"].hist2d(
-#    x,
-#    y,
-#    bins=[xbinedges, ybinedges],
-#    weights=np.log(d.flatten()),
-# )
-# hdu = hdul[1]
-# d = hdu.data
-# h = hdu.header
-# axs["cred"].hist2d(
-#    x,
-#    y,
-#    bins=[xbinedges, ybinedges],
-#    weights=d.flatten(),
-#    cmap="Blues_r",
-#    cmin=0.1,
-# )
-# hdu = hdul[2]
-# d = hdu.data
-# d = (d + hdul[1].data) % 2
-# h = hdu.header
-# axs["cred"].hist2d(
-#    x,
-#    y,
-#    bins=[xbinedges, ybinedges],
-#    weights=d.flatten(),
-#    cmap="Reds_r",
-#    cmin=0.1,
-# )
+ax.set_xlabel(r"$\mu_\alpha \cos \delta~[{\rm mas/yr}]$")
 
 # Clean and show
+fig.suptitle(gc)
 plt.tight_layout()
-plt.show()
+plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", "_v.pdf"))
 plt.close()

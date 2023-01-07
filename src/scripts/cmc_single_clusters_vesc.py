@@ -13,7 +13,7 @@ import paths
 
 ################################################################################
 
-#plt.style.use(rustics.PATH_TO_MPLRC)
+# plt.style.use(rustics.PATH_TO_MPLRC)
 
 # Get cluster names
 cmc_cluster_list = [
@@ -23,12 +23,12 @@ cmc_cluster_list = [
     "N8e5_rv0.5_rg8_Z0.02",
 ]
 
-mosaic = np.reshape(cmc_cluster_list, (4,1))
-figheight = 1.5 
+mosaic = np.reshape(cmc_cluster_list, (4, 1))
+figheight = 1.5
 figwidth = 4
 fig, axd = plt.subplot_mosaic(
     mosaic,
-    figsize=(mosaic.shape[1]*figwidth, mosaic.shape[0]*figheight),
+    figsize=(mosaic.shape[1] * figwidth, mosaic.shape[0] * figheight),
     sharex=True,
     gridspec_kw={
         "hspace": 0,
@@ -117,7 +117,7 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
     colorr = "xkcd:crimson"
     axr = ax.twinx()
     axr.set_xlim(ax.get_xlim())
-    axr.set_yscale("log", subs=[2, 3, 4, 5, 6, 7, 8, 9])
+    axr.set_yscale("log")  # , subs=[2, 3, 4, 5, 6, 7, 8, 9])
     tsample = [
         int(i)
         for i in np.logspace(
@@ -145,11 +145,11 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
 
     # Expand ylim if not large enough
     ylim = ax.get_ylim()
-    if np.floor(np.log10(ylim[1]))==np.floor(np.log10(ylim[0])):
-        ax.set_ylim((0.5*ylim[0], 2*ylim[1]))
+    if np.floor(np.log10(ylim[1])) == np.floor(np.log10(ylim[0])):
+        ax.set_ylim((0.5 * ylim[0], 2 * ylim[1]))
 
     # Add cluster label
-    axr.annotate(cmc_cluster, (0.025,0.0525), xycoords="axes fraction")
+    axr.annotate(cmc_cluster, (0.025, 0.0525), xycoords="axes fraction")
 
     # Add minor ticks
     xlim = ax.get_xlim()
@@ -166,7 +166,14 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
 # Add superlabels
 fig.supxlabel(rustics.HEADERS_TO_LABELS[x], x=0.55, y=0.05, ha="center")
 fig.supylabel(rustics.HEADERS_TO_LABELS[y], x=0.05, y=0.55, va="center")
-fig.text(0.95, 0.55, r"$\rho_{c} / \rho_{c,0}$", va="center", color=colorr, rotation="vertical")
+fig.text(
+    0.95,
+    0.55,
+    r"$\rho_{c} / \rho_{c,0}$",
+    va="center",
+    color=colorr,
+    rotation="vertical",
+)
 
 # Adjust spacing
 plt.tight_layout()

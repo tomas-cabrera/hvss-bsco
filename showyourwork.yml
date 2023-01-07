@@ -3,6 +3,6 @@ version: 0.3.1
 dependencies:
     src/scripts/*:
         - src/scripts/rustics.py
-    src/scripts/gcej_today.py:
+    src/scripts/check_credible_regions.py:
         - src/scripts/generate_credible_regions.py
 

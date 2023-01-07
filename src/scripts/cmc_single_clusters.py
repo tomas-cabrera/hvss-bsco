@@ -12,7 +12,7 @@ import paths
 
 ################################################################################
 
-#plt.style.use("./matplotlibrc")
+# plt.style.use("./matplotlibrc")
 
 # Get cluster names
 cmc_cluster_list = [
@@ -21,7 +21,7 @@ cmc_cluster_list = [
     "N8e5_rv0.5_rg8_Z0.02",
     "N4e5_rv0.5_rg8_Z0.0002",
 ]
-#cmc_cluster_list = rustics.DF_MODELS[(rustics.DF_MODELS.N == 4) & (rustics.DF_MODELS.rv == 0.5)].fname
+# cmc_cluster_list = rustics.DF_MODELS[(rustics.DF_MODELS.N == 4) & (rustics.DF_MODELS.rv == 0.5)].fname
 
 for ci, cmc_cluster in enumerate(cmc_cluster_list):
     print("{}, N_REALZ={}".format(cmc_cluster, rustics.N_REALZ))
@@ -45,7 +45,7 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
     # Load times and core radii from initial.dyn.dat
     df_dyn = pd.read_csv(
         paths.data_cmc / cmc_cluster / "initial.dyn.dat",
-        #"/".join((paths.data, "cmc", cmc_cluster, "initial.dyn.dat")),
+        # "/".join((paths.data, "cmc", cmc_cluster, "initial.dyn.dat")),
         names=["t", "N", "rc_nb"],
         usecols=[0, 3, 24],  # 0 for t, 3 for N, 24 for rc_nb
         skiprows=2,
@@ -55,7 +55,7 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
     # Load intial.conv.sh (for converting TotalTime to Myr and core radius to pcs)
     # Copied from cmctools/cmctoolkit.py
     conv_path = paths.data_cmc / cmc_cluster / "initial.conv.sh"
-    #conv_path = "/".join((paths.data, "cmc", cmc_cluster, "initial.conv.sh"))
+    # conv_path = "/".join((paths.data, "cmc", cmc_cluster, "initial.conv.sh"))
     f = open(conv_path, "r")
     convfile = f.read().split("\n")
     f.close()
@@ -91,17 +91,19 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
         },
         figsize=(4, 4),
     )
-    axd["scatter"].set_xscale("log", subs=[2, 3, 4, 5, 6, 7, 8, 9])
-    axd["scatter"].set_yscale("log", subs=[2, 3, 4, 5, 6, 7, 8, 9])
-    axd["thist"].set_xscale("log", subs=[2, 3, 4, 5, 6, 7, 8, 9])
-    axd["thist"].set_yscale("log", subs=[2, 3, 4, 5, 6, 7, 8, 9])
-    axd["vouthist"].set_xscale("log", subs=[2, 3, 4, 5, 6, 7, 8, 9])
-    axd["vouthist"].set_yscale("log", subs=[2, 3, 4, 5, 6, 7, 8, 9])
+    # Axis scales
+    axd["scatter"].set_xscale("log")
+    axd["scatter"].set_yscale("log")
+    axd["thist"].set_xscale("log")
+    axd["thist"].set_yscale("log")
+    axd["vouthist"].set_xscale("log")
+    axd["vouthist"].set_yscale("log")
 
     # Add r_core axis
-    colorr = "xkcd:crimson"
-    axr = axd["thist"].twinx()
-    axr.set_yscale("log", subs=[2, 3, 4, 5, 6, 7, 8, 9])
+    # colorr = "xkcd:crimson"
+    # axr = axd["thist"].twinx()
+    colorr = "k"
+    axr = axd["thist"]
     tsample = [
         int(i)
         for i in np.logspace(
@@ -121,13 +123,10 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
         rasterized=True,
     )
     axr.set_ylabel(r"$r_{c, NB} [{\rm pc}]$", color=colorr)
-    axr.tick_params(
-        axis="y",
-        colors=colorr,
-    )
-    axr.set_ylim(
-        (0.0011, axr.get_ylim()[1])
-    )  # hacky way of getting 0.0 label off the adjacent axes
+    # axr.tick_params(
+    #     axis="y",
+    #     colors=colorr,
+    # )
 
     legend_artists = []
     legend_labels = []
@@ -155,17 +154,17 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
             xlims = axd["scatter"].get_xlim()
             ylims = axd["scatter"].get_ylim()
             ylims = (0.05, ylims[1])
-        _, _, h, = axd["thist"].hist(
-            filtered[x] / 1000.0,
-            # density=True,
-            bins=np.logspace(*np.log10(xlims), nbins),
-            color=ti_row.color,
-            histtype="step",
-            lw=2,
-            alpha=0.7,
-            rasterized=True,
-        )
-        axd["vouthist"].hist(
+        # axd["thist"].hist(
+        #     filtered[x] / 1000.0,
+        #     # density=True,
+        #     bins=np.logspace(*np.log10(xlims), nbins),
+        #     color=ti_row.color,
+        #     histtype="step",
+        #     lw=2,
+        #     alpha=0.7,
+        #     rasterized=True,
+        # )
+        _, _, h = axd["vouthist"].hist(
             filtered[y],
             # density=True,
             bins=np.logspace(*np.log10(ylims), nbins),
@@ -179,40 +178,39 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
         legend_artists.append((s, h[0]))
         legend_labels.append(ti_row.label)
 
-#    # Add distance cutoffs
-#    ejdf.df["vout_1kpc"] = 1. / (ejdf.df.time.max() - ejdf.df.time) / (1e6 * rustics.YR_TO_S) * (rustics.PC_TO_M)
-#    for d in [10., 100., 1000.]:
-#        axd["scatter"].plot(
-#            ejdf.df.time / 1000.,
-#            d * ejdf.df.vout_1kpc,
-#            c="gray",
-#            alpha=0.7,
-#            lw=0.75,
-#            zorder=0,
-#            rasterized=True,
-#        )
+    #    # Add distance cutoffs
+    #    ejdf.df["vout_1kpc"] = 1. / (ejdf.df.time.max() - ejdf.df.time) / (1e6 * rustics.YR_TO_S) * (rustics.PC_TO_M)
+    #    for d in [10., 100., 1000.]:
+    #        axd["scatter"].plot(
+    #            ejdf.df.time / 1000.,
+    #            d * ejdf.df.vout_1kpc,
+    #            c="gray",
+    #            alpha=0.7,
+    #            lw=0.75,
+    #            zorder=0,
+    #            rasterized=True,
+    #        )
 
-    axd["scatter"].set_xlabel(rustics.HEADERS_TO_LABELS[x])
-    axd["scatter"].set_ylabel(rustics.HEADERS_TO_LABELS[y])
-    axd["thist"].set_xlabel("")
-    axd["thist"].set_ylabel(r"$N$")
-    axd["vouthist"].set_xlabel(r"$N$")
-    axd["vouthist"].set_ylabel("")
-    print(axd["vouthist"].get_xticks())
-    axd["vouthist"].set_xticklabels(["0", "0.01"])
-    # axd["vouthist"].set_xticklabels([str(l) for l in axd["vouthist"].get_xticks()])
-    axd["vouthist"].set_yticklabels([])
+    # Axis limits
     if ci == 0:
         ylimh = axd["thist"].get_ylim()
         xlimh = axd["vouthist"].get_xlim()
         xlimh = (0.0, 0.04)
-        ylimh = (1, 1e5)
+        ylimh = (10**-3.95, 10**0.3)
     axd["scatter"].set_xlim(xlims)
     axd["scatter"].set_ylim(ylims)
     axd["thist"].set_xlim(xlims)
     axd["thist"].set_ylim(ylimh)
-    # axd["vouthist"].set_xlim((0.0002, axd["vouthist"].get_xlim()[1]))
+    axd["vouthist"].set_xlim((10**1.05, 10**4.95))
     axd["vouthist"].set_ylim(ylims)
+    # Axes labels
+    axd["scatter"].set_xlabel(rustics.HEADERS_TO_LABELS[x])
+    axd["scatter"].set_ylabel(rustics.HEADERS_TO_LABELS[y])
+    axd["thist"].set_xlabel("")
+    axd["vouthist"].set_xlabel(r"$N$")
+    axd["vouthist"].set_ylabel("")
+    # Ticks + ticklabels
+    axd["vouthist"].set_yticklabels([])
 
     # Add legend
     legend = axd["scatter"].legend(
@@ -235,13 +233,8 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
     # hvss_utils.grid_selfmade(axd["scatter"])
     Nstr, rvstr, rgstr, Zstr = cmc_cluster.split("_")
     lstr = "-".join((y, Nstr, rvstr, rgstr, Zstr))
-    #plt.savefig(paths.figures / lstr.join(("cmc_single_clusters_", ".pdf")))
-    plt.savefig(paths.figures / lstr.join(("cmc_single_clusters_", "_%s.pdf" % kgroup["initials"])))
-    #    "/".join(
-    #        (
-    #            paths.figures,
-    #            lstr.join(("cmc_single_clusters_", ".pdf")),
-    #        )
-    #    )
-    #)
+    plt.savefig(
+        paths.figures
+        / lstr.join(("cmc_single_clusters_", "_%s.pdf" % kgroup["initials"]))
+    )
     plt.close()

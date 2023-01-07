@@ -21,9 +21,10 @@ helio_baumgardt = {
     "z_sun": 0.0 * u.pc,
 }
 
-#plt.style.use("./matplotlibrc")
+# plt.style.use("./matplotlibrc")
 
 ###############################################################################
+
 
 def integrate_cmc_ejections(
     cmc_fname,
@@ -33,14 +34,13 @@ def integrate_cmc_ejections(
 ):
     """! A function to parallelize the integration of encounters, s.t. the CMC data only have to be loaded once."""
 
-    #print(cmc_fname)
+    # print(cmc_fname)
     keep_going = 0
     for cluster in mwgc_catalog.df[mwgc_catalog.df.fname == cmc_fname].index:
         if cluster in rustics.SAMPLE_GCS:
             keep_going = 1
     if not keep_going:
-        return 1 
-        
+        return 1
 
     ##############################
     ###   Load CMC ejections   ###
@@ -64,7 +64,7 @@ def integrate_cmc_ejections(
     )
     cmc.convert_from_fewbody()
     cmc.df["vout"] = cmc.calc_vout()
-    #cmc.df = cmc.df[-100:]
+    # cmc.df = cmc.df[-100:]
 
     ##############################
     ###    Loop through GCs    ###
@@ -110,8 +110,9 @@ def integrate_cmc_ejections(
 
         # Integrate GC orbit, and save
         o_gc.integrate(ts, MWPotential2014, method="dop853_c", progressbar=False)
-        path = "/".join((cmc_path, "mwgcs", cluster, "gc_orbit.dat"))
-        os.makedirs("/".join((path.split("/")[:-1])), exist_ok=True)
+        path = paths.data_mwgcs / cluster
+        os.makedirs(path, exist_ok=True)
+        path = path / "gc_orbit.dat"
         pd.DataFrame(
             {
                 "t": ts,
@@ -152,10 +153,14 @@ def integrate_cmc_ejections(
         ###       Plot orbits      ###
         ##############################
         fig, axd = plt.subplot_mosaic(
-            [["xy",],],
-            figsize=(4,4),
+            [
+                [
+                    "xy",
+                ],
+            ],
+            figsize=(4, 4),
         )
-        
+
         ax = axd["xy"]
         # GC trajectory
         ax.plot(
@@ -167,13 +172,13 @@ def integrate_cmc_ejections(
             rasterized=True,
         )
         # Ejection points
-        scats=ax.scatter(
+        scats = ax.scatter(
             o_gc.x(t_ejs),
             o_gc.y(t_ejs),
-            #c="k",
-            c = (t_ejs.value + 14000.) / 14000.,
-            #c=t_ejs,
-            s=1.,
+            # c="k",
+            c=(t_ejs.value + 14000.0) / 14000.0,
+            # c=t_ejs,
+            s=1.0,
             lw=0,
             rasterized=True,
         )
@@ -183,27 +188,29 @@ def integrate_cmc_ejections(
         ax.set_aspect("equal")
         ax.legend(title=cluster)
         plt.tight_layout()
-        plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py","_%s.pdf" % cluster))
+        plt.savefig(
+            paths.figures / __file__.split("/")[-1].replace(".py", "_%s.pdf" % cluster)
+        )
         plt.close()
 
         ### This section contains the code that was used to integrate the ejection orbits;
         ### no fancy "integrate if GC ejections file does not exist", just plain old commenting to avoid running this everytime the figure is generated
         ############################################################
         ## The first option here is faster by >2x, despite not using galpy parallelization
-        ######################################## 
-        ## Integrate orbits, in loop with coordinate calling 
-        #xs = []
-        #ys = []
-        #zs = []
-        #vxs = []
-        #vys = []
-        #vzs = []
+        ########################################
+        ## Integrate orbits, in loop with coordinate calling
+        # xs = []
+        # ys = []
+        # zs = []
+        # vxs = []
+        # vys = []
+        # vzs = []
         ## Note that tfes goes from 0 to 14000, i.e. "tfe" is the time from ejection
-        #for ti, t in tqdm(enumerate((t_int - cmc.df.time).to_numpy())):
+        # for ti, t in tqdm(enumerate((t_int - cmc.df.time).to_numpy())):
         #    # Initialize orbit
         #    o = Orbit(sci_ejs[ti])
 
-        #    # Define integration times, and integrate 
+        #    # Define integration times, and integrate
         #    tfes = np.linspace(t0, t, Nt) * u.Myr
         #    o.integrate(tfes, MWPotential2014, method="dop853_c")
 
@@ -214,7 +221,7 @@ def integrate_cmc_ejections(
         #    vxs.append(o.vx(t * u.Myr))
         #    vys.append(o.vy(t * u.Myr))
         #    vzs.append(o.vz(t * u.Myr))
-        ######################################## 
+        ########################################
         #### Integrate orbits with galpy parallelization, then call coordinates individually
         ### Initialize ejection orbits
         ##o_ejs = Orbit(sci_ejs)
@@ -244,18 +251,18 @@ def integrate_cmc_ejections(
         ##    vxs.append(o_ejs.vx(t)[ti])
         ##    vys.append(o_ejs.vy(t)[ti])
         ##    vzs.append(o_ejs.vz(t)[ti])
-        ######################################## 
+        ########################################
 
         ## Save final coordinates by adding to ejections df and saving in folder for GC
-        #print(cmc.df.columns)
-        #cmc.df["X"] = xs
-        #cmc.df["Y"] = ys
-        #cmc.df["Z"] = zs
-        #cmc.df["U"] = vxs
-        #cmc.df["V"] = vys
-        #cmc.df["W"] = vzs
-        #path = "/".join((cmc_path, "mwgcs", cluster, ejections_fname))
-        #cmc.df.to_csv(path)
+        # print(cmc.df.columns)
+        # cmc.df["X"] = xs
+        # cmc.df["Y"] = ys
+        # cmc.df["Z"] = zs
+        # cmc.df["U"] = vxs
+        # cmc.df["V"] = vys
+        # cmc.df["W"] = vzs
+        # path = "/".join((cmc_path, "mwgcs", cluster, ejections_fname))
+        # cmc.df.to_csv(path)
         #
         ### This converts the coordinates into a SkyCoord object, if needed
         ##scf_ejs = SkyCoord(
@@ -268,6 +275,7 @@ def integrate_cmc_ejections(
         ##    v_z=vzs * u.km / u.s,
         ##)
         ############################################################
+
 
 ###############################################################################
 
@@ -309,7 +317,7 @@ cat_orbit = rustics.GCCatalog(
 cat.df = cat.df.join(cat_orbit.df)
 
 # Iterate over CMC models
-nprocs = 4 
+nprocs = 4
 if nprocs == 1:
     parmap.map(
         integrate_cmc_ejections,

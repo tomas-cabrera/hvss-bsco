@@ -80,7 +80,7 @@ def calc_ej_credible_regions(
     gc_path,
     intervals=[0.5, 0.9],
     ej_fname="output_N-10_ejections.txt",
-    hp_level=5,
+    hp_level=3,
     hp_fname="hp_probs.fits",
     pm_fname="pm_probs.fits",
     overwrite=True,
