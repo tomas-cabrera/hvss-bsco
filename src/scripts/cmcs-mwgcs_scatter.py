@@ -30,17 +30,17 @@ cmcs["R_GC"] = cmcs.rg
 mwgcs = pd.read_csv(paths.data / "mwgcs.dat")
 
 # Setup figure
-mosaic = np.array([["logM-rc/rh"], ["R_GC-[Fe/H]"]])
-fs = 2.25
+mosaic = np.array([["R_GC-[Fe/H]"], ["logM-rc/rh"]])
+fs = rustics.textwidth
 fig, axd = plt.subplot_mosaic(
     mosaic,
-    figsize=(fs * 1.618 * mosaic.shape[1], fs * 1 * mosaic.shape[0]),
+    figsize=(fs * mosaic.shape[1], fs / 1.618 * mosaic.shape[0]),
 )
 
 # Plot data
 for ai in axd:
     ax = axd[ai]
-    y,x = ai.split("-")
+    y, x = ai.split("-")
 
     # cmcs
     ax.scatter(
@@ -68,5 +68,5 @@ for ai in axd:
 
 # Cleanup and save
 plt.tight_layout()
-plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py",".pdf"))
+plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", ".pdf"))
 plt.close()

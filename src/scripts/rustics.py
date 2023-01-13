@@ -15,7 +15,7 @@ import paths
 
 
 # Physical constants
-Usun_gc = np.array([11.1, 247.24, 7.25]) # From Brown+18
+Usun_gc = np.array([11.1, 247.24, 7.25])  # From Brown+18
 
 
 # Unit conversions
@@ -40,23 +40,23 @@ FILE_EJECTIONS = (SUFFIX_EJECTIONS + ".").join(FILE_REALZ.rsplit(".", 1))
 
 
 ## Path to project
-#PATH_TO_PROJECT = "/home/tomas/Documents/cmu/research/hvss"
+# PATH_TO_PROJECT = "/home/tomas/Documents/cmu/research/hvss"
 #
 #
 ## Path to data
-#PATH_TO_DATA = "/".join((PATH_TO_PROJECT, "data"))
+# PATH_TO_DATA = "/".join((PATH_TO_PROJECT, "data"))
 #
 #
 ## Path to figures
-#PATH_TO_FIGURES = "/".join((PATH_TO_PROJECT, "rustics/figures"))
+# PATH_TO_FIGURES = "/".join((PATH_TO_PROJECT, "rustics/figures"))
 #
 #
 ## Path to CMC data
-#PATH_TO_CMC_DATA = PATH_TO_DATA
+# PATH_TO_CMC_DATA = PATH_TO_DATA
 #
 #
 ## Path to matplotlib_style_file
-#PATH_TO_MPLRC = "/home/tomas/Documents/cmu/research/matplotlib_style_file"
+# PATH_TO_MPLRC = "/home/tomas/Documents/cmu/research/matplotlib_style_file"
 
 
 # Table of CMC catalog models, received from Kyle Kremer via. e-mail 07/27/2021 and supplemented with cmc_core_collapsed.py and gcs_mw-cmc.ipynb
@@ -98,6 +98,14 @@ MODEL_NAMES_V2 = [
     "N1.6e6_rv0.5_rg20_Z0.0002",
     "N2e5_rv0.5_rg20_Z0.002",
 ]
+
+# dict of sample CMC models, with values as labels
+SAMPLE_MODELS = {
+    "N8e5_rv0.5_rg8_Z0.0002": r"$(N, r_{\rm vir,pc}, Z_{Z_\odot}) = (8{\rm e}5, 0.5, 0.01)$",
+    "N4e5_rv0.5_rg8_Z0.0002": r"$N = 4{\rm e}5$",
+    "N8e5_rv2_rg8_Z0.0002": r"$r_{\rm vir,pc} = 2$",
+    "N8e5_rv0.5_rg8_Z0.02": r"$Z_{\rm Z_\odot} = 1$",
+}
 
 # List of sample GCs to use for orbit, mu-mu plots
 SAMPLE_GCS = [
@@ -254,7 +262,7 @@ HEADERS_TO_LABELS = {
     "mx": r"$m_{\rm max} (M_\odot)$",
     "M": r"$M~[M_\odot]$",
     "rc_spitzer/r_h": r"$r_{\rm core} / r_{h,m}$",
-    "[Fe/H]": "[Fe/H] [dex]",
+    "[Fe/H]": "[Fe/H]",
     "M_norm": r"$\big[\log_{10} M\big]_{\rm norm}$",
     "rc_spitzer/r_h_norm": r"$\big[r_{\rm core} / r_{h,m}\big]_{\rm norm}$",
     "[Fe/H]_norm": r"$\big[[{\rm Fe/H}]\big]_{\rm norm}$",
@@ -348,13 +356,13 @@ BINS = {
 
 # Dictionary of standard bins for CDF
 BINS_CDF = {
-    "vout": np.linspace(275,2600,30),
-    "mf": np.linspace(0,10,30),
+    "vout": np.linspace(275, 2600, 30),
+    "mf": np.linspace(0, 10, 30),
     "Nej": np.linspace(0, 3e4, 15),
     "dist": np.logspace(*np.log10(AXES_LIMS["dist"]), 60),
     # "v_radial": np.linspace(*AXES_LIMS["v_radial"], 120),
-    "v_radial": np.linspace(275,2600,30),
-    "vlos": np.linspace(275,1200,30),
+    "v_radial": np.linspace(275, 2600, 30),
+    "vlos": np.linspace(275, 1200, 30),
 }
 
 # Dictionary of limits for CC plots
@@ -390,6 +398,10 @@ LOC_LEGEND = {
     "dist": "upper left",
 }
 
+
+# AAStex twocolumn textwidth
+textwidth = 8.5 / 46 * 18
+textwidth = 3.5
 
 ###############################################################################
 
@@ -632,7 +644,7 @@ class EjectionDf:
             # If there's at least one ejection in this interval
             if mask.sum() != 0:
                 # Set vesc/rho_0 to the appropriate value
-                self.df.loc[mask, "temp"] = self.df[mask]["vesc"] / drow.rho_0 ** 0.175
+                self.df.loc[mask, "temp"] = self.df[mask]["vesc"] / drow.rho_0**0.175
                 # self.df.loc[mask, "temp"] = self.df[mask]["vesc"] * drow.rc_nb
             # If we've reached the latest time for the ejections, stop iteration
             if drow.t > tmax:
@@ -706,10 +718,7 @@ class HistogramGenerator:
         ejdf.convert_from_fewbody()
         if ("X" in ejdf.df.columns) & ("Y" in ejdf.df.columns):
             # Throw out -1's
-            ejdf.df = ejdf.df[
-                (ejdf.df.X != -1)
-                & (ejdf.df.Y != -1)
-            ]
+            ejdf.df = ejdf.df[(ejdf.df.X != -1) & (ejdf.df.Y != -1)]
         # Calculate additional things if needed
         if self.column == "vout":
             ejdf.df["vout"] = ejdf.calc_vout()
@@ -746,10 +755,14 @@ class HistogramGenerator:
             ls = sc_ejs.l.value
             bs = sc_ejs.b.value
             rvs = sc_ejs.radial_velocity.value
-            ejdf.df["vlos"] = rvs + Usun_gc[0] * np.cos(ls) * np.cos(bs) + Usun_gc[1] *  np.sin(ls) * np.cos(bs) + Usun_gc[2] * np.sin(bs)
+            ejdf.df["vlos"] = (
+                rvs
+                + Usun_gc[0] * np.cos(ls) * np.cos(bs)
+                + Usun_gc[1] * np.sin(ls) * np.cos(bs)
+                + Usun_gc[2] * np.sin(bs)
+            )
         elif self.column == "rgc":
-            ejdf.df["rgc"] = (ejdf.df.X**2 + ejdf.df.Y**2)**0.5
-            
+            ejdf.df["rgc"] = (ejdf.df.X**2 + ejdf.df.Y**2) ** 0.5
 
         # If kgroup is given, filter
         if type(self.kgroup) != type(None):
@@ -955,7 +968,7 @@ class GCCatalog:
         if type(paths) == str:
             self.df = pd.read_csv(paths, **pd_kwargs)
 
-        # If a list of paths is specified, assume they are baumgardt and harris catalogs 
+        # If a list of paths is specified, assume they are baumgardt and harris catalogs
         elif type(paths) == list:
             # Set paths
             baumgardt_path, harris_path = paths
@@ -984,7 +997,10 @@ class GCCatalog:
             raise Exception("path type %s not implemented" % type(paths))
 
     def match_to_cmc_models(
-        self, cmc_path, cmc_kwargs={}, dyn_kwargs={},
+        self,
+        cmc_path,
+        cmc_kwargs={},
+        dyn_kwargs={},
     ):
         """! Given a path to a CMC directory, finds the matching CMC models for the GCs."""
 
@@ -994,7 +1010,9 @@ class GCCatalog:
         # Load cmc catalog, and dyn.dat data
         import mywheels.cmcutils.readcatalog as cmccat
 
-        cmc_models = cmccat.CMCCatalog(cmc_path, extension=".tar.gz", mp_nprocs=128, **cmc_kwargs)
+        cmc_models = cmccat.CMCCatalog(
+            cmc_path, extension=".tar.gz", mp_nprocs=128, **cmc_kwargs
+        )
         cmc_models.add_dat_timesteps(
             "initial.dyn.dat",
             tmin=10000.0,
@@ -1002,7 +1020,12 @@ class GCCatalog:
             tnum=10,
             dat_kwargs={
                 "pd_kwargs": {"usecols": ["t", "M", "rc_spitzer", "r_h"]},
-                "convert_units": {"t": "myr", "M": "msun", "rc_spitzer": "pc", "r_h": "pc"},
+                "convert_units": {
+                    "t": "myr",
+                    "M": "msun",
+                    "rc_spitzer": "pc",
+                    "r_h": "pc",
+                },
             },
             **dyn_kwargs,
         )

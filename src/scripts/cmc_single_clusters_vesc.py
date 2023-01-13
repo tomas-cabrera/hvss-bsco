@@ -16,20 +16,16 @@ import paths
 # plt.style.use(rustics.PATH_TO_MPLRC)
 
 # Get cluster names
-cmc_cluster_list = [
-    "N8e5_rv0.5_rg8_Z0.0002",
-    "N4e5_rv0.5_rg8_Z0.0002",
-    "N8e5_rv2_rg8_Z0.0002",
-    "N8e5_rv0.5_rg8_Z0.02",
-]
+cmc_cluster_list = list(rustics.SAMPLE_MODELS.keys())
 
 mosaic = np.reshape(cmc_cluster_list, (4, 1))
-figheight = 1.5
-figwidth = 4
+figwidth = rustics.textwidth
+figheight = rustics.textwidth / 4 * 1.5
 fig, axd = plt.subplot_mosaic(
     mosaic,
     figsize=(mosaic.shape[1] * figwidth, mosaic.shape[0] * figheight),
     sharex=True,
+    sharey=True,
     gridspec_kw={
         "hspace": 0,
         "wspace": 0,
@@ -52,35 +48,34 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
     ejdf.df = ejdf.df[ejdf.df["type_f"] > 0]
 
     # Load times and core radii from initial.dyn.dat
-    df_dyn = pd.read_csv(
-        paths.data_cmc / cmc_cluster / "initial.dyn.dat",
-        # names=["t", "rc_nb"],
-        # usecols=[0, 24],  # 0 for t, 24 for rc_nb
-        names=["t", "Dt", "rho_0", "rc_nb"],
-        usecols=[0, 1, 21, 24],  # 0 for t, 1 for Dt, 24 for rho_0
-        skiprows=2,
+    df_esc = pd.read_csv(
+        paths.data_cmc / cmc_cluster / "initial.esc.dat",
+        names=["t", "phi_rtidal", "phi_zero"],
+        usecols=[1, 9, 10],  # 1 for t, 9 for phi_rtidal, 10 for phi_zero
+        skiprows=1,
         delim_whitespace=True,
     )
 
-    # Load intial.conv.sh (for converting TotalTime to Myr and core radius to pcs)
+    # Load intial.conv.sh (for converting TotalTime to Myr and core vesc to km/s)
     # Copied from cmctools/cmctoolkit.py
     conv_path = paths.data_cmc / cmc_cluster / "initial.conv.sh"
     f = open(conv_path, "r")
     convfile = f.read().split("\n")
     f.close()
+    lengthunitcgs = float(convfile[13][14:])
     timeunitsmyr = float(convfile[19][13:])
-    lengthunitparsec = float(convfile[15][17:])
-    df_dyn["t"] *= timeunitsmyr
-    df_dyn["rc_nb"] *= lengthunitparsec
+    nbtimeunitcgs = float(convfile[21][14:])
+    nb_kms = 1e-5 * lengthunitcgs / nbtimeunitcgs
+    df_esc["t"] *= timeunitsmyr
+    df_esc["phi_rtidal"] *= nb_kms**2
+    df_esc["phi_zero"] *= nb_kms**2
 
     # Generate ordered list of type_i's, descending by number of occurences
-    # type_is = [x[0] for x in ejdf.df.value_counts("type_i").index]
     type_is = ejdf.df.value_counts("type_i").index
     type_is = rustics.INFO_TYPES_I.iloc[type_is]
 
     # Some parameters
     ms = 0.25
-    minimum = 50
 
     # Select x-/y-axis labels; stars only (k<10)
     x = "time"
@@ -106,78 +101,53 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
             filtered[y],
             color=ti_row.color,
             linestyle="None",
-            label=ti_row.label,
+            # label=ti_row.label,
             marker="+",
             markersize=ms,  # irrelevant for marker="," (pixels)
             alpha=0.25,
             rasterized=True,
         )
 
-    # Add rho_0 axis
-    colorr = "xkcd:crimson"
-    axr = ax.twinx()
-    axr.set_xlim(ax.get_xlim())
-    axr.set_yscale("log")  # , subs=[2, 3, 4, 5, 6, 7, 8, 9])
+    # Get xlim
+    if ci == 0:
+        xlims = ax.get_xlim()
+
+    # Add vesc_core
     tsample = [
         int(i)
         for i in np.logspace(
             0,
-            np.log10(df_dyn.shape[0] - 1),
+            np.log10(df_esc.shape[0] - 1),
             1000,
         )
     ]
     tsample = list(set(tsample))
     tsample.sort()
-    axr.plot(
-        df_dyn.loc[tsample, "t"] / 1000.0,
-        df_dyn.loc[tsample, "rho_0"] / df_dyn.loc[0, "rho_0"],
-        color=colorr,
+    ax.plot(
+        df_esc.loc[tsample, "t"] / 1000.0,
+        (2 * (df_esc.loc[tsample, "phi_rtidal"] - df_esc.loc[tsample, "phi_zero"]))
+        ** 0.5,
+        # label="Core",
+        color="xkcd:crimson",
         alpha=0.7,
-        lw=0.5,
+        lw=1,
+        rasterized=True,
     )
-    axr.tick_params(
-        axis="y",
-        colors=colorr,
-    )
-    # axr.set_ylim(
-    #    (0.0011, axr.get_ylim()[1])
-    # )  # hacky way of getting 0.0 label off the adjacent axes
-
-    # Expand ylim if not large enough
-    ylim = ax.get_ylim()
-    if np.floor(np.log10(ylim[1])) == np.floor(np.log10(ylim[0])):
-        ax.set_ylim((0.5 * ylim[0], 2 * ylim[1]))
 
     # Add cluster label
-    axr.annotate(cmc_cluster, (0.025, 0.0525), xycoords="axes fraction")
+    ax.annotate(
+        rustics.SAMPLE_MODELS[cmc_cluster], (0.025, 0.1), xycoords="axes fraction"
+    )
 
-    # Add minor ticks
-    xlim = ax.get_xlim()
-    numticks = np.ceil(np.log10(xlim[1] / xlim[0])) + 2
-    locmin = mplticker.LogLocator(base=10, subs=np.arange(0, 1, 0.1), numticks=numticks)
-    ax.xaxis.set_minor_locator(locmin)
-    ax.xaxis.set_minor_formatter(mplticker.NullFormatter())
-    ylim = axr.get_ylim()
-    numticks = np.ceil(np.log10(ylim[1] / ylim[0])) + 2
-    locmin = mplticker.LogLocator(base=10, subs=np.arange(0, 1, 0.1), numticks=numticks)
-    axr.yaxis.set_minor_locator(locmin)
-    axr.yaxis.set_minor_formatter(mplticker.NullFormatter())
+    # Axes limits
+    ax.set_xlim(xlims)
 
-# Add superlabels
-fig.supxlabel(rustics.HEADERS_TO_LABELS[x], x=0.55, y=0.05, ha="center")
-fig.supylabel(rustics.HEADERS_TO_LABELS[y], x=0.05, y=0.55, va="center")
-fig.text(
-    0.95,
-    0.55,
-    r"$\rho_{c} / \rho_{c,0}$",
-    va="center",
-    color=colorr,
-    rotation="vertical",
-)
+    # Axes labels
+    if cmc_cluster == cmc_cluster_list[-1]:
+        ax.set_xlabel(rustics.HEADERS_TO_LABELS[x])
+    ax.set_ylabel(rustics.HEADERS_TO_LABELS[y])
 
-# Adjust spacing
+# Adjust spacing and save
 plt.tight_layout()
-
-# hvss_utils.grid_selfmade(ax)
 plt.savefig(paths.figures / "cmc_single_clusters_vesc.pdf")
 plt.close()

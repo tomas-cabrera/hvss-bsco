@@ -17,3 +17,4 @@ src/trash
 # TC221206: Data
 src/data/*
 src/data_p50s.tar.gz
+src/data_p15v.tar.gz
