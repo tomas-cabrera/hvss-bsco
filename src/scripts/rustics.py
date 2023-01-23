@@ -101,7 +101,7 @@ MODEL_NAMES_V2 = [
 
 # dict of sample CMC models, with values as labels
 SAMPLE_MODELS = {
-    "N8e5_rv0.5_rg8_Z0.0002": r"$(N, r_{\rm vir,pc}, Z_{Z_\odot}) = (8{\rm e}5, 0.5, 0.01)$",
+    "N8e5_rv0.5_rg8_Z0.0002": r"$N, r_{\rm vir,pc}, Z_{Z_\odot} = 8{\rm e}5, 0.5, 0.01$",
     "N4e5_rv0.5_rg8_Z0.0002": r"$N = 4{\rm e}5$",
     "N8e5_rv2_rg8_Z0.0002": r"$r_{\rm vir,pc} = 2$",
     "N8e5_rv0.5_rg8_Z0.02": r"$Z_{\rm Z_\odot} = 1$",
@@ -113,6 +113,10 @@ SAMPLE_GCS = [
     "NGC_5139",
     "NGC_6205",
     "NGC_7089",
+    # "NGC_104",
+    # "Pal_10",
+    # "NGC_6121",
+    # "NGC_5986",
 ]
 
 # Headers for realization dataframes

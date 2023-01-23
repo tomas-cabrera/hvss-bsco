@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.colors as mplc
 import multiprocessing as mp
 import parmap
 from tqdm import tqdm
@@ -160,15 +161,25 @@ def integrate_cmc_ejections(
             ],
             figsize=(4, 4),
         )
+        cvals = (t_ejs.value + 14000.0) / 14000.0
+        lognorm = mplc.LogNorm(vmin=0.08, vmax=19)
+        cvals = lognorm(cmc.df.mf)
+        ncmap = 256
+        cmap = np.ones((ncmap, 4))
+        cmap[:, 0] = np.linspace(1, 0, ncmap)
+        cmap[:, 1] = 0
+        cmap[:, 2] = np.linspace(0, 1, ncmap)
+        cmap = mplc.ListedColormap(cmap)
 
         ax = axd["xy"]
         # GC trajectory
         ax.plot(
             o_gc.x(ts),
             o_gc.y(ts),
-            c="gray",
+            c="k",
             alpha=0.5,
             lw=0.25,
+            zorder=-1,
             rasterized=True,
         )
         # Ejection points
@@ -176,17 +187,35 @@ def integrate_cmc_ejections(
             o_gc.x(t_ejs),
             o_gc.y(t_ejs),
             # c="k",
-            c=(t_ejs.value + 14000.0) / 14000.0,
-            # c=t_ejs,
+            c=cvals,
+            cmap=cmap,
             s=1.0,
             lw=0,
+            zorder=1,
             rasterized=True,
         )
         # Axes labels
         ax.set_xlabel(r"$x\ [{\rm kpc}]$")
         ax.set_ylabel(r"$y\ [{\rm kpc}]$")
         ax.set_aspect("equal")
-        ax.legend(title=cluster)
+        ax.legend(title=cluster, loc="upper left")
+
+        # Colorbar
+        # Add colorbar; 221019: the colorbar spans the time of the ejections, which revealed that I was determining pre- and post- present-day ejections incorrectly.  Rerunning
+        ## TODO: These two lines were copied from StackOverflow; implement later with right limits
+        ##       Note that the scale will have to be applied to the scatter function as well
+        sm = plt.cm.ScalarMappable(norm=plt.Normalize(vmin=-14, vmax=0))
+        sm = plt.cm.ScalarMappable(norm=plt.Normalize(vmin=-3, vmax=np.log10(20)))
+        sm = plt.cm.ScalarMappable(norm=lognorm, cmap=cmap)
+        axcb = plt.colorbar(
+            mappable=sm,
+            ax=ax,
+            orientation="horizontal",
+            shrink=0.75,
+            pad=0.11,
+        )
+        axcb.set_label(rustics.HEADERS_TO_LABELS["mf"])
+
         plt.tight_layout()
         plt.savefig(
             paths.figures / __file__.split("/")[-1].replace(".py", "_%s.pdf" % cluster)
