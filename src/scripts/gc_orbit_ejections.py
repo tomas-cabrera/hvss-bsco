@@ -198,7 +198,7 @@ def integrate_cmc_ejections(
         ax.set_xlabel(r"$x\ [{\rm kpc}]$")
         ax.set_ylabel(r"$y\ [{\rm kpc}]$")
         ax.set_aspect("equal")
-        ax.legend(title=cluster, loc="upper left")
+        ax.legend(title=cluster.replace("_", " "), loc="upper left")
 
         # Colorbar
         # Add colorbar; 221019: the colorbar spans the time of the ejections, which revealed that I was determining pre- and post- present-day ejections incorrectly.  Rerunning

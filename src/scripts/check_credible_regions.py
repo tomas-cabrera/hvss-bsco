@@ -200,7 +200,7 @@ hist2d_hpx_to_mollweide(
 # axcb.set_label(r"$m~(M_\odot)$")
 
 # Clean and show
-fig.suptitle(gc)
+fig.suptitle(gc.replace("_", ""))
 plt.tight_layout()
 plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", "_x.pdf"))
 plt.close()
@@ -284,7 +284,7 @@ ax.set_aspect("equal")
 ax.set_xlabel(r"$\mu_\alpha \cos \delta~[{\rm mas/yr}]$")
 
 # Clean and show
-fig.suptitle(gc)
+fig.suptitle(gc.replace("_", ""))
 plt.tight_layout()
 plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", "_v.pdf"))
 plt.close()

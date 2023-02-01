@@ -38,9 +38,9 @@
 
 % Abstract with filler text
 \begin{abstract}
-    The dense environments in the cores of globular clusters (GCs) facilitate many fewbody encounters among stellar objects.
- 	Mass segregation ensures that the most massive stars sink into the core first, and subsequently that the core becomes populated with black holes as the same stars evolve; these compact objects are expected to enable stronger dynamics than star-only encounters.
- 	We study the capacity of these systems to produce high speed stellar ejecta through a synthetic population of binary-single encounters, the latter of which we construct from realistic $N$-body models of GCs.
+    The dense environments in the cores of globular clusters (GCs) facilitate many strong dynamical encounters among stellar objects.
+    These encounters have been shown capable of ejecting stars from the host GC, whereupon they become runaway stars, or hypervelocity stars if unbound to the galactic potential.
+ 	We study high speed stellar ejecta originating from GCs by using realistic $N$-body models, in particular focusing on binary-single encounters involving compact objects.
  	We pair our model-discriminated populations with observational catalogs of Milky Way GCs to compose a present-day galactic population of ejecta.
  	We find that these kinds of encounters can accelerate stars to velocities in excess of 2000 \kms, to speeds beyond the previously predicted limits for ejecta from star-only encounters and in the same regime of galactic center ejections.
 	However, the same ejections can only account for 1.5-10\% of the total population of stellar runaways, and only 0.01-1\% of hypervelocity stars, with similar relative rates found for white dwarf ejections.
@@ -58,16 +58,15 @@ While S5-HVS1, along with several others, is well-explained by accepting an orig
 Two consistent results from these lines of work are that many stars previously classified as HVSs are nonetheless bound to the galactic potential, and many of these ``runaways" are more likely to have been ejected from the disk or a satellite as opposed to the galactic center.
 Altogether, the identification of systems of origin for HVSs and runaway stars is a necessary threshold problem to unlocking the full potential of observations of these objects.
 
-Alternate acceleration mechanisms capable of producing high-velocity stars include the binary supernova and dynamical ejection scenarios (BSS \citep{1967BOTT....4...86P} and DES \citep{1961BAN....15..265B}, respectively).
-The BSS has been predicted to accelerate stars to speeds of a few hundred \kms \citep{2019A&A...624A..66R, 2022MNRAS.tmp.3236I}, with exceptionally light companions potentially receiving velocities in excess of 1000 \kms \citep{2015MNRAS.448L...6T}.
-The DES has been associated with higher speed limits: \citet{1991AJ....101..562L} studied these encounters with numerical methods, and found that the upper limit for products of these encounters was approximately the escape speed from the surface of the most massive star involved.
+Alternate acceleration mechanisms capable of producing high-velocity stars include the binary supernova and dynamical ejection scenarios (BSS \citep{1961BAN....15..265B} and DES \citep{1967BOTT....4...86P}, respectively).
+In the BSS, the more massive primary of a stellar binary undergoes a supernova, which subsequently accelerates the companion; this scenario has been predicted to accelerate stars to speeds of a few hundred \kms \citep{2019A&A...624A..66R, 2022MNRAS.tmp.3236I}, with exceptionally light companions potentially receiving velocities in excess of 1000 \kms \citep{2015MNRAS.448L...6T}.
+The DES concerns strong gravitational interactions among 3-4 stellar objects, and has been associated with higher speed limits: \citet{1991AJ....101..562L} studied these encounters with numerical methods, and found that the upper limit for products of these encounters was approximately the escape speed from the surface of the most massive star involved.
 For a sun-like star, this escape speed is $\sim$620 \kms, while for a 60 $M_\odot$ late main-sequence star it is $\sim$1400 \kms.
+\citet{2023arXiv230111444O} recently found that for OB runaways in the Small Magellanic Cloud, the DES is expected to occur 2-3 times more frequently that the BSS.
 
-Globular clusters (GCs) are obvious candidate matrices for both of these events due to their high stellar densities, but the DES might be exceptionally amplified due to the combined effects of mass segregation and stellar evolution.
-The former process is characterized as the migration of the most massive objects to the center of a self-gravitating system due to dynamical friction \citep[e.g.,][]{2008gady.book.....B}, which in turn leads to efficient formation of binaries in the core \citep{2005MNRAS.358..572I}.
-This central population of binaries is highly influential on the evolution of the cluster, primarily serving as a heat source as binaries form and shrink through dynamical encounters, undergoing one kind of ``core collapse" in the process \citep[e.g.][]{2007ApJ...658.1047F, 2013MNRAS.429.2881C}.
-In a realistic cluster, these dynamical phases occur after stars have started collapsing into black holes (BHs), and such objects dominate the core population \citep{2020IAUS..351..357K}.
-The resulting abundance of black hole binaries (BBHs) characterizes GCs as one of the favorable progenitors of gravitational-wave sources \citep{2000ApJ...528L..17P, 2015PhRvL.115e1101R}, and in the context of this paper motivates the investigation of whether the population of GCs in the Milky Way (MW) can be considered a significant source of high-velocity stars.
+Globular clusters (GCs) are obvious candidate matrices for both of these events due to their high stellar densities, but the DES might be exceptionally amplified due to the presence of BH subsystems in the centers of GCs.
+Multi-band observations \citep{Maccarone2007a, Barnard2011, Chomiuk2013, Miller-Jones2015a} employing a variety of techniques \citep{Strader2012, Bahramian2016, Giesers2018} have been successful in finding tens of BH candidates in GCs, which are in themselves consistent with the presence of hundreds of BHs per cluster \citep{Giesers2019}.
+BHs play important roles in the macroscopic evolution of the GC \citep[e.g.][]{2020IAUS..351..357K} by dominating gravitational interactions in GC cores; this naturally places BHs in a privileged position when considering the DES in GCs, particularly when considering the maximum velocities attainable by this mechanism.
 
 Several recent and ongoing studies seek investigate these phenomena and the broader question of extra-tidal stars from GCs, in part encouraged by the continual improvement of astrometric measurements through efforts such as \textit{Gaia} \citet{2022A&A...667A.148G}.
 \citet{2023MNRAS.518.4249G} developed and used a particle spray code to model ejections from GC cores and demonstrate that kinematic cuts can be too aggressive when searching for ejecta, preferring the use of chemical abundances alone.
@@ -76,7 +75,7 @@ Of particular proximity to our work, \citet{2022arXiv221116523W} used the same G
 The latter two of of these works are explicitly presented as the first in a series of papers seeking to compose a more complete picture of their respective objects.
 
 This work investigates the capacity of GCs to produce HVSs through the DES.
-We focus on encounter between binary and single objects, as they are the most abundant kind of fewbody encounter, and specifically those that involve compact objects (COs, meaning BHs, a white dwarfs (WDs), and neutron stars (NSs)).
+We focus on encounter between binary and single objects, as they are the most abundant kind of strong encounter, and specifically those that involve compact objects (COs, meaning BHs, a white dwarfs (WDs), and neutron stars (NSs)).
 In \S\ref{sec:methods}, we describe our method of generating binary-single compact object (BSCO) ejecta populations from realistic simulations of GCs.
 In \S\ref{sec:gcdyns}, we examine these populations as functions of GC parameters, and the relationship they have to GC evolution.
 In \S\ref{sec:est_MW-like}, we combine our synthetic populations with observational MWGC catalogs to produce a MW-like population of ejecta, along with predicting rates and phase space distributions for these objects.
@@ -84,7 +83,7 @@ We conclude that GCs are possible generators of HVSs in all velocity regimes thu
 
 \section{Methods: Sampling \& Integrating BSCO encounters} \label{sec:methods}
 
-The \CMCcat\ was generated using \CMC, a H\'enon-style $N$-body code for collisional stellar dynamics.  Developed over two decades \citep{2000ApJ...540..969J,2013ApJS..204...15P,Rodriguez2022}, \CMC\ relies upon the technique originally developed by \citet{1971Ap&SS..13..284H,1971Ap&SS..14..151H}, where the cumulative effect of two-body encounters is modeled as an ``effective'' encounter between neighboring particles (in a radially sorted, spherically symmetric  potential).  Because these neighboring particles are individual stars (or binaries), the H\'enon method allows detailed stellar and strong dynamical encounters to be considered as well. To that end \CMC~includes prescriptions for three-body binary formation from single BHs \citep{2013ApJ...763L..15M}, binary-single and binary-binary gravitational encounters using the \texttt{Fewbody} small-$N$ scattering package \citep{2004MNRAS.352....1F,2007ApJ...658.1047F}, and galactic tidal fields \citep{2013MNRAS.429.2881C} \carl{CARL CHECK THAT}.  The version of \CMC\ used to create the \CMCcat\citep[which used identical physics to the public version described in][]{Rodriguez2022} treats single and binary stellar evolution for stars with  the \texttt{COSMIC} code for population synthesis \citep{2020ApJ...898...71B}.  \texttt{COSMIC} is based upon the original Binary Stellar Evolution (BSE) code \citep{2000MNRAS.315..543H,2002MNRAS.329..897H}, but with updated prescriptions for compact-object formation and massive star evolution; see \citet{2020ApJ...898...71B} and \citet{Rodriguez2022} for details.
+The \CMCcat\ was generated using \CMC, a H\'enon-style $N$-body code for collisional stellar dynamics.  Developed over two decades \citep{2000ApJ...540..969J,2013ApJS..204...15P,Rodriguez2022}, \CMC\ relies upon the technique originally developed by \citet{1971Ap&SS..13..284H,1971Ap&SS..14..151H}, where the cumulative effect of two-body encounters is modeled as an ``effective'' encounter between neighboring particles (in a radially sorted, spherically symmetric  potential).  Because these neighboring particles are individual stars (or binaries), the H\'enon method allows detailed stellar and strong dynamical encounters to be considered as well. To that end \CMC~includes prescriptions for three-body binary formation from single BHs \citep{2013ApJ...763L..15M}, binary-single and binary-binary gravitational encounters using the \fewbody\ small-$N$ scattering package \citep{2004MNRAS.352....1F,2007ApJ...658.1047F}, and galactic tidal fields \citep{2013MNRAS.429.2881C} \carl{CARL CHECK THAT}.  The version of \CMC\ used to create the \CMCcat\citep[which used identical physics to the public version described in][]{Rodriguez2022} treats single and binary stellar evolution for stars with  the \texttt{COSMIC} code for population synthesis \citep{2020ApJ...898...71B}.  \texttt{COSMIC} is based upon the original Binary Stellar Evolution (BSE) code \citep{2000MNRAS.315..543H,2002MNRAS.329..897H}, but with updated prescriptions for compact-object formation and massive star evolution; see \citet{2020ApJ...898...71B} and \citet{Rodriguez2022} for details.
 
 When one of the two neighboring particles in a cluster is a binary, \CMC\ calculates whether to perform a strong dynamical encounter by calculating the probably $P_{\rm BS}$ for an encounter to occur within a single timestep $\Delta T$ as
 \begin{equation}
@@ -125,10 +124,10 @@ We do not attempt to correct for this, which leads to a minor underestimation of
 
 Core collapse is a well-documented feature of GC evolution (e.g. \citealt{1968MNRAS.138..495L}, \citealt{2001A&A...375..711F}, \citealt{2006MNRAS.368..121F}, \citealt{2008gady.book.....B}, \citealt{2020IAUS..351..357K}), and as will be seen is a significant factor in the ejection of stars from these systems.
 In general, a core collapse occurs when gravitational potential energy is rapidly liberated from the central region of a GC through dynamical encounters, causing the core to contract while energizing and potentially expanding the surrounding envelope of stars.
-Binaries play an important role in these processes, as their formation and hardening through fewbody encounters accelerate the other interacting stars, which subsequently travel to the more extended regions of the GC and potentially escape it entirely.
+Binaries play an important role in these processes, as their formation and hardening through strong encounters accelerate the other interacting stars, which subsequently travel to the more extended regions of the GC and potentially escape it entirely.
 The first core collapse of a GC tends to be propagated by these dynamics, causing the GC to puff up over the following Gyrs as the central binaries continue to shrink and the stellar density increases.
 
-Mass segregation causes the core to be populated by the most massive objects in the GC, which also are those that first evolve into BHs.
+Dynamical friction-induced mass segregation \citep[e.g.][]{2008gady.book.....B} causes the core to be populated by the most massive objects in the GC, which also are those that first evolve into BHs.
 As the core contracts, successively stronger encounters eject all but a small handful of the initially 10s-100s of BHs; this reduced subsystem is unable to support the GC to the same extent as its predecessor, and so the interior of the GC contracts until a sufficiently strong replacement is composed.
 After \citet{2020IAUS..351..357K}, we employ this characteristic of BH ejection as a metric of whether a GC model has undergone this second kind of core collapse: once there are less than 10 BHs remaining in the model, we label it as core collapsed from that time onward.
 
@@ -227,7 +226,7 @@ It is worth noting the prominence of the $N = 4\times10^5$, $r_{\rm vir} = 0.5$ 
 
 Acknowledging these especially fecund models, predicable trends are visible in these histograms: increasing mass and decreasing size are both associated with higher ejection velocities.
 However, while the number of ejections increases as the models become more compact, increasing the number of particles/mass of the model leads to a slight \textit{decrease} in ejecta.
-The $N = 4 \times 10^5$ models consistently produce the most ejections in comparison with otherwise identical models of different population sizes, suggesting that at this mass there are not enough massive objects to prevent a severe initial core collapse through binary burning, but there are enough to facilitate a high number of BSCO encounters (the number of fewbody encounters in general is also maximized in the $N = 4 \times 10^5$ models).
+The $N = 4 \times 10^5$ models consistently produce the most ejections in comparison with otherwise identical models of different population sizes, suggesting that at this mass there are not enough massive objects to prevent a severe initial core collapse through binary burning, but there are enough to facilitate a high number of BSCO encounters (the number of strong encounters in general is also maximized in the $N = 4 \times 10^5$ models).
 
 The most noticeable distinction among models of different metallicities is the number of ejections, which decreases with increasing metallicity.
 This is understandable, as in practice the lower metallicity models have greater BH populations than the higher metallicity models; quantitatively, the 1\% solar models have about $1.2 \times$ as many BHs at the time of ``first" core collapse as the solar models, and maximum BH masses about $2 \times$ those of the same.
@@ -395,15 +394,15 @@ It is also of note that GCs are able to produce any HVSs at all, at velocities p
 
 \section{Discussion \& Conclusions} \label{sec:disccon}
 
-In this work we have studied fewbody encounters in GCs as means of producing stellar runaways.
+In this work we have studied strong 3-body encounters in GCs as means of producing stellar runaways.
 We composed a synthetic MW-like population of ejecta by matching observed GCs to realistic $N$-body models of these systems and embedding the models in the orbits of their real counterparts.
-In particular we considered binary-single encounters involving at least one compact object; this selection includes about half of all fewbody encounters in the catalog of models.
+In particular we considered binary-single encounters involving at least one compact object; this selection includes about half of all strong encounters in the catalog of models.
 
 BSCO ejections were found to be closely linked to the evolution of the cluster core, where the closest encounters among the densest stellar objects occur.
 GCs lose mass, and generally expand as they evolve; accordingly, the majority of and the fastest BSCO ejecta were produced in the early stages of the models.
 High-metallicity models had overall weaker ejection mechanisms (in frequency and maximum velocity), due to smaller stellar masses.
 BSCO encounters occurring in realistic GCs are capable of accelerating stars to velocities in excess of 2000 \kms, which complicates the identification of ejection mechanisms for HVSs when their origins are not easily recognizable.
-We also note that these velocities appear to pass the speed limit on star-only fewbody encounters found by \citet{1991AJ....101..562L}; further study is warranted to study how compact object fewbody dynamics differ from those of objects with a significant physical size.
+We also note that these velocities appear to pass the speed limit on star-only encounters found by \citet{1991AJ....101..562L}; further study is warranted to discern the impact of compact objects on small-$N$-body dynamics.
 
 While ejected objects evolve to be largely indistinguishable from other MW stars in terms of position, they were found capable of retaining some information about the motion of their GC of origin, particularly in the case of GCs with near-circular orbits.
 The overall population of ejecta was usually concentrated around the average proper motion of the GC throughout its orbit.
@@ -413,6 +412,9 @@ In the galactic context, the velocity distribution of the synthetic ejecta was f
 With galactic-center origin studies finding distributions skewed towards higher velocities in the same respect \citet{2018ApJ...866...39B}, it is possible that a mixture of the two could be used to more accurately model the real population of these objects.
 Such a calculation must be done in light of the relative rates of the two mechanisms: our study concludes that while the GC BSCO runaway rate might have been a few 10\% of the overall rate in the first few Gyr of the universe, in the present day it is likely no more than 10\% of the same.
 
+This work was supported by NSF Grant AST-2009916 and NASA ATP Grant 80NSSC22K0722.
+CR also acknowledges support from a Charles E.~Kaufman Foundation New Investigator Research Grant, an Alfred P.~Sloan Research Fellowship, and a David and Lucile Packard Foundation Fellowship.
+
 \appendix
 
 \section{Velocities in encounter rest frames versus the GC rest frame} \label{app:restframe}
@@ -420,7 +422,7 @@ Such a calculation must be done in light of the relative rates of the two mechan
 We justify here our claim that in neglecting the transformation from the encounter rest frame to the GC model rest frame we obtain slower - and subsequently fewer - ejections.
 
 H\'enon's Monte Carlo method tracks the dynamical state of objects by their energy and angular momentum, which makes the technique inherently spherically symmetric.
-When drawing a radial and tangential velocity from an object's orbit, the sign of the radial velocity is randomly chosen as positive or negative with equal weighting, and when setting up a fewbody encounter an angle $0 \le \phi \le 2\pi$ between the tangential velocities of the two objects is chosen from a uniform distribution.
+When drawing a radial and tangential velocity from an object's orbit, the sign of the radial velocity is randomly chosen as positive or negative with equal weighting, and when setting up a strong interaction an angle $0 \le \phi \le 2\pi$ between the tangential velocities of the two objects is chosen from a uniform distribution.
 These two features ensure isotropy of either velocity with respect to the other, and of the center-of-mass velocity of the encounter with respect to the GC model rest frame $\vec{v}_{\rm cm|GC}$.
 Note that the speed $v_{\rm cm|GC}$ cannot be greater than the maximum speed between the two objects.
 

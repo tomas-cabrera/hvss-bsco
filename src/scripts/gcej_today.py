@@ -183,6 +183,7 @@ for gc in rustics.SAMPLE_GCS:
     axv.set_ylim((-45, 15))
     axv.set_xlabel(r"$\mu_{\alpha \cos \delta}~[{\rm mas/yr}]$")
     axv.set_ylabel(r"$\mu_{\delta}~[{\rm mas/yr}]$")
+    axv.legend(title=gc.replace("_", " "), loc="upper left")
 
     ## Plot mu_l_cosb-mu_b
     # axv.scatter(
