@@ -19,7 +19,7 @@
 
 The [showyourwork!](https://show-your.work/en/latest/) repository for this paper, the latter of which investigates how binary-single encounters in the Milky Way population of globular clusters produces runaway and hypervelocity stars.
 
-showyourwork! was added after much of the simulation for this project had been done, and so documentation on these steps is not well-integrated with the rest.
+showyourwork! was added after much of the simulation for this project had been done, and so documentation on these first steps is not well-integrated with the rest.
 The relevant code can be found in [src/previous_steps](https://github.com/tomas-cabrera/hvss-bsco/tree/main/src/previous_steps), and consists of:
 - [fewbody-pn](https://github.com/tomas-cabrera/hvss-bsco/tree/main/src/previous_steps/fewbody-pn): The scattering code used for this project.  A copy of the [fewbody](https://gitlab.com/fregeau/fewbody) package described in [Fregeau+04](https://ui.adsabs.harvard.edu/abs/2004MNRAS.352....1F), with some physics modifications for black holes and other compact objects.  Almost all modifications have the string "HVSS" in their comment.
 - [scripts_original](https://github.com/tomas-cabrera/hvss-bsco/tree/main/src/previous_steps/scripts_original): The scripts used to generate the binary-single encounter products from [<code>CMC</code>](https://github.com/ClusterMonteCarlo/CMC-COSMIC) ([Rodriguez+22](https://ui.adsabs.harvard.edu/abs/2022ApJS..258...22R)) output; the important files have "cmc" in their names.  Some groups of files are as follows:
