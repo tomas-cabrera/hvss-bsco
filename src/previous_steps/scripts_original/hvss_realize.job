@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -n 128
+#SBATCH -t 168:00:00
+#SBATCH -J hvss_realize_cmc_test
+#SBATCH -o hvss_realize_cmc_test.slurm
+#SBATCH -A phy200025p
+#SBATCH -p HENON 
+​
+# use the bash shell
+set -x 
+# echo each command to standard out before running it
+date
+# run the Unix 'date' command
+time python hvss_realize_cmc.py
+# run my python script

@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH -n 1
+#SBATCH -t 168:00:00
+#SBATCH -J hvss_extract_cmc_search_
+#SBATCH -o hvss_extract_cmc_search.slurm
+#SBATCH -A phy200025p
+#SBATCH -p HENON 
+​
+# use the bash shell
+set -x 
+# echo each command to standard out before running it
+date
+# run the Unix 'date' command
+time python hvss_extract_cmc_search.py
+# run my python script
