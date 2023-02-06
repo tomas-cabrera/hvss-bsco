@@ -1,9 +1,0 @@
-Remember to use "-b vera" and "--recurse-submodules" if cloning the repo again.
-~23s for everything, with 10 timesteps/model.
-
-20220929:
-	Reran, saving time "t" as well.
-20221021:
-	Noticed that normalization in matching space was not implemented.  Implemented and resubmitted.
-	Thought about switching from "rc/rh" to "rc" and "rh", but decided against it because "rc/rh" is likely a better measurement of the evolutionary state of the cluster.
-	Consolidated mywheels to match.py.
