@@ -90,11 +90,11 @@ def hist2d_hpx_to_mollweide(
 
 # Get ejections data
 gc = "NGC_104"
-gc = "NGC_5139"
-gc = "NGC_6205"
-gc = "NGC_7089"
-gc = "Pyxis"
-gc = "E_3"
+# gc = "NGC_5139"
+# gc = "NGC_6205"
+# gc = "NGC_7089"
+# gc = "Pyxis"
+# gc = "E_3"
 gc_path = paths.data_mwgcs / gc
 ejdf = rustics.EjectionDf(
     gc_path / "output_N-10_ejections.txt",
@@ -165,6 +165,11 @@ hist2d_hpx_to_mollweide(
     },
     kw_rotator=kw_rotator,
 )
+# sm = plt.cm.ScalarMappable(
+#     norm=plt.Normalize(vmin=np.log(ml[0]).min(), vmax=np.log(ml[0]).max()),
+#     cmap="inferno_r",
+# )
+# plt.colorbar(mappable=sm, ax=ax, orientation="horizontal")
 
 # Plot credible regions as 2D "tophat" hists
 ax = axd["cred"]
@@ -200,7 +205,7 @@ hist2d_hpx_to_mollweide(
 # axcb.set_label(r"$m~(M_\odot)$")
 
 # Clean and show
-fig.suptitle(gc.replace("_", ""))
+fig.suptitle(gc.replace("_", " "))
 plt.tight_layout()
 plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", "_x.pdf"))
 plt.close()
@@ -212,7 +217,7 @@ plt.close()
 # Set up figure
 fig, axd = plt.subplot_mosaic(
     [["hist", "cred"]],
-    sharex=True,
+    # sharex=True,
     sharey=True,
     gridspec_kw={
         "wspace": 0,
@@ -278,13 +283,14 @@ ax.hist2d(
 #     scej.pm_dec,
 #     **kw_ej,
 # )
-ax.set_xlim((-30, 30))
+axd["hist"].set_xlim((-30, 29.9))
+axd["cred"].set_xlim((-29.9, 30))
+axd["hist"].legend(title=gc.replace("_", " "), loc="upper left")
 ax.set_ylim((-45, 15))
 ax.set_aspect("equal")
 ax.set_xlabel(r"$\mu_\alpha \cos \delta~[{\rm mas/yr}]$")
 
 # Clean and show
-fig.suptitle(gc.replace("_", ""))
 plt.tight_layout()
 plt.savefig(paths.figures / __file__.split("/")[-1].replace(".py", "_v.pdf"))
 plt.close()

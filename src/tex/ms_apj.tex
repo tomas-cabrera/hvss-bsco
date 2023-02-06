@@ -1,6 +1,6 @@
 % Define document class
-\documentclass[twocolumn]{aastex631}
-\usepackage{showyourwork}
+\documentclass[twocolumn,linenumbers]{aastex631}
+% \usepackage{showyourwork}
 \usepackage{amsmath}
 
 % My commands
@@ -171,7 +171,7 @@ Figure \ref{fig:cmc_single_clusters} shows the ejection velocity $v_{\rm out}$ f
 What is immediately apparent from these single cluster models is a strong correlation between BSCO encounters and the evolution of the cluster core: whenever a cluster undergoes a core collapse, the heightened densities lead to predictably high encounter rates.
 
 \begin{figure*}
-    \script{cmc_single_clusters.py}
+    %\script{cmc_single_clusters.py}
     \gridline{
         \fig{figures/cmc_single_clusters_vout-N8e5-rv0.5-rg8-Z0.0002_S.pdf}{0.49\textwidth}{}
         \fig{figures/cmc_single_clusters_vout-N4e5-rv0.5-rg8-Z0.0002_S.pdf}{0.49\textwidth}{}
@@ -215,7 +215,7 @@ For comparison, the escape velocity from the center of the model can be computed
 Figure \ref{fig:cmc_single_clusters_vesc} plots these data for the same sample clusters, where the distribution of encounter escape velocities is strikingly correlated to the central escape velocity, indicating the degree to which the core dominates these dynamics.
 
 \begin{figure}
-    \script{cmc_single_clusters_vesc.py}
+    %\script{cmc_single_clusters_vesc.py}
     \centering
     \includegraphics[width=0.49\textwidth]{figures/cmc_single_clusters_vesc.pdf}
     \caption{
@@ -230,7 +230,7 @@ The number of \CMC\ models corresponding to each parameter value varies, and so 
 It is worth noting the prominence of the $N = 4\times10^5$, $r_{\rm vir} = 0.5$ pc, $Z = 0.0002$ models in these averaged histograms: they are the cause of the peaks above the other distributions, as the three (one for each value of $r_{\rm gc} \in \{2, 8, 20\}$ kpc) produce significantly more ejections than the other models ($\sim$2.9, 2.0, and $1.4 \times 10^4$, respectively, versus the average number of $1-2 \times 10^3$ for the catalog).
 
 \begin{figure*}
-    \script{cmc_catalog.py}
+    %\script{cmc_catalog.py}
     \centering
     \includegraphics[width=\textwidth]{figures/cmc_catalog_S.pdf}
     \caption{
@@ -285,7 +285,7 @@ where $\bar{x}_{\rm CMC}$ and $\sigma_{\rm x,CMC}$ are respectively the mean and
 The snapshot from the $r_{\rm gc}$ - [Fe/H] subset that is closest to the MWGC in the normalized $\log M$ - $r_c / r_h$ space is chosen to represent the GC; as an example, 47 Tuc ($r_{\rm gc} = 7.52$ kpc, $Z = 0.0019$; $\log M = 5.95$, $r_c / r_h,m = 0.125$ \citep{2018MNRAS.478.1520B, 2010arXiv1012.3224H}) is represented by a snapshot from model \texttt{N1.6e6\_rv2\_rg8\_Z0.002}, which at the 10.8 Gyr time of the snapshot has $\log M = 5.91$ and $r_c / r_h = 0.126$.
 
 \begin{figure}
-    \script{cmcs-mwgcs_scatter.py}
+    %\script{cmcs-mwgcs_scatter.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/cmcs-mwgcs_scatter.pdf}
         \caption{
@@ -338,7 +338,7 @@ What is important to note here is that the current proper motion of the cluster 
 We include histograms, and 50\% and 90\% credible regions in sky area and proper motion space as a product of this work, for use as evidence when assigning runaway stars to GC origins; see Appendix \ref{app:credreg} for a description of these products.
 
 \begin{figure*}
-    \script{gcej_today.py}
+    %\script{gcej_today.py}
     \gridline{
         \fig{figures/gcej_today_NGC_104.pdf}{0.45\textwidth}{}
         \fig{figures/gcej_today_NGC_5139.pdf}{0.45\textwidth}{}
@@ -362,7 +362,7 @@ Most runaways end up at a distance on the order of 10 kpc from the galactic cent
 Few runaways make it past the 100 kpc mark, but those that do naturally retain the highest velocities, reaching upwards of 1000~\kms.
 
 \begin{figure*}
-    \script{rgc-z.py}
+    %\script{rgc-z.py}
     \begin{centering}
         \includegraphics[width=0.9\linewidth]{figures/rgc-z_S.pdf}
         \caption{
@@ -376,7 +376,7 @@ Few runaways make it past the 100 kpc mark, but those that do naturally retain t
 \end{figure*}
 
 \begin{figure}
-    \script{cmc_orbits_cdf.py}
+    %\script{cmc_orbits_cdf.py}
     \begin{centering}
         \includegraphics[width=0.99\linewidth]{figures/cmc_orbits_cdf_S.pdf}
         \caption{
@@ -388,7 +388,7 @@ Few runaways make it past the 100 kpc mark, but those that do naturally retain t
 \end{figure}
 
 \begin{figure}
-    \script{mwej_rates.py}
+    %\script{mwej_rates.py}
     \begin{centering}
         \includegraphics[width=0.99\linewidth]{figures/mwej_rates.pdf}
         \caption{
@@ -466,7 +466,7 @@ In the case that the final speed of an object is comparable to the same center-o
 \section{Ejecta credible regions} \label{app:credreg}
 
 \begin{figure}
-    \script{check_credible_regions.py}
+    %\script{check_credible_regions.py}
     \centering
     \includegraphics[width=0.9\textwidth]{figures/check_credible_regions_x.pdf}
     \caption{
@@ -477,7 +477,7 @@ In the case that the final speed of an object is comparable to the same center-o
 \end{figure}
 
 \begin{figure}
-    \script{check_credible_regions.py}
+    %\script{check_credible_regions.py}
     \centering
     \includegraphics[width=0.7\textwidth]{figures/check_credible_regions_v.pdf}
     \caption{

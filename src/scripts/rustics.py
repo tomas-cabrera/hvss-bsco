@@ -104,7 +104,11 @@ SAMPLE_MODELS = {
     "N8e5_rv0.5_rg8_Z0.0002": r"$N, r_{\rm vir,pc}, Z_{Z_\odot} = 8{\rm e}5, 0.5, 0.01$",
     "N4e5_rv0.5_rg8_Z0.0002": r"$N = 4{\rm e}5$",
     "N8e5_rv2_rg8_Z0.0002": r"$r_{\rm vir,pc} = 2$",
-    "N8e5_rv0.5_rg8_Z0.02": r"$Z_{\rm Z_\odot} = 1$",
+    "N8e5_rv0.5_rg8_Z0.02": r"$Z_{Z_\odot} = 1$",
+    # "N8e5_rv1_rg8_Z0.0002": r"$N, r_{\rm vir,pc}, Z_{Z_\odot} = 8{\rm e}5, 1, 0.01$",
+    # "N4e5_rv1_rg8_Z0.0002": r"$N = 4{\rm e}5$",
+    # "N8e5_rv2_rg8_Z0.0002": r"$r_{\rm vir,pc} = 2$",
+    # "N8e5_rv1_rg8_Z0.02": r"$Z_{Z_\odot} = 1$",
 }
 
 # List of sample GCs to use for orbit, mu-mu plots
@@ -262,7 +266,7 @@ HEADERS_TO_LABELS = {
     "dist": r"$d [{\rm kpc}]$",
     "vesc/rho_0": r"$v_{\rm esc}/\rho_0 [{\rm km~s^{-1}/something}]$",
     "v_radial": r"$v_r [{\rm km~s}^{-1}]$",
-    "vlos": r"$v_{\rm los} [{\rm km~s}^{-1}]$",
+    "vlos": r"$v_{\rm rf} [{\rm km~s}^{-1}]$",
     "mx": r"$m_{\rm max} (M_\odot)$",
     "M": r"$M~[M_\odot]$",
     "rc_spitzer/r_h": r"$r_{\rm core} / r_{h,m}$",
@@ -319,8 +323,8 @@ INFO_BSE_K_GROUPS = pd.DataFrame(
 # Dataframe of age groups info
 INFO_CC_GROUPS = pd.DataFrame(
     [
-        ["Pre-core collapse", "Y", "Pre-CC", 0.0, 1.0, "xkcd:azure", "-"],
-        ["Post-core collapse", "O", "Post-CC", 1.0, np.inf, "xkcd:orangered", "--"],
+        ["Pre-core collapse", "Y", "Pre-2CC", 0.0, 1.0, "xkcd:azure", "-"],
+        ["Post-core collapse", "O", "Post-2CC", 1.0, np.inf, "xkcd:orangered", "--"],
     ],
     columns=["label", "initials", "plural", "lo", "hi", "color", "ls"],
 )

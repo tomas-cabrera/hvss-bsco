@@ -17,7 +17,7 @@ import paths
 
 # Get cluster names
 cmc_cluster_list = list(rustics.SAMPLE_MODELS.keys())
-
+print("check12")
 mosaic = np.reshape(cmc_cluster_list, (4, 1))
 figwidth = rustics.textwidth
 figheight = rustics.textwidth / 4 * 1.5
@@ -88,8 +88,6 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
     ax.set_yscale("log", subs=[2, 3, 4, 5, 6, 7, 8, 9])
 
     for ti, ti_row in type_is.iterrows():
-        # for ti, ti_row in rustics.INFO_TYPES_I.iterrows():
-        print(ti, ti_row)
         filtered = ejdf.df[
             (ejdf.df.kf >= kgroup.lo)
             & (ejdf.df.kf < kgroup.hi)

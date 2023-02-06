@@ -20,6 +20,7 @@ import paths
 
 ###############################################################################
 
+
 @njit
 def _rolling_window_count(data, window_centers, window_width):
     """! A function to count the number of instances in a rolling window.
@@ -33,14 +34,16 @@ def _rolling_window_count(data, window_centers, window_width):
     # Loop through windows
     window_counts = []
     for wc in window_centers:
-        wmin = wc - window_width / 2.
-        wmax = wc + window_width / 2.
+        wmin = wc - window_width / 2.0
+        wmax = wc + window_width / 2.0
         mask = (data >= wmin) & (data < wmax)
         window_counts.append(mask.sum())
     return window_counts
-        
 
-def calc_rolling_rate(mwrow, window_centers, window_width=10, vlim=(0.,np.inf)):
+
+def calc_rolling_rate(
+    mwrow, window_centers, window_width=10, vlim=(0.0, np.inf), stellartype=None
+):
     """! Function for parallelizing rolling rate calculation.
 
     @param  mwrow               mwdf row for a certain GC
@@ -52,96 +55,231 @@ def calc_rolling_rate(mwrow, window_centers, window_width=10, vlim=(0.,np.inf)):
     # Load CMC ejections
     gcdf = pd.read_csv(
         paths.data_mwgcs / mwrow.Cluster / "output_N-10_ejections.txt",
-        usecols=["time","kf","U","V","W"],
+        usecols=["time", "kf", "U", "V", "W"],
     )
 
     # Filter -1's (post-present-day ejections)
-    mask = (gcdf.U != -1) & (gcdf.V != -1) & (gcdf.W != -1) & (gcdf.kf < 10)
-    #mask = (gcdf.U != -1) & (gcdf.V != -1) & (gcdf.W != -1) & (gcdf.kf >= 10) & (gcdf.kf < 13) # white dwarfs
+    if stellartype == None or stellartype == "S":
+        mask = (gcdf.U != -1) & (gcdf.V != -1) & (gcdf.W != -1) & (gcdf.kf < 10)
+    elif stellartype == "WD":
+        mask = (
+            (gcdf.U != -1)
+            & (gcdf.V != -1)
+            & (gcdf.W != -1)
+            & (gcdf.kf >= 10)
+            & (gcdf.kf < 13)
+        )  # white dwarfs
+    elif stellartype == "NS":
+        mask = (
+            (gcdf.U != -1) & (gcdf.V != -1) & (gcdf.W != -1) & (gcdf.kf == 13)
+        )  # neutron stars
+    elif stellartype == "BH":
+        mask = (
+            (gcdf.U != -1) & (gcdf.V != -1) & (gcdf.W != -1) & (gcdf.kf == 14)
+        )  # black holes
     gcdf = gcdf[mask]
 
     # Calculate galactocentric velocity & apply vlim
-    gcdf["vgc"] = (gcdf.U**2 + gcdf.V**2 + gcdf.W**2)**0.5
+    gcdf["vgc"] = (gcdf.U**2 + gcdf.V**2 + gcdf.W**2) ** 0.5
     mask = (gcdf.vgc >= vlim[0]) & (gcdf.vgc < vlim[1])
     gcdf = gcdf[mask]
 
     # Calculate rolling rate
     # Note: gcdf.time - mwrow.t sets the time 0 to the present day
-    return _rolling_window_count(gcdf.time.to_numpy() - mwrow.t, window_centers, window_width)
-     
-    
+    return _rolling_window_count(
+        gcdf.time.to_numpy() - mwrow.t, window_centers, window_width
+    )
+
 
 ###############################################################################
 
 # Settings
-nprocs = None 
+nprocs = None
 
 # Load MW catalog
 mwdf = pd.read_csv(paths.data / "mwgcs-cmc.dat")
-print(mwdf.columns)
-print(mwdf)
-
-# Parallel rolling rate calculation
-window_width = 200
-window_step = 20 
-tlim = (-14000., 0.)
-# Set the minimum and maximum window centers to the values where their window entirely lies in the data domain
-tmin = tlim[0] + window_width / 2.
-tmax = tlim[1] - window_width / 2.
-# Generate the window centers
-window_centers = np.arange(tmin, tmax, window_step)
-if nprocs == 1:
-    # Don't run in parallel
-    mp_input = [x for _,x in mwdf.iterrows()]
-    output = parmap.map(
-        calc_rolling_rate, mp_input, window_centers, window_width=window_width, pm_parallel=False, pm_pbar=True,
-    )
-else:
-    # Run in parallel
-    mp_input = [x for _,x in mwdf.iterrows()]
-    pool = mp.Pool(nprocs)
-    output = parmap.map(
-        calc_rolling_rate, mp_input, window_centers, window_width=window_width, pm_pool=pool, pm_pbar=True,
-    )
-full_counts = np.array(output).sum(axis=0)
-if nprocs == 1:
-    # Don't run in parallel
-    mp_input = [x for _,x in mwdf.iterrows()]
-    output = parmap.map(
-        calc_rolling_rate, mp_input, window_centers, window_width=window_width, vlim=(500,np.inf), pm_parallel=False, pm_pbar=True,
-    )
-else:
-    # Run in parallel
-    mp_input = [x for _,x in mwdf.iterrows()]
-    pool = mp.Pool(nprocs)
-    output = parmap.map(
-        calc_rolling_rate, mp_input, window_centers, window_width=window_width, vlim=(500,np.inf), pm_pool=pool, pm_pbar=True,
-    )
-hvs_counts = np.array(output).sum(axis=0)
+# print(mwdf.columns)
+print("mwdf.shape:", mwdf.shape)
 
 # Initialize figure
+mosaic = [["S"], ["WD"]]
+mosaic = [["S"]]
 fscale = 2
-fig, ax = plt.subplots(figsize=(2 * 1.618, 2 * 1.))
-
-# Plot
-ax.plot(
-    window_centers / 1000.,
-    full_counts / window_width / 1e6,
-    label="All ejections",
+fig, axd = plt.subplot_mosaic(
+    mosaic, figsize=(fscale * len(mosaic[0]) * 1.618, fscale * len(mosaic) * 1.25)
 )
-ax.plot(
-    window_centers / 1000.,
-    hvs_counts / window_width / 1e6,
-    label=r"$v > 500~{\rm km~s^{-1}}$",
-)
-ax.axhline(2e-3, c="xkcd:azure", ls="--", alpha=0.7)
-ax.axhline(1e-4, c="xkcd:orangered", ls="--", alpha=0.7)
 
-# Axes
-ax.set_xlabel(rustics.HEADERS_TO_LABELS["time"])
-ax.set_ylabel(r"Rate [yr$^{-1}$]")
-ax.set_yscale("log")
-ax.legend()
+for st in np.array(mosaic).flatten():
+
+    # Parallel rolling rate calculation
+    window_width = 200
+    window_step = 20
+    tlim = (-14000.0, 0.0)
+    # Set the minimum and maximum window centers to the values where their window entirely lies in the data domain
+    tmin = tlim[0] + window_width / 2.0
+    tmax = tlim[1] - window_width / 2.0
+    # Generate the window centers
+    window_centers = np.arange(tmin, tmax, window_step)
+    # Calculate rate for all [stars]
+    if nprocs == 1:
+        # Don't run in parallel
+        mp_input = [x for _, x in mwdf.iterrows()]
+        output = parmap.map(
+            calc_rolling_rate,
+            mp_input,
+            window_centers,
+            window_width=window_width,
+            stellartype=st,
+            pm_parallel=False,
+            pm_pbar=True,
+        )
+    else:
+        # Run in parallel
+        mp_input = [x for _, x in mwdf.iterrows()]
+        pool = mp.Pool(nprocs)
+        output = parmap.map(
+            calc_rolling_rate,
+            mp_input,
+            window_centers,
+            window_width=window_width,
+            stellartype=st,
+            pm_pool=pool,
+            pm_pbar=True,
+        )
+    full_counts = np.array(output).sum(axis=0)
+    # Calculate rate for HV[Ss]
+    if nprocs == 1:
+        # Don't run in parallel
+        mp_input = [x for _, x in mwdf.iterrows()]
+        output = parmap.map(
+            calc_rolling_rate,
+            mp_input,
+            window_centers,
+            window_width=window_width,
+            stellartype=st,
+            vlim=(500, np.inf),
+            pm_parallel=False,
+            pm_pbar=True,
+        )
+    else:
+        # Run in parallel
+        mp_input = [x for _, x in mwdf.iterrows()]
+        pool = mp.Pool(nprocs)
+        output = parmap.map(
+            calc_rolling_rate,
+            mp_input,
+            window_centers,
+            window_width=window_width,
+            stellartype=st,
+            vlim=(500, np.inf),
+            pm_pool=pool,
+            pm_pbar=True,
+        )
+    hvs_counts = np.array(output).sum(axis=0)
+    # Calc WD rate, if one plot
+    if np.array(mosaic).flatten().shape[0] == 1:
+        if nprocs == 1:
+            # Don't run in parallel
+            mp_input = [x for _, x in mwdf.iterrows()]
+            output = parmap.map(
+                calc_rolling_rate,
+                mp_input,
+                window_centers,
+                window_width=window_width,
+                stellartype="WD",
+                pm_parallel=False,
+                pm_pbar=True,
+            )
+        else:
+            # Run in parallel
+            mp_input = [x for _, x in mwdf.iterrows()]
+            pool = mp.Pool(nprocs)
+            output = parmap.map(
+                calc_rolling_rate,
+                mp_input,
+                window_centers,
+                window_width=window_width,
+                stellartype="WD",
+                pm_pool=pool,
+                pm_pbar=True,
+            )
+        wd_counts = np.array(output).sum(axis=0)
+        if nprocs == 1:
+            # Don't run in parallel
+            mp_input = [x for _, x in mwdf.iterrows()]
+            output = parmap.map(
+                calc_rolling_rate,
+                mp_input,
+                window_centers,
+                window_width=window_width,
+                stellartype="WD",
+                vlim=(500, np.inf),
+                pm_parallel=False,
+                pm_pbar=True,
+            )
+        else:
+            # Run in parallel
+            mp_input = [x for _, x in mwdf.iterrows()]
+            pool = mp.Pool(nprocs)
+            output = parmap.map(
+                calc_rolling_rate,
+                mp_input,
+                window_centers,
+                window_width=window_width,
+                stellartype="WD",
+                vlim=(500, np.inf),
+                pm_pool=pool,
+                pm_pbar=True,
+            )
+        hvwd_counts = np.array(output).sum(axis=0)
+
+    # Plot
+    ax = axd[st]
+    ax.plot(
+        window_centers / 1000.0,
+        full_counts / window_width / 1e6,
+        color="xkcd:azure",
+        label="All stars",
+    )
+    # if np.array(mosaic).flatten().shape[0] == 1:
+    #     ax.plot(
+    #         window_centers / 1000.0,
+    #         wd_counts / window_width / 1e6,
+    #         color="xkcd:goldenrod",
+    #         label="All WDs",
+    #     )
+    #     ax.plot(
+    #         window_centers / 1000.0,
+    #         hvwd_counts / window_width / 1e6,
+    #         color="xkcd:violet",
+    #         label=r"WDs, $v > 500~{\rm km~s^{-1}}$",
+    #     )
+    ax.plot(
+        window_centers / 1000.0,
+        hvs_counts / window_width / 1e6,
+        color="xkcd:orangered",
+        label=r"Stars, $v > 500~{\rm km~s^{-1}}$",
+    )
+    if st == "S":
+        ax.axhline(2e-3, c="xkcd:azure", ls="--", alpha=0.7)
+        ax.axhline(1e-4, c="xkcd:orangered", ls="--", alpha=0.7)
+        ax.annotate(
+            "Disc runaways", xy=[0, 1.5e-3], color="xkcd:azure", ha="right", va="top"
+        )
+        ax.annotate(
+            "Galactic center HVSs",
+            xy=[0, 1.25e-4],
+            color="xkcd:orangered",
+            ha="right",
+            va="bottom",
+        )
+
+    # Axes
+    ax.set_xlabel(rustics.HEADERS_TO_LABELS["time"])
+    ax.set_ylabel(r"Rate [yr$^{-1}$]")
+    ax.set_ylim((10**-8.9, 10**-2.5))
+    ax.set_yscale("log")
+    ax.legend(loc="center right")
 
 # Make neat and save
 plt.tight_layout()

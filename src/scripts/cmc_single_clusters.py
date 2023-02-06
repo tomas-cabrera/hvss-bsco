@@ -118,8 +118,6 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
     legend_labels = []
     nbins = 30
     for ti, ti_row in type_is.iterrows():
-        # for ti, ti_row in rustics.INFO_TYPES_I.iterrows():
-        print(ti, ti_row)
         filtered = ejdf.df[
             (ejdf.df.kf >= kgroup.lo)
             & (ejdf.df.kf < kgroup.hi)
