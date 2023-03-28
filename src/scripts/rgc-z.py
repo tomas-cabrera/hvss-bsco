@@ -225,21 +225,6 @@ for p in params:
             color="xkcd:orangered",
             **kw_hist,
         )
-        # swarmplot(
-        #     cat_mwgcs.df["R_GC"],
-        #     xscale="log",
-        #     yscale="log",
-        #     axes=ax,
-        #     nbins=15,
-        #     spread=0.1,
-        #     offset=-2.5,
-        #     pattern="shuffle",
-        #     kw_scat={
-        #         "s": 1,
-        #         "color": "xkcd:orangered",
-        #         "label": "MWGCs",
-        #     },
-        # )
 
         ax.set_xscale("log")
         ax.legend(loc="upper left")
@@ -308,11 +293,13 @@ for i in intervals:
 kw_quants = {
     "color": "xkcd:azure",
     "lw": 0,
+    "rasterized": True,
 }
 kw_mwgcs = {
     "s": 1,
     "color": "xkcd:orangered",
     "label": "MWGCs",
+    "rasterized": True,
 }
 
 cat_mwgcs.df["vtoday"] = (
@@ -351,6 +338,7 @@ for p in params:
         vquants.loc[0.5, :],
         c="k",
         label="Median",
+        rasterized=True,
     )
 
     # Plot intervals

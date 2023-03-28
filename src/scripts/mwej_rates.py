@@ -240,6 +240,7 @@ for st in np.array(mosaic).flatten():
         full_counts / window_width / 1e6,
         color="xkcd:azure",
         label="All stars",
+        rasterized=True,
     )
     # if np.array(mosaic).flatten().shape[0] == 1:
     #     ax.plot(
@@ -259,12 +260,13 @@ for st in np.array(mosaic).flatten():
         hvs_counts / window_width / 1e6,
         color="xkcd:orangered",
         label=r"Stars, $v > 500~{\rm km~s^{-1}}$",
+        rasterized=True,
     )
     if st == "S":
-        ax.axhline(2e-3, c="xkcd:azure", ls="--", alpha=0.7)
-        ax.axhline(1e-4, c="xkcd:orangered", ls="--", alpha=0.7)
+        ax.axhline(2e-3, c="xkcd:azure", ls="--", alpha=0.7, rasterized=True)
+        ax.axhline(1e-4, c="xkcd:orangered", ls="--", alpha=0.7, rasterized=True)
         ax.annotate(
-            "Disc runaways", xy=[0, 1.5e-3], color="xkcd:azure", ha="right", va="top"
+            "Disc runaways", xy=[0, 1.5e-3], color="xkcd:azure", ha="right", va="top", rasterized=True
         )
         ax.annotate(
             "Galactic center HVSs",
@@ -272,6 +274,7 @@ for st in np.array(mosaic).flatten():
             color="xkcd:orangered",
             ha="right",
             va="bottom",
+            rasterized=True,
         )
 
     # Axes
