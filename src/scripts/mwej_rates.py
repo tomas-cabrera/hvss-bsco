@@ -18,6 +18,8 @@ import paths
 #  time w/o @njit |  85s  |  37s
 #  time w/ @njit  |  50s  |  24s
 
+plt.style.use("./src/scripts/matplotlibrc")
+
 ###############################################################################
 
 
@@ -86,9 +88,8 @@ def calc_rolling_rate(
 
     # Calculate rolling rate
     # Note: gcdf.time - mwrow.t sets the time 0 to the present day
-    return _rolling_window_count(
-        gcdf.time.to_numpy() - mwrow.t, window_centers, window_width
-    )
+    times = gcdf.time.to_numpy() - mwrow.t
+    return times, _rolling_window_count(times, window_centers, window_width)
 
 
 ###############################################################################
@@ -146,7 +147,34 @@ for st in np.array(mosaic).flatten():
             pm_pool=pool,
             pm_pbar=True,
         )
-    full_counts = np.array(output).sum(axis=0)
+    # Extract outputs
+    times = np.concatenate([o[0] for o in output])
+    full_counts = np.array([o[1] for o in output]).sum(axis=0)
+
+    ##############################
+    ###  Calc. ej. quantiles   ###
+    ##############################
+
+    # Cut out "future" ejections, and move present day from 0 to 14000
+    times /= 1000
+    times_forward = times[times < 0]
+    times_forward += 14000
+
+    # Calculate quantiles
+    quants5090 = np.quantile(times, [0.5, 0.9])
+    quants5090_forward = np.quantile(times_forward, [0.5, 0.9])
+    print("quants5090 (Myr):", quants5090)
+
+    # Print to output file
+    with open(
+        __file__.replace("scripts", "tex/output").replace(".py", ".txt"), "w"
+    ) as f:
+        f.write("%.2f(%.2f) Gyr" % (14 + quants5090[0], 14 + quants5090[1]))
+
+    ##############################
+    ###          Plot          ###
+    ##############################
+
     # Calculate rate for HV[Ss]
     if nprocs == 1:
         # Don't run in parallel
@@ -175,68 +203,68 @@ for st in np.array(mosaic).flatten():
             pm_pool=pool,
             pm_pbar=True,
         )
-    hvs_counts = np.array(output).sum(axis=0)
-    # Calc WD rate, if one plot
-    if np.array(mosaic).flatten().shape[0] == 1:
-        if nprocs == 1:
-            # Don't run in parallel
-            mp_input = [x for _, x in mwdf.iterrows()]
-            output = parmap.map(
-                calc_rolling_rate,
-                mp_input,
-                window_centers,
-                window_width=window_width,
-                stellartype="WD",
-                pm_parallel=False,
-                pm_pbar=True,
-            )
-        else:
-            # Run in parallel
-            mp_input = [x for _, x in mwdf.iterrows()]
-            pool = mp.Pool(nprocs)
-            output = parmap.map(
-                calc_rolling_rate,
-                mp_input,
-                window_centers,
-                window_width=window_width,
-                stellartype="WD",
-                pm_pool=pool,
-                pm_pbar=True,
-            )
-        wd_counts = np.array(output).sum(axis=0)
-        if nprocs == 1:
-            # Don't run in parallel
-            mp_input = [x for _, x in mwdf.iterrows()]
-            output = parmap.map(
-                calc_rolling_rate,
-                mp_input,
-                window_centers,
-                window_width=window_width,
-                stellartype="WD",
-                vlim=(500, np.inf),
-                pm_parallel=False,
-                pm_pbar=True,
-            )
-        else:
-            # Run in parallel
-            mp_input = [x for _, x in mwdf.iterrows()]
-            pool = mp.Pool(nprocs)
-            output = parmap.map(
-                calc_rolling_rate,
-                mp_input,
-                window_centers,
-                window_width=window_width,
-                stellartype="WD",
-                vlim=(500, np.inf),
-                pm_pool=pool,
-                pm_pbar=True,
-            )
-        hvwd_counts = np.array(output).sum(axis=0)
+    hvs_counts = np.array([o[1] for o in output]).sum(axis=0)
+    # # Calc WD rate, if one plot
+    # if np.array(mosaic).flatten().shape[0] == 1:
+    #     if nprocs == 1:
+    #         # Don't run in parallel
+    #         mp_input = [x for _, x in mwdf.iterrows()]
+    #         output = parmap.map(
+    #             calc_rolling_rate,
+    #             mp_input,
+    #             window_centers,
+    #             window_width=window_width,
+    #             stellartype="WD",
+    #             pm_parallel=False,
+    #             pm_pbar=True,
+    #         )
+    #     else:
+    #         # Run in parallel
+    #         mp_input = [x for _, x in mwdf.iterrows()]
+    #         pool = mp.Pool(nprocs)
+    #         output = parmap.map(
+    #             calc_rolling_rate,
+    #             mp_input,
+    #             window_centers,
+    #             window_width=window_width,
+    #             stellartype="WD",
+    #             pm_pool=pool,
+    #             pm_pbar=True,
+    #         )
+    #     wd_counts = np.array([o[1] for o in output]).sum(axis=0)
+    #     if nprocs == 1:
+    #         # Don't run in parallel
+    #         mp_input = [x for _, x in mwdf.iterrows()]
+    #         output = parmap.map(
+    #             calc_rolling_rate,
+    #             mp_input,
+    #             window_centers,
+    #             window_width=window_width,
+    #             stellartype="WD",
+    #             vlim=(500, np.inf),
+    #             pm_parallel=False,
+    #             pm_pbar=True,
+    #         )
+    #     else:
+    #         # Run in parallel
+    #         mp_input = [x for _, x in mwdf.iterrows()]
+    #         pool = mp.Pool(nprocs)
+    #         output = parmap.map(
+    #             calc_rolling_rate,
+    #             mp_input,
+    #             window_centers,
+    #             window_width=window_width,
+    #             stellartype="WD",
+    #             vlim=(500, np.inf),
+    #             pm_pool=pool,
+    #             pm_pbar=True,
+    #         )
+    #     hvwd_counts = np.array([o[1] for o in output]).sum(axis=0)
 
     # Plot
     ax = axd[st]
     ax.plot(
-        window_centers / 1000.0,
+        14 + (window_centers / 1000.0),
         full_counts / window_width / 1e6,
         color="xkcd:azure",
         label="All stars",
@@ -256,7 +284,7 @@ for st in np.array(mosaic).flatten():
     #         label=r"WDs, $v > 500~{\rm km~s^{-1}}$",
     #     )
     ax.plot(
-        window_centers / 1000.0,
+        14 + (window_centers / 1000.0),
         hvs_counts / window_width / 1e6,
         color="xkcd:orangered",
         label=r"Stars, $v > 500~{\rm km~s^{-1}}$",
@@ -266,15 +294,37 @@ for st in np.array(mosaic).flatten():
         ax.axhline(2e-3, c="xkcd:azure", ls="--", alpha=0.7, rasterized=True)
         ax.axhline(1e-4, c="xkcd:orangered", ls="--", alpha=0.7, rasterized=True)
         ax.annotate(
-            "Disc runaways", xy=[0, 1.5e-3], color="xkcd:azure", ha="right", va="top", rasterized=True
+            "Disc runaways",
+            xy=[14, 1.5e-3],
+            color="xkcd:azure",
+            ha="right",
+            va="top",
+            rasterized=True,
         )
         ax.annotate(
             "Galactic center HVSs",
-            xy=[0, 1.25e-4],
+            xy=[14, 1.25e-4],
             color="xkcd:orangered",
             ha="right",
             va="bottom",
             rasterized=True,
+        )
+
+    # Plot 50 and 90% ejection thresholds
+    qheight = 5e-9
+    ax.vlines(
+        14 + quants5090,
+        ymin=0,
+        ymax=qheight,
+        color="xkcd:azure",
+    )
+    for s, q in zip(["50", "90"], 14 + quants5090):
+        ax.annotate(
+            r"%s\%%$\textbf{-}$" % s,
+            (q, qheight),
+            color="xkcd:azure",
+            ha="right",
+            va="center",
         )
 
     # Axes

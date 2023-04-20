@@ -107,7 +107,7 @@ for ci, cmc_cluster in enumerate(cmc_cluster_list):
     axr.plot(
         df_dyn.loc[tsample, "t"] / 1000.0,
         df_dyn.loc[tsample, "rho_0"],
-        color="xkcd:crimson",
+        color="xkcd:navy",
         alpha=0.7,
         lw=0.5,
         rasterized=True,

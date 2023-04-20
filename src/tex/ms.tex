@@ -167,7 +167,7 @@ To get a clear idea of how cluster evolution is linked to BSCO ejections, we exa
 Each of the other three sample models vary one of these parameters (either $N \to 4 \times 10^5$, $r_{\rm vir} \to 2~{\rm pc}$, or $Z \to Z_\odot$) to promote understanding of the effects of each.
 The base $N$, $r_{\rm gc}$, and $Z$ were chosen as they correspond to typical values for MWGCs; the notably small $r_{\rm vir}$ is chosen for the samples because the dynamic range of cluster evolution and stellar ejections is greatest among \CMC\ models of this size, making it easier to identify the same features present in larger models.
 
-Figure \ref{fig:cmc_single_clusters} shows the ejection velocity $v_{\rm out}$ for every MS star ejected through a BSCO encounter in these models, plotted at the time of encounter from initialization $t$.
+Figure \ref{fig:cmc_single_clusters} shows the ejection velocity $v_{\rm out}$ for every MS star ejected through a BSCO encounter in these models, plotted at the time of encounter from initialization $t$; \textbf{generally, these ejecta account for $\sim$1-6\% of all stellar escapers from a model over its lifetime}.
 What is immediately apparent from these single cluster models is a strong correlation between BSCO encounters and the evolution of the cluster core: whenever a cluster undergoes a core collapse, the heightened densities lead to predictably high encounter rates.
 
 \begin{figure*}
@@ -189,9 +189,10 @@ What is immediately apparent from these single cluster models is a strong correl
 \end{figure*}
 
 An interplay between stellar evolution and cluster dynamics is revealed in the kinds of BSCO encounters that occur at certain times.
-The most massive stars in a cluster are both the first to form binaries and the first to evolve into COs; hence, encounters between a mixed binary (composed of a MS star and a CO) and a single MS star tend to dominate the first generations of BSCO encounters.
-This dominance usually continues until the first core collapse after CO formation, where the heightened densities facilitate a rise in encounters involving multiple COs.
-There is a stark difference in the ejection velocities produced by these encounters in comparison to the previous mixed binary-single MS star encounters, and the fastest ejections over the cluster's lifetime are produced in the first tens of Myr after the associated first core collapse.
+The most massive stars in a cluster are both the first to form binaries and the first to evolve into COs.
+hence, encounters between a mixed binary (composed of a MS star and a CO) and a single MS star \textbf{have the first opportunity to contribute significantly to the overall BSCO encounter population; in the densest models, this primacy leads to a majority of BSCO encounters being of this type over the 14 Gyr evolution.
+Multiple-CO encounters first become major players at first core collapse after CO formation, and can take over as the majority in the case of models with weak or nonexistent pre-core collapse BSCO encounter phases.}
+There is a stark difference in the ejection velocities produced by these multiple-CO encounters in comparison to the previous mixed binary-single MS star encounters, and the fastest ejections over the cluster's lifetime are produced in the first tens of Myr after the associated first core collapse.
 This regime lasts for a few to tens of Gyr, during which the COs in the core (predominantly BHs) preferentially form CO-CO binaries, as evidenced in the drop of mixed binary-single CO encounters during this phase.
 
 For cluster models that evolve to BH-depletion second core collapse (in our sample, all but the $r_{\rm vir} = 2~{\rm pc}$ model), the corresponding increase in BSCO encounters is dominated by stellar binary-single CO encounters.
@@ -212,14 +213,21 @@ Also unlike the other models, here the number of ejections does not peak until t
 The dominance of the core in overall BSCO encounter production is even more clear when considering the radial localization of the encounters.
 \CMC\ does not record the radius where each strong encounter occurred, but it does record the local escape velocity.
 For comparison, the escape velocity from the center of the model can be computed from the central and tidal boundary potentials, which are recorded throughout the evolution of the cluster.
-Figure \ref{fig:cmc_single_clusters_vesc} plots these data for the same sample clusters, where the distribution of encounter escape velocities is strikingly correlated to the central escape velocity, indicating the degree to which the core dominates these dynamics.
+\textbf{
+    Figure \ref{fig:cmc_single_clusters_vesc} plots these data for the first sample cluster, where the distribution of encounter escape velocities is strikingly correlated to the central escape velocity, indicating the degree to which the core dominates these dynamics.
+    Throughout the evolution of the model, most BSCO ejections occur at or near the central escape velocity, and this feature is common to the counterpart plots for the other sample models.
+    There is a small fraction of points that lie above the core velocity line, which we attribute to the difference in methods employed to calculate escape velocities in the ejection and core contexts.
+}
 
 \begin{figure}
     \script{cmc_single_clusters_vesc.py}
     \centering
     \includegraphics[width=0.49\textwidth]{figures/cmc_single_clusters_vesc.pdf}
     \caption{
-        The local escape velocities $v_{\rm esc}$ of all BSCO encounters generated from the four sample \CMC\ models (colored points), plotted alongside the central escape velocity of the model (maroon).
+        \textbf{
+        The local escape velocities $v_{\rm esc}$ at the locations of all BSCO encounters generated from the first sample \CMC\ model (colored points), plotted alongside the central escape velocity of the model (navy).
+        The top plot shows the data in units of ${\rm km~s^{-1}}$, while the lower plot shows the same data normalized to the continuum of the core escape velocity (navy line in the upper plot).
+        }
         See Figure \ref{fig:cmc_single_clusters} for an explanation of the color scheme.
     }
     \label{fig:cmc_single_clusters_vesc}
@@ -304,7 +312,7 @@ In practice, we find that the models that are chosen for several MWGCs are avera
 
 Having chosen representative snapshots for all MWGCs, we now use our synthetic ejecta populations to compose a MW-like population of BSCO ejecta from GCs.
 All orbit integrations in the galactic frame are done with \texttt{galpy}\footnote{http://github.com/jobovy/galpy} \citep{2015ApJS..216...29B}.
-Setting the snapshot to the present-day galactic orbital parameters from \citet{2018MNRAS.478.1520B}, we back-integrate the orbit of each GC in the \texttt{galpy}\texttt{MWPotential2014} potential to the initialization time of the respective model.
+Setting the snapshot to the present-day galactic orbital parameters from \citet{2018MNRAS.478.1520B}, we back-integrate the orbit of each GC in the \texttt{galpy} \texttt{MWPotential2014} potential to the initialization time of the respective model.
 We then locate each ejected object at the appropriate place in the GC orbit, using the time of BSCO encounter (naturally ignoring any ejections that occurred after the time of the chosen snapshot).
 A random ejection direction is chosen in the GC rest frame for each object, and the velocities are then transformed to the galactic rest frame.
 Finally, the orbits of all ejecta are then integrated to the present day in the same galactic potential.
@@ -313,7 +321,7 @@ Figure \ref{fig:gc_orbit_ejections} shows the integrated orbits for a selection 
 As was seen earlier, ejections occur much more frequently in the early stages of the cluster, and here the slower velocities at larger distances from the galactic center leads to a higher percentage of objects being ejected far away from this focus.
 
 \begin{figure*}
-    %\script{gc_orbit_ejections.py}
+    \script{gc_orbit_ejections.py}
     \gridline{
         \fig{figures/gc_orbit_ejections_NGC_104.pdf}{0.49\textwidth}{}
         \fig{figures/gc_orbit_ejections_NGC_5139.pdf}{0.49\textwidth}{}
@@ -340,12 +348,12 @@ We include histograms, and 50\% and 90\% credible regions in sky area and proper
 \begin{figure*}
     \script{gcej_today.py}
     \gridline{
-        \fig{figures/gcej_today_NGC_104.pdf}{0.45\textwidth}{}
-        \fig{figures/gcej_today_NGC_5139.pdf}{0.45\textwidth}{}
+        \fig{figures/gcej_today_NGC_104.pdf}{0.425\textwidth}{}
+        \fig{figures/gcej_today_NGC_5139.pdf}{0.425\textwidth}{}
     }
     \gridline{
-        \fig{figures/gcej_today_NGC_6205.pdf}{0.45\textwidth}{}
-        \fig{figures/gcej_today_NGC_7089.pdf}{0.45\textwidth}{}
+        \fig{figures/gcej_today_NGC_6205.pdf}{0.425\textwidth}{}
+        \fig{figures/gcej_today_NGC_7089.pdf}{0.425\textwidth}{}
     }
     \caption{
         Present-day positions (galactic longitude/latitude) and velocities (projected onto the galactic longitude/latitude directions) for the runaway objects from the sample GCs.
@@ -394,6 +402,7 @@ Few runaways make it past the 100 kpc mark, but those that do naturally retain t
         \caption{
             The evolution of the ejection rate for different components of our synthetic population.
             The blue (red) dashed line shows the estimated from observations for runaways from the galactic disc (HVSs from the galactic center), as reported by \citet{2015ARA&A..53...15B}.
+            \textbf{The threshold times by which 50\% and 90\% of the runaway ejections have occured are indicated along the bottom of the figure.}
         }
         \label{fig:mwej_rates}
     \end{centering}
@@ -407,7 +416,8 @@ The resulting $v_{\rm rf}$ distribution is much closer to the observed distribut
 This latter difference grows when comparing to the HVS sample of \citet{2018ApJ...866..121H}, who focused on metal-poor stars, which are more akin to the objects that populate GCs.
 
 Finally, Figure \ref{fig:mwej_rates} shows the HVS/runaway rates for our synthetic population, along with observational rate estimates from \citet{2015ARA&A..53...15B}.
-At earlier times, BSCO ejecta could have made as much as 20\% (1\%) of all runaways (HVSs), during the times when GCs underwent their first core collapses.\footnote{Here, the cutoff of this phase is fairly abrupt because we constrain our models to present-day ages of 10-13.5 Gyr (\S\ref{subsec:pairing}).  The physical rate will naturally be characterized by the evolution of the GC formation rate in the past.}
+\textbf{We note that 50(90)\% of ejections occur before our synthetic population is \variable{output/mwej_rates.txt}old, and that naturally the earliest ejections are most dependent on any time variability in the MW potential.}
+At these earlier times, BSCO ejecta could have made as much as 20\% (1\%) of all runaways (HVSs), during the times when GCs underwent their first core collapses.\footnote{Here, the cutoff of this phase is fairly abrupt because we constrain our models to present-day ages of 10-13.5 Gyr (\S\ref{subsec:pairing}).  The physical rate will naturally be characterized by the evolution of the GC formation rate in the past.}
 Afterwards, the ejection rates decay to the present day, where they are closer to 1.5\% (0.0001\%) of the observational values.
 It is important to note nonetheless that GCs are able to produce HVSs with speeds high enough to make them comparable to those accelerated by mechanisms in the galactic center.
 
@@ -437,6 +447,10 @@ CR also acknowledges support from a Charles E.~Kaufman Foundation New Investigat
 \end{acknowledgements}
 
 \software{\CMC\ \citep{2000ApJ...540..969J, 2013ApJS..204...15P, Rodriguez2022}, \fewbody \citep{2004MNRAS.352....1F}, \texttt{galpy} \citep{2015ApJS..216...29B}, \texttt{astropy} \citep{2013A&A...558A..33A, 2018AJ....156..123A, 2022ApJ...935..167A}, \texttt{numpy} \citep{harris2020array}, \texttt{pandas} \citep{mckinney-proc-scipy-2010, reback2020pandas}, \texttt{matplotlib} \citep{Hunter:2007}}
+
+This work was prepared in part with the reproducibility software \href{https://github.com/showyourwork/showyourwork}{\showyourwork}\citep{2021arXiv211006271L}, which leverages continuous integration to transparently connect the paper to the publicly-available dataset and relevant code.
+The GitHub repository for this project can be found at \url{https://github.com/tomas-cabrera/hvss-bsco}; the icons next to paper content link to the particular scripts used to generate that content.
+The dataset is stored at \url{https://doi.org/10.5281/zenodo.7599870}, which also includes copies of the simulation and figure scripts from the GitHub for insurance of future access.
 
 \appendix
 
@@ -486,7 +500,7 @@ In the case that the final speed of an object is comparable to the same center-o
     \label{fig:check_credible_regions_v}
 \end{figure}
 
-We include with this publication phase credible regions in phase space for ejecta populations from the MWGCs considered, which may be accessed at \url{https://zenodo.org/record/7599871}.
+We include with this publication phase credible regions in phase space for ejecta populations from the MWGCs considered, which may be accessed at \url{https://doi.org/10.5281/zenodo.7599870}.
 We intend these constructions to be used as secondary evidence for cluster membership of runaway stars, and to encourage further studies into understanding the respective phase space distributions.
 The 2D position and proper motion distributions are separated into two different files, the conventions of which are described below.
 
