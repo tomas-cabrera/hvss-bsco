@@ -45,7 +45,7 @@ kw_scatter = {
     "rasterized": True,
 }
 kw_vesccore = {
-    "color": "xkcd:navy",
+    "color": "xkcd:dark blue",
     "lw": 1,
     "rasterized": True,
 }
