@@ -28,4 +28,4 @@ The relevant code can be found in [src/previous_steps](https://github.com/tomas-
     - **extract**(deprecated): Was used to turn encounter-delineated data into ejecta-deliniated data.  Not used for final dataset.
     - **hbin**(deprecated): Was used to bin data for faster histogram generation.  Not used for final figures.
 
-The data products may be found on [Zenodo](https://zenodo.org/record/7599871), including ejecta populations delineated by either <code>CMC</code> model or Milky Way globular cluster.  The <code>data.tar.gz</code> file can be unzipped into the <code>data</code> folder in this repository, after which the document should be able to be generated. 
+The data products may be found on [Zenodo](https://zenodo.org/record/7599870), including ejecta populations delineated by either <code>CMC</code> model or Milky Way globular cluster.  The <code>data.tar.gz</code> file can be unzipped into the <code>data</code> folder in this repository, after which the document should be able to be generated. 
